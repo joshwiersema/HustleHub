@@ -31,7 +31,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The color system is applied globally: green `#00E676` for money, purple `#B388FF` for XP, amber `#FFD740` for HustleBucks — visible in at least one placeholder screen per accent
   4. All shared UI primitives (Button, Card, ProgressBar, StatCard) render in the design system style with minimum 44x44px touch targets
   5. App data persists across a full close and cold relaunch — storage layer is wired and writes survive sessions
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Install Zustand v5 and create 5 domain stores with AsyncStorage persist
+- [ ] 01-02-PLAN.md — Refactor navigation shell with Stack.Protected guard and dark mode validation
+- [ ] 01-03-PLAN.md — Fix touch targets, create placeholder tab screens, and verify in Expo Go
 
 ### Phase 2: Onboarding
 **Goal**: A first-time user can complete the two-step onboarding flow, establish their business identity, and land on the home tab — and the onboarding never re-triggers on subsequent launches
@@ -100,7 +105,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/3 | Planning complete | - |
 | 2. Onboarding | 0/TBD | Not started | - |
 | 3. Core Business Data | 0/TBD | Not started | - |
 | 4. Gamification Engine | 0/TBD | Not started | - |
