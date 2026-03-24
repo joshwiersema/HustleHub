@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Install Zustand v5 and create 5 domain stores with AsyncStorage persist
+- [x] 01-01-PLAN.md — Install Zustand v5 and create 5 domain stores with AsyncStorage persist
 - [ ] 01-02-PLAN.md — Refactor navigation shell with Stack.Protected guard and dark mode validation
 - [ ] 01-03-PLAN.md — Fix touch targets, create placeholder tab screens, and verify in Expo Go
 
@@ -105,7 +105,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/3 | Planning complete | - |
+| 1. Foundation | 1/3 | Executing | - |
 | 2. Onboarding | 0/TBD | Not started | - |
 | 3. Core Business Data | 0/TBD | Not started | - |
 | 4. Gamification Engine | 0/TBD | Not started | - |
