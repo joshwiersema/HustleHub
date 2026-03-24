@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-03-24T23:25:00Z"
-last_activity: 2026-03-24 — Completed Plan 01-01 (Zustand stores with AsyncStorage persist)
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-03-24T23:31:21.708Z"
+last_activity: 2026-03-24 — Completed Plan 01-02 (Navigation shell with Stack.Protected)
 progress:
   total_phases: 6
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
-  percent: 5
+  completed_plans: 2
+  percent: 67
 ---
 
 # Project State
@@ -26,28 +26,28 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 1 of 6 (Foundation)
-Plan: 1 of 3 in current phase (01-01 complete)
+Plan: 2 of 3 in current phase (01-02 complete)
 Status: Executing
-Last activity: 2026-03-24 — Completed Plan 01-01 (Zustand stores with AsyncStorage persist)
+Last activity: 2026-03-24 — Completed Plan 01-02 (Navigation shell with Stack.Protected)
 
-Progress: [#░░░░░░░░░] 5%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 3 min
-- Total execution time: 0.05 hours
+- Total plans completed: 2
+- Average duration: 2.5 min
+- Total execution time: 0.08 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 1/3 | 3 min | 3 min |
+| 01-foundation | 2/3 | 5 min | 2.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min)
-- Trend: starting
+- Last 5 plans: 01-01 (3 min), 01-02 (2 min)
+- Trend: stable
 
 *Updated after each plan completion*
 
@@ -63,6 +63,8 @@ Recent decisions affecting current work:
 - [01-01]: Hydration detection uses Zustand persist built-in API (hasHydrated/onFinishHydration) -- no custom _hasHydrated state field
 - [01-01]: Level calculation in gameStore iterates LEVELS table from types -- single source of truth for XP thresholds
 - [01-01]: Streak logic resets to 1 on gap (not 0) since updateStreak implies activity today
+- [Phase 01-02]: Root layout gates only on profileStore hydration -- isOnboarded is the sole navigation gate
+- [Phase 01-02]: index.tsx kept as simple Redirect -- Stack.Protected handles gate, index.tsx resolves root path
 
 ### Pending Todos
 
@@ -77,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T23:25:00Z
-Stopped at: Completed 01-01-PLAN.md
-Resume file: .planning/phases/01-foundation/01-01-SUMMARY.md
+Last session: 2026-03-24T23:31:21.704Z
+Stopped at: Completed 01-02-PLAN.md
+Resume file: .planning/phases/01-foundation/01-02-SUMMARY.md
