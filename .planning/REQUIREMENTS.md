@@ -88,8 +88,8 @@
 ### Design & UX
 
 - [x] **DSGN-01**: App uses dark mode first with iOS native feel
-- [ ] **DSGN-02**: App uses consistent color system (green for money, purple for XP, amber for HustleBucks)
-- [ ] **DSGN-03**: All touch targets are minimum 44x44px
+- [x] **DSGN-02**: App uses consistent color system (green for money, purple for XP, amber for HustleBucks)
+- [x] **DSGN-03**: All touch targets are minimum 44x44px
 - [x] **DSGN-04**: App has 5-tab bottom navigation (Home, Jobs, Clients, Earnings, Profile)
 - [x] **DSGN-05**: All data persists locally across app sessions
 
@@ -131,8 +131,8 @@
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | DSGN-01 | Phase 1 | Complete |
-| DSGN-02 | Phase 1 | Pending |
-| DSGN-03 | Phase 1 | Pending |
+| DSGN-02 | Phase 1 | Complete |
+| DSGN-03 | Phase 1 | Complete |
 | DSGN-04 | Phase 1 | Complete |
 | DSGN-05 | Phase 1 | Complete |
 | ONBD-01 | Phase 2 | Pending |
