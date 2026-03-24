@@ -130,67 +130,75 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ONBD-01 | — | Pending |
-| ONBD-02 | — | Pending |
-| ONBD-03 | — | Pending |
-| ONBD-04 | — | Pending |
-| ONBD-05 | — | Pending |
-| CLNT-01 | — | Pending |
-| CLNT-02 | — | Pending |
-| CLNT-03 | — | Pending |
-| CLNT-04 | — | Pending |
-| CLNT-05 | — | Pending |
-| JOBS-01 | — | Pending |
-| JOBS-02 | — | Pending |
-| JOBS-03 | — | Pending |
-| JOBS-04 | — | Pending |
-| JOBS-05 | — | Pending |
-| JOBS-06 | — | Pending |
-| JOBS-07 | — | Pending |
-| PYMT-01 | — | Pending |
-| PYMT-02 | — | Pending |
-| PYMT-03 | — | Pending |
-| EARN-01 | — | Pending |
-| EARN-02 | — | Pending |
-| EARN-03 | — | Pending |
-| EARN-04 | — | Pending |
-| GAME-01 | — | Pending |
-| GAME-02 | — | Pending |
-| GAME-03 | — | Pending |
-| GAME-04 | — | Pending |
-| GAME-05 | — | Pending |
-| GAME-06 | — | Pending |
-| GAME-07 | — | Pending |
-| DASH-01 | — | Pending |
-| DASH-02 | — | Pending |
-| DASH-03 | — | Pending |
-| DASH-04 | — | Pending |
-| DASH-05 | — | Pending |
-| PROF-01 | — | Pending |
-| PROF-02 | — | Pending |
-| PROF-03 | — | Pending |
-| PROF-04 | — | Pending |
-| PROF-05 | — | Pending |
-| TOOL-01 | — | Pending |
-| TOOL-02 | — | Pending |
-| TOOL-03 | — | Pending |
-| TOOL-04 | — | Pending |
-| TOOL-05 | — | Pending |
-| TOOL-06 | — | Pending |
-| IDEA-01 | — | Pending |
-| IDEA-02 | — | Pending |
-| IDEA-03 | — | Pending |
-| DSGN-01 | — | Pending |
-| DSGN-02 | — | Pending |
-| DSGN-03 | — | Pending |
-| DSGN-04 | — | Pending |
-| DSGN-05 | — | Pending |
+| DSGN-01 | Phase 1 | Pending |
+| DSGN-02 | Phase 1 | Pending |
+| DSGN-03 | Phase 1 | Pending |
+| DSGN-04 | Phase 1 | Pending |
+| DSGN-05 | Phase 1 | Pending |
+| ONBD-01 | Phase 2 | Pending |
+| ONBD-02 | Phase 2 | Pending |
+| ONBD-03 | Phase 2 | Pending |
+| ONBD-04 | Phase 2 | Pending |
+| ONBD-05 | Phase 2 | Pending |
+| CLNT-01 | Phase 3 | Pending |
+| CLNT-02 | Phase 3 | Pending |
+| CLNT-03 | Phase 3 | Pending |
+| CLNT-04 | Phase 3 | Pending |
+| CLNT-05 | Phase 3 | Pending |
+| JOBS-01 | Phase 3 | Pending |
+| JOBS-02 | Phase 3 | Pending |
+| JOBS-03 | Phase 3 | Pending |
+| JOBS-04 | Phase 3 | Pending |
+| JOBS-05 | Phase 3 | Pending |
+| JOBS-06 | Phase 3 | Pending |
+| JOBS-07 | Phase 3 | Pending |
+| GAME-01 | Phase 4 | Pending |
+| GAME-02 | Phase 4 | Pending |
+| GAME-03 | Phase 4 | Pending |
+| GAME-04 | Phase 4 | Pending |
+| GAME-05 | Phase 4 | Pending |
+| GAME-06 | Phase 4 | Pending |
+| GAME-07 | Phase 4 | Pending |
+| PYMT-01 | Phase 5 | Pending |
+| PYMT-02 | Phase 5 | Pending |
+| PYMT-03 | Phase 5 | Pending |
+| EARN-01 | Phase 5 | Pending |
+| EARN-02 | Phase 5 | Pending |
+| EARN-03 | Phase 5 | Pending |
+| EARN-04 | Phase 5 | Pending |
+| DASH-01 | Phase 5 | Pending |
+| DASH-02 | Phase 5 | Pending |
+| DASH-03 | Phase 5 | Pending |
+| DASH-04 | Phase 5 | Pending |
+| DASH-05 | Phase 5 | Pending |
+| PROF-01 | Phase 5 | Pending |
+| PROF-02 | Phase 5 | Pending |
+| PROF-03 | Phase 5 | Pending |
+| PROF-04 | Phase 5 | Pending |
+| PROF-05 | Phase 5 | Pending |
+| TOOL-01 | Phase 6 | Pending |
+| TOOL-02 | Phase 6 | Pending |
+| TOOL-03 | Phase 6 | Pending |
+| TOOL-04 | Phase 6 | Pending |
+| TOOL-05 | Phase 6 | Pending |
+| TOOL-06 | Phase 6 | Pending |
+| IDEA-01 | Phase 6 | Pending |
+| IDEA-02 | Phase 6 | Pending |
+| IDEA-03 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: 50 total
-- Mapped to phases: 0
-- Unmapped: 50
+- v1 requirements: 55 total
+- Mapped to phases: 55
+- Unmapped: 0
+
+**Phase Breakdown:**
+- Phase 1 (Foundation): DSGN-01 through DSGN-05 — 5 requirements
+- Phase 2 (Onboarding): ONBD-01 through ONBD-05 — 5 requirements
+- Phase 3 (Core Business Data): CLNT-01..05, JOBS-01..07 — 12 requirements
+- Phase 4 (Gamification Engine): GAME-01 through GAME-07 — 7 requirements
+- Phase 5 (Payments and Dashboard): PYMT-01..03, EARN-01..04, DASH-01..05, PROF-01..05 — 17 requirements
+- Phase 6 (Tools and Discovery): TOOL-01..06, IDEA-01..03 — 9 requirements
 
 ---
 *Requirements defined: 2026-03-24*
-*Last updated: 2026-03-24 after initial definition*
+*Last updated: 2026-03-24 — phase mappings added after roadmap creation*
