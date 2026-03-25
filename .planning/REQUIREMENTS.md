@@ -49,7 +49,7 @@
 - [x] **GAME-01**: User earns XP for completing jobs, logging payments, adding clients, and using tools
 - [x] **GAME-02**: User can see their current level and level title (10 levels: Rookie Hustler to CEO)
 - [x] **GAME-03**: User can see an XP progress bar showing progress toward next level
-- [ ] **GAME-04**: User can see their HustleBucks balance (earned at 50% of XP rate)
+- [x] **GAME-04**: User can see their HustleBucks balance (earned at 50% of XP rate)
 - [x] **GAME-05**: User can view and collect badges for milestones (10 badges)
 - [x] **GAME-06**: User can see a streak counter for consecutive days of activity
 - [x] **GAME-07**: User receives visual feedback (animation/celebration) when leveling up or earning a badge
@@ -155,7 +155,7 @@
 | GAME-01 | Phase 4 | Complete |
 | GAME-02 | Phase 4 | Complete |
 | GAME-03 | Phase 4 | Complete |
-| GAME-04 | Phase 4 | Pending |
+| GAME-04 | Phase 4 | Complete |
 | GAME-05 | Phase 4 | Complete |
 | GAME-06 | Phase 4 | Complete |
 | GAME-07 | Phase 4 | Complete |

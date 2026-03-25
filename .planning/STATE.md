@@ -84,6 +84,9 @@ Recent decisions affecting current work:
 - [Phase 04-01]: CelebrationProvider uses closure-variable pattern for prev state tracking in useGameStore.subscribe (simpler than subscribeWithSelector)
 - [Phase 04-01]: Internal celebration components (XPToast, LevelUpModal, BadgeUnlockSheet) not exported from barrel -- only CelebrationProvider and useCelebration are public API
 - [Phase 04-01]: getTotalEarningsFromJobs is explicit Phase 4 proxy -- sums completed job prices until Phase 5 payment system replaces it
+- [Phase 04-02]: Removed isFirstClient XP gate -- ALL new client adds now award 15 XP per CONTEXT.md and GAME-01
+- [Phase 04-02]: Gamification orchestration at screen level (not store) to avoid cross-store coupling -- same pattern as Phase 3
+- [Phase 04-02]: Granular useGameStore selectors on Home screen to prevent unnecessary re-renders
 - [Phase 04-03]: BadgeGallery uses flex-wrap grid (not FlatList) since only 10 badges -- no virtualization needed
 - [Phase 04-03]: Expanded badge takes full width (100%) for readable detail with progress bar
 - [Phase 04-03]: Profile screen uses granular Zustand selectors per field to minimize re-renders
@@ -101,6 +104,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T03:37:33Z
-Stopped at: Completed 04-03-PLAN.md
-Resume file: .planning/phases/04-gamification-engine/04-03-SUMMARY.md
+Last session: 2026-03-25T03:38:49Z
+Stopped at: Completed 04-02-PLAN.md (all Phase 4 plans now complete)
+Resume file: .planning/phases/04-gamification-engine/04-02-SUMMARY.md
