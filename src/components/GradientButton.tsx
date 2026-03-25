@@ -29,7 +29,7 @@ export default function GradientButton({
   style,
 }: GradientButtonProps) {
   const config = sizeConfig[size];
-  const gradientColors = colors ?? Colors.gradientGreen;
+  const gradientColors = colors ?? Colors.gradientPrimary;
 
   return (
     <Pressable
@@ -51,7 +51,7 @@ export default function GradientButton({
           {
             height: config.height,
             paddingHorizontal: config.paddingHorizontal,
-            borderRadius: config.height / 2,
+            borderRadius: BorderRadius.md,
           },
         ]}
       >
@@ -60,7 +60,7 @@ export default function GradientButton({
             styles.title,
             {
               fontSize: config.fontSize,
-              color: disabled ? Colors.textSecondary : Colors.textInverse,
+              color: disabled ? Colors.textSecondary : '#FFFFFF',
             },
           ]}
         >
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: FontWeight.bold,
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
   },
   pressed: {
     opacity: 0.85,

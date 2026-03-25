@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
   },
   cellEarned: {
-    borderColor: Colors.secondaryBorder,
+    borderColor: Colors.primaryBorder,
   },
   cellLocked: {
     borderColor: Colors.border,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   cellGlow: {
-    shadowColor: Colors.secondary,
+    shadowColor: Colors.primary,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.6,
     shadowRadius: 12,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     borderRadius: 3,
   },
   progressLabel: {

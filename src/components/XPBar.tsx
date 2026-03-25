@@ -45,7 +45,7 @@ export default function XPBar({ currentXP, level, levelTitle, xpForNextLevel }: 
       <View style={styles.barTrack}>
         <Animated.View style={[styles.barFillWrapper, { width: widthInterpolation }]}>
           <LinearGradient
-            colors={Colors.gradientPurple}
+            colors={Colors.gradientPrimary}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.barFill}
@@ -56,7 +56,7 @@ export default function XPBar({ currentXP, level, levelTitle, xpForNextLevel }: 
   );
 }
 
-const BAR_HEIGHT = 10;
+const BAR_HEIGHT = 8;
 
 const styles = StyleSheet.create({
   container: {
@@ -68,18 +68,18 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
   },
   levelBadge: {
-    width: 40,
-    height: 40,
-    borderRadius: BorderRadius.full,
-    backgroundColor: Colors.secondaryBg,
-    borderWidth: 2,
-    borderColor: Colors.secondary,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.primaryBg,
+    borderWidth: 1.5,
+    borderColor: Colors.primaryBorder,
     alignItems: 'center',
     justifyContent: 'center',
   },
   levelNumber: {
-    color: Colors.secondary,
-    fontSize: FontSize.lg,
+    color: Colors.primary,
+    fontSize: FontSize.md,
     fontWeight: FontWeight.heavy,
   },
   titleContainer: {

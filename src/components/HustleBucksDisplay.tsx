@@ -11,9 +11,10 @@ export default function HustleBucksDisplay({ amount }: HustleBucksDisplayProps) 
   return (
     <View style={styles.container}>
       <View style={styles.iconCircle}>
-        <Ionicons name="logo-bitcoin" size={14} color={Colors.amber} />
+        <Ionicons name="diamond-outline" size={14} color={Colors.textSecondary} />
       </View>
       <Text style={styles.amount}>{amount.toLocaleString()}</Text>
+      <Text style={styles.label}>HB</Text>
     </View>
   );
 }
@@ -22,24 +23,31 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.amberBg,
+    backgroundColor: Colors.bgCard,
     paddingVertical: Spacing.xs,
     paddingHorizontal: Spacing.md,
     borderRadius: BorderRadius.full,
+    borderWidth: 1,
+    borderColor: Colors.border,
     gap: Spacing.xs,
   },
   iconCircle: {
     width: 22,
     height: 22,
     borderRadius: BorderRadius.full,
-    backgroundColor: 'rgba(255, 215, 64, 0.2)',
+    backgroundColor: Colors.bgElevated,
     alignItems: 'center',
     justifyContent: 'center',
   },
   amount: {
-    color: Colors.amber,
+    color: Colors.text,
     fontSize: FontSize.md,
     fontWeight: FontWeight.bold,
     letterSpacing: 0.3,
+  },
+  label: {
+    color: Colors.textMuted,
+    fontSize: FontSize.xs,
+    fontWeight: FontWeight.medium,
   },
 });
