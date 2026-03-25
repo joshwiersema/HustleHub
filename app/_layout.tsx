@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Colors } from '../src/constants/theme';
 import { useProfileStore } from '../src/store/profileStore';
+import { CelebrationProvider } from '../src/components/CelebrationProvider';
 
 export default function RootLayout() {
   const isOnboarded = useProfileStore((s) => s.isOnboarded);
@@ -31,7 +32,7 @@ export default function RootLayout() {
   }
 
   return (
-    <>
+    <CelebrationProvider>
       <StatusBar style="light" />
       <Stack
         screenOptions={{
@@ -47,7 +48,7 @@ export default function RootLayout() {
           <Stack.Screen name="onboarding" />
         </Stack.Protected>
       </Stack>
-    </>
+    </CelebrationProvider>
   );
 }
 
