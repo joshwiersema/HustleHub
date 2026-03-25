@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-25T01:58:18.293Z"
-last_activity: 2026-03-24 — Completed Plan 01-03 (Placeholder screens and touch target fix)
+status: in-progress
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-25T02:14:32Z"
+last_activity: 2026-03-25 — Completed Plan 02-01 (Onboarding Zustand refactor)
 progress:
   total_phases: 6
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  completed_phases: 2
+  total_plans: 4
+  completed_plans: 4
   percent: 100
 ---
 
@@ -21,32 +21,33 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** Teens can manage every aspect of their service business from one app while staying motivated through gamification that rewards real business activity.
-**Current focus:** Phase 1 — Foundation
+**Current focus:** Phase 2 — Onboarding
 
 ## Current Position
 
-Phase: 1 of 6 (Foundation) -- COMPLETE
-Plan: 3 of 3 in current phase (01-03 complete)
-Status: Phase 1 Complete
-Last activity: 2026-03-24 — Completed Plan 01-03 (Placeholder screens and touch target fix)
+Phase: 2 of 6 (Onboarding) -- COMPLETE
+Plan: 1 of 1 in current phase (02-01 complete)
+Status: Phase 2 Complete
+Last activity: 2026-03-25 — Completed Plan 02-01 (Onboarding Zustand refactor)
 
 Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 2.3 min
-- Total execution time: 0.12 hours
+- Total execution time: 0.15 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation | 3/3 | 7 min | 2.3 min |
+| 02-onboarding | 1/1 | 2 min | 2.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min), 01-02 (2 min), 01-03 (2 min)
+- Last 5 plans: 01-01 (3 min), 01-02 (2 min), 01-03 (2 min), 02-01 (2 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -66,6 +67,8 @@ Recent decisions affecting current work:
 - [Phase 01-02]: Root layout gates only on profileStore hydration -- isOnboarded is the sole navigation gate
 - [Phase 01-02]: index.tsx kept as simple Redirect -- Stack.Protected handles gate, index.tsx resolves root path
 - [Phase 01-03]: XPBar and BadgeIcon used with actual component APIs (not plan's simplified interface descriptions)
+- [Phase 02-01]: handleLaunch made synchronous -- Zustand setProfile is sync set(), no try/catch needed
+- [Phase 02-01]: Back button borderRadius changed to literal 11 (44/4) for proportional rounding with 44px size
 
 ### Pending Todos
 
@@ -80,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T01:58:18.290Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-onboarding/02-CONTEXT.md
+Last session: 2026-03-25T02:14:32Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: .planning/phases/02-onboarding/02-01-SUMMARY.md

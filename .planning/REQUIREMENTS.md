@@ -7,11 +7,11 @@
 
 ### Onboarding
 
-- [ ] **ONBD-01**: User can view a welcome screen that communicates the app's value proposition
-- [ ] **ONBD-02**: User can select their hustle type from 6 visual cards (lawn care, power washing, dog walking, tutoring, car detailing, snow removal)
-- [ ] **ONBD-03**: User can set up their business profile (business name, owner name)
-- [ ] **ONBD-04**: User can generate AI-style business name suggestions based on their hustle type
-- [ ] **ONBD-05**: User sees a preview of their business identity before launching into the app
+- [x] **ONBD-01**: User can view a welcome screen that communicates the app's value proposition
+- [x] **ONBD-02**: User can select their hustle type from 6 visual cards (lawn care, power washing, dog walking, tutoring, car detailing, snow removal)
+- [x] **ONBD-03**: User can set up their business profile (business name, owner name)
+- [x] **ONBD-04**: User can generate AI-style business name suggestions based on their hustle type
+- [x] **ONBD-05**: User sees a preview of their business identity before launching into the app
 
 ### Clients
 
@@ -135,11 +135,11 @@
 | DSGN-03 | Phase 1 | Complete |
 | DSGN-04 | Phase 1 | Complete |
 | DSGN-05 | Phase 1 | Complete |
-| ONBD-01 | Phase 2 | Pending |
-| ONBD-02 | Phase 2 | Pending |
-| ONBD-03 | Phase 2 | Pending |
-| ONBD-04 | Phase 2 | Pending |
-| ONBD-05 | Phase 2 | Pending |
+| ONBD-01 | Phase 2 | Complete |
+| ONBD-02 | Phase 2 | Complete |
+| ONBD-03 | Phase 2 | Complete |
+| ONBD-04 | Phase 2 | Complete |
+| ONBD-05 | Phase 2 | Complete |
 | CLNT-01 | Phase 3 | Pending |
 | CLNT-02 | Phase 3 | Pending |
 | CLNT-03 | Phase 3 | Pending |
