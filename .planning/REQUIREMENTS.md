@@ -72,11 +72,11 @@
 
 ### Marketing Tools
 
-- [ ] **TOOL-01**: User can access a toolkit screen with available business tools
+- [x] **TOOL-01**: User can access a toolkit screen with available business tools
 - [x] **TOOL-02**: User can generate a flyer from 4 template styles populated with their business info
 - [x] **TOOL-03**: User can generate a business card from 3 style options with their business info
-- [ ] **TOOL-04**: User can generate business name suggestions from a curated word bank per hustle type
-- [ ] **TOOL-05**: User can calculate pricing with inputs for time, cost, rate, and jobs/week
+- [x] **TOOL-04**: User can generate business name suggestions from a curated word bank per hustle type
+- [x] **TOOL-05**: User can calculate pricing with inputs for time, cost, rate, and jobs/week
 - [x] **TOOL-06**: User can share/export generated flyers and business cards
 
 ### Business Ideas
@@ -176,11 +176,11 @@
 | PROF-03 | Phase 5 | Complete |
 | PROF-04 | Phase 5 | Complete |
 | PROF-05 | Phase 5 | Complete |
-| TOOL-01 | Phase 6 | Pending |
+| TOOL-01 | Phase 6 | Complete |
 | TOOL-02 | Phase 6 | Complete |
 | TOOL-03 | Phase 6 | Complete |
-| TOOL-04 | Phase 6 | Pending |
-| TOOL-05 | Phase 6 | Pending |
+| TOOL-04 | Phase 6 | Complete |
+| TOOL-05 | Phase 6 | Complete |
 | TOOL-06 | Phase 6 | Complete |
 | IDEA-01 | Phase 6 | Pending |
 | IDEA-02 | Phase 6 | Pending |
