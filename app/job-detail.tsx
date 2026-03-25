@@ -27,7 +27,8 @@ import { Job } from '../src/types';
 import { useJobsStore } from '../src/store/jobsStore';
 import { useClientsStore } from '../src/store/clientsStore';
 import { useGameStore } from '../src/store/gameStore';
-import { checkBadges, getTotalEarningsFromJobs } from '../src/utils/gamification';
+import { checkBadges } from '../src/utils/gamification';
+import { usePaymentsStore } from '../src/store/paymentsStore';
 import { useCelebration } from '../src/components/CelebrationProvider';
 import { getNextOccurrenceDate, formatDuration } from '../src/utils/dateHelpers';
 
@@ -111,7 +112,7 @@ export default function JobDetailScreen() {
               {
                 totalClients: useClientsStore.getState().clients.length,
                 completedJobs: allJobs.filter(j => j.status === 'completed').length,
-                totalEarnings: getTotalEarningsFromJobs(allJobs),
+                totalEarnings: usePaymentsStore.getState().payments.reduce((s, p) => s + p.amount, 0),
               }
             );
             newBadges.forEach(id => useGameStore.getState().earnBadge(id));

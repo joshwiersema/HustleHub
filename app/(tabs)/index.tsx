@@ -115,7 +115,7 @@ export default function HomeScreen() {
           upcomingJobs.map((job) => (
             <Pressable
               key={job.id}
-              onPress={() => router.push(`/job-detail?id=${job.id}` as any)}
+              onPress={() => router.push(`/job-detail?jobId=${job.id}` as any)}
               style={({ pressed }) => [styles.jobCard, pressed && styles.jobCardPressed]}
             >
               <View style={styles.jobCardLeft}>
