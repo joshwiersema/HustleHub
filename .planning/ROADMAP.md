@@ -63,7 +63,12 @@ Plans:
   3. User can create a job linked to a client with title, date, time, duration, price, address, and notes — and the job appears in the correct status tab (upcoming or completed)
   4. User can mark a job as completed and it moves to the completed filter view
   5. User can set a job as recurring (weekly, biweekly, or monthly) and subsequent occurrences appear in the upcoming jobs list
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Build full client management screen with search, inline expand, add/edit modal, and FAB
+- [ ] 03-02-PLAN.md — Build jobs list screen with tab filter, client picker, add/edit modal, recurring toggle, and date helpers
+- [ ] 03-03-PLAN.md — Refactor job-detail.tsx from storage.ts to Zustand with mark-complete and recurring auto-generation
 
 ### Phase 4: Gamification Engine
 **Goal**: Every meaningful business action automatically awards XP and HustleBucks, levels are earned over a modeled 3-6 month arc, badges unlock with celebration animations, and the game layer is visually prominent throughout the app
@@ -110,7 +115,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-24 |
 | 2. Onboarding | 0/1 | Complete    | 2026-03-25 |
-| 3. Core Business Data | 0/TBD | Not started | - |
+| 3. Core Business Data | 0/3 | Not started | - |
 | 4. Gamification Engine | 0/TBD | Not started | - |
 | 5. Payments and Dashboard | 0/TBD | Not started | - |
 | 6. Tools and Discovery | 0/TBD | Not started | - |
