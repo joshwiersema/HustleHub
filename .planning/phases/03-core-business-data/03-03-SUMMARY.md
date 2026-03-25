@@ -66,7 +66,7 @@ Each task was committed atomically:
 
 1. **Task 1: Refactor job-detail.tsx from storage.ts to Zustand stores with mark-complete + recurring logic** - `2f8367d` (feat)
 
-**Plan metadata:** [pending] (docs: complete plan)
+**Plan metadata:** `c45dbfc` (docs: complete plan)
 
 ## Files Created/Modified
 - `app/job-detail.tsx` - Full job detail screen with synchronous Zustand store integration, mark-complete + XP + recurring auto-gen

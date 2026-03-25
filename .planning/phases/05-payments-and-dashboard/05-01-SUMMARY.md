@@ -75,7 +75,7 @@ Each task was committed atomically:
 
 1. **Task 1: Build add-payment modal with form fields and gamification** - `69734c8` (feat)
 
-**Plan metadata:** [pending final commit]
+**Plan metadata:** `460c4f5` (docs: complete plan)
 
 ## Files Created/Modified
 - `app/(tabs)/earnings.tsx` - Full earnings tab: payment form modal, bar chart, time filters, summary stats, payment history
