@@ -55,7 +55,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 
 ### Post-v1.0 Issues
 
-- Web preview shows white screen despite bundle compiling successfully
+- ~~Web preview shows white screen despite bundle compiling successfully~~ FIXED (260325-kp4: Metro resolver react-native condition)
 - expo-font and react-native-worklets were missing peer dependencies (installed but not verified)
 - Expo Go incompatible with SDK 55 (store version too old)
 - Node.js v24.14.1 on dev machine — bleeding edge for Expo SDK 55
@@ -68,10 +68,10 @@ None yet.
 
 ### Blockers/Concerns
 
-- White screen on web preview is the #1 blocker — Phase 8 addresses this directly
+- ~~White screen on web preview is the #1 blocker~~ RESOLVED by quick task 260325-kp4
 
 ## Session Continuity
 
 Last session: 2026-03-25
-Stopped at: Roadmap created for v1.1 milestone (3 phases: 8, 9, 10)
+Stopped at: Completed 260325-kp4 (fix Expo web white screen import.meta)
 Resume file: None
