@@ -3,8 +3,8 @@ import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Colors, Spacing, FontSize, FontWeight, BorderRadius } from '../../src/constants/theme';
-import { ScreenHeader, Card, StatCard, XPBar, StreakBadge, HustleBucksDisplay } from '../../src/components';
+import { Colors, Spacing, FontSize, FontWeight, BorderRadius, Shadows } from '../../src/constants/theme';
+import { Card, XPBar, StreakBadge, HustleBucksDisplay } from '../../src/components';
 import { useProfileStore } from '../../src/store/profileStore';
 import { useGameStore } from '../../src/store/gameStore';
 import { useJobsStore } from '../../src/store/jobsStore';
@@ -17,14 +17,14 @@ const QUICK_ACTIONS = [
   { icon: 'add-circle-outline' as const, label: 'Add Job', route: '/(tabs)/jobs' },
   { icon: 'person-add-outline' as const, label: 'Add Client', route: '/(tabs)/clients' },
   { icon: 'cash-outline' as const, label: 'Log Payment', route: '/(tabs)/earnings' },
-  { icon: 'construct-outline' as const, label: 'Toolkit', route: '/toolkit' },
+  { icon: 'grid-outline' as const, label: 'Toolkit', route: '/toolkit' },
 ];
 
 export default function HomeScreen() {
   const router = useRouter();
-  const businessName = useProfileStore((s) => s.profile?.businessName ?? 'Your Business');
+  const profile = useProfileStore((s) => s.profile);
+  const businessName = profile?.businessName ?? 'Your Business';
 
-  // Granular gameStore selectors to prevent unnecessary re-renders
   const xp = useGameStore((s) => s.xp);
   const level = useGameStore((s) => s.level);
   const hustleBucks = useGameStore((s) => s.hustleBucks);
@@ -32,7 +32,6 @@ export default function HomeScreen() {
   const jobs = useJobsStore((s) => s.jobs);
   const payments = usePaymentsStore((s) => s.payments);
 
-  // Derived values
   const levelInfo = LEVELS.find((l) => l.level === level) ?? LEVELS[0];
   const { xpIntoLevel, xpForNextLevel } = getXPForLevel(level, xp);
   const completedJobs = jobs.filter((j) => j.status === 'completed').length;
@@ -52,31 +51,42 @@ export default function HomeScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <ScreenHeader title="HustleHub" subtitle={businessName} />
-
-        {/* 3 StatCards with live data */}
-        <View style={styles.statsRow}>
-          <StatCard
-            label="Earnings"
-            value={`$${totalEarnings.toFixed(0)}`}
-            icon="cash-outline"
-            color={Colors.primary}
-          />
-          <StatCard
-            label="XP"
-            value={xp.toLocaleString()}
-            icon="star-outline"
-            color={Colors.secondary}
-          />
-          <StatCard
-            label="H-Bucks"
-            value={hustleBucks.toLocaleString()}
-            icon="diamond-outline"
-            color={Colors.amber}
-          />
+        {/* Header */}
+        <View style={styles.headerRow}>
+          <View>
+            <Text style={styles.greeting}>HustleHub</Text>
+            <Text style={styles.businessName}>{businessName}</Text>
+          </View>
+          <View style={styles.headerRight}>
+            <StreakBadge streak={streak} />
+          </View>
         </View>
 
-        {/* XP Progress Bar */}
+        {/* Hero Stat — Total Earnings */}
+        <View style={styles.heroCard}>
+          <Text style={styles.heroLabel}>TOTAL EARNINGS</Text>
+          <Text style={styles.heroValue}>
+            ${totalEarnings.toFixed(0)}
+          </Text>
+          <View style={styles.heroMeta}>
+            <View style={styles.heroMetaItem}>
+              <Ionicons name="briefcase-outline" size={14} color={Colors.textMuted} />
+              <Text style={styles.heroMetaText}>{completedJobs} jobs</Text>
+            </View>
+            <View style={styles.heroMetaDot} />
+            <View style={styles.heroMetaItem}>
+              <Ionicons name="flash-outline" size={14} color={Colors.textMuted} />
+              <Text style={styles.heroMetaText}>{xp.toLocaleString()} XP</Text>
+            </View>
+            <View style={styles.heroMetaDot} />
+            <View style={styles.heroMetaItem}>
+              <Ionicons name="diamond-outline" size={14} color={Colors.textMuted} />
+              <Text style={styles.heroMetaText}>{hustleBucks} HB</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* XP Progress */}
         <Card style={styles.xpCard}>
           <XPBar
             currentXP={xpIntoLevel}
@@ -86,14 +96,7 @@ export default function HomeScreen() {
           />
         </Card>
 
-        {/* Gamification widget row */}
-        <View style={styles.gameRow}>
-          <StreakBadge streak={streak} />
-          <HustleBucksDisplay amount={hustleBucks} />
-        </View>
-
         {/* Quick Actions */}
-        <Text style={styles.sectionTitle}>Quick Actions</Text>
         <View style={styles.quickActionsRow}>
           {QUICK_ACTIONS.map((action) => (
             <Pressable
@@ -102,7 +105,7 @@ export default function HomeScreen() {
               style={({ pressed }) => [styles.quickAction, pressed && styles.quickActionPressed]}
             >
               <View style={styles.quickActionIcon}>
-                <Ionicons name={action.icon} size={24} color={Colors.primary} />
+                <Ionicons name={action.icon} size={22} color={Colors.text} />
               </View>
               <Text style={styles.quickActionLabel} numberOfLines={1}>{action.label}</Text>
             </Pressable>
@@ -127,31 +130,21 @@ export default function HomeScreen() {
             </Pressable>
           ))
         ) : (
-          <Card style={styles.emptyUpcoming}>
+          <View style={styles.emptyUpcoming}>
+            <Ionicons name="calendar-outline" size={20} color={Colors.textMuted} />
             <Text style={styles.emptyUpcomingText}>No upcoming jobs</Text>
-            <Text style={styles.emptyUpcomingSubtext}>Tap "Add Job" above to schedule one</Text>
-          </Card>
+          </View>
         )}
 
-        {/* Welcome / Motivation Card */}
-        <Card style={styles.welcomeCard}>
-          {completedJobs === 0 ? (
-            <>
-              <Text style={styles.welcomeText}>Welcome to HustleHub!</Text>
-              <Text style={styles.welcomeSubtext}>
-                Your hustle journey starts here. Track jobs, clients, and earnings
-                all in one place.
-              </Text>
-            </>
-          ) : (
-            <>
-              <Text style={styles.welcomeText}>Keep hustling!</Text>
-              <Text style={styles.welcomeSubtext}>
-                You've completed {completedJobs} {completedJobs === 1 ? 'job' : 'jobs'} and earned ${totalEarnings.toFixed(0)} so far. Keep it up!
-              </Text>
-            </>
-          )}
-        </Card>
+        {/* Activity Summary */}
+        {completedJobs > 0 && (
+          <View style={styles.summaryCard}>
+            <Ionicons name="trending-up" size={20} color={Colors.primary} />
+            <Text style={styles.summaryText}>
+              {completedJobs} {completedJobs === 1 ? 'job' : 'jobs'} completed — ${totalEarnings.toFixed(0)} earned
+            </Text>
+          </View>
+        )}
 
         <View style={styles.bottomSpacer} />
       </ScrollView>
@@ -168,32 +161,84 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: Spacing.lg,
+    paddingHorizontal: Spacing.xl,
   },
-  statsRow: {
+  headerRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingTop: Spacing.xl,
+    marginBottom: Spacing.xxl,
+  },
+  greeting: {
+    fontSize: FontSize.xxl,
+    fontWeight: FontWeight.heavy,
+    color: Colors.text,
+    letterSpacing: -0.5,
+  },
+  businessName: {
+    fontSize: FontSize.sm,
+    color: Colors.textSecondary,
+    marginTop: 2,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: Spacing.sm,
+  },
+  // Hero stat
+  heroCard: {
+    backgroundColor: Colors.bgCard,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.xxl,
     marginBottom: Spacing.lg,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    ...Shadows.card,
+  },
+  heroLabel: {
+    fontSize: FontSize.xs,
+    fontWeight: FontWeight.medium,
+    color: Colors.textMuted,
+    letterSpacing: 2,
+    marginBottom: Spacing.sm,
+  },
+  heroValue: {
+    fontSize: FontSize.mega,
+    fontWeight: FontWeight.black,
+    color: Colors.text,
+    letterSpacing: -2,
+    marginBottom: Spacing.md,
+  },
+  heroMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+  },
+  heroMetaItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  heroMetaText: {
+    fontSize: FontSize.xs,
+    color: Colors.textMuted,
+    fontWeight: FontWeight.medium,
+  },
+  heroMetaDot: {
+    width: 3,
+    height: 3,
+    borderRadius: 1.5,
+    backgroundColor: Colors.textMuted,
   },
   xpCard: {
     marginBottom: Spacing.lg,
   },
-  gameRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: Spacing.lg,
-  },
-  sectionTitle: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.bold,
-    color: Colors.text,
-    marginBottom: Spacing.md,
-  },
   quickActionsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: Spacing.xl,
+    marginBottom: Spacing.xxl,
   },
   quickAction: {
     alignItems: 'center',
@@ -203,18 +248,29 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   quickActionIcon: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: Colors.bgElevated,
+    width: 48,
+    height: 48,
+    borderRadius: BorderRadius.md,
+    backgroundColor: Colors.bgCard,
+    borderWidth: 1,
+    borderColor: Colors.border,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: Spacing.xs,
   },
   quickActionLabel: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colors.textMuted,
+    fontWeight: FontWeight.medium,
     textAlign: 'center',
+  },
+  sectionTitle: {
+    fontSize: FontSize.sm,
+    fontWeight: FontWeight.semibold,
+    color: Colors.textSecondary,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: Spacing.md,
   },
   jobCard: {
     backgroundColor: Colors.bgCard,
@@ -224,6 +280,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   jobCardPressed: {
     backgroundColor: Colors.bgCardHover,
@@ -248,37 +306,42 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
   },
   jobPrice: {
-    fontSize: FontSize.lg,
+    fontSize: FontSize.xl,
     fontWeight: FontWeight.bold,
     color: Colors.primary,
   },
   emptyUpcoming: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: Spacing.sm,
+    backgroundColor: Colors.bgCard,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.xl,
     marginBottom: Spacing.lg,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   emptyUpcomingText: {
-    fontSize: FontSize.md,
-    color: Colors.textSecondary,
-    textAlign: 'center',
-  },
-  emptyUpcomingSubtext: {
     fontSize: FontSize.sm,
     color: Colors.textMuted,
-    textAlign: 'center',
-    marginTop: Spacing.xs,
   },
-  welcomeCard: {
-    marginBottom: Spacing.lg,
+  summaryCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    backgroundColor: Colors.primaryBg,
+    borderRadius: BorderRadius.md,
+    padding: Spacing.lg,
+    marginTop: Spacing.lg,
+    borderWidth: 1,
+    borderColor: Colors.primaryBorder,
   },
-  welcomeText: {
+  summaryText: {
+    fontSize: FontSize.sm,
     color: Colors.text,
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.bold,
-    marginBottom: Spacing.xs,
-  },
-  welcomeSubtext: {
-    color: Colors.textSecondary,
-    fontSize: FontSize.md,
-    lineHeight: 22,
+    fontWeight: FontWeight.medium,
+    flex: 1,
   },
   bottomSpacer: {
     height: Spacing.huge,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   ScrollView,
   Pressable,
@@ -345,6 +346,18 @@ export default function JobDetailScreen() {
             {job.notes || 'No notes'}
           </Text>
         </View>
+
+        {/* Job Photo */}
+        {job.photoUri && (
+          <View style={styles.card}>
+            <Text style={styles.cardSectionTitle}>Finished Work</Text>
+            <Image
+              source={{ uri: job.photoUri }}
+              style={styles.jobPhoto}
+              resizeMode="cover"
+            />
+          </View>
+        )}
 
         {/* Action Buttons */}
         <View style={styles.actionsContainer}>
@@ -713,6 +726,13 @@ const styles = StyleSheet.create({
     fontSize: FontSize.md,
     color: Colors.textSecondary,
     lineHeight: 22,
+  },
+  jobPhoto: {
+    width: '100%',
+    height: 200,
+    borderRadius: BorderRadius.md,
+    marginTop: Spacing.md,
+    backgroundColor: Colors.bgElevated,
   },
   actionsContainer: {
     gap: Spacing.md,

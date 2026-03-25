@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
 import {
   Colors,
   Spacing,
@@ -420,13 +421,16 @@ export default function JobsScreen() {
     [jobs, deleteJob],
   );
 
-  const handleComplete = useCallback(
-    (jobId: string) => {
+  const completeJobWithOptionalPhoto = useCallback(
+    (jobId: string, photoUri?: string) => {
       const job = jobs.find((j) => j.id === jobId);
       if (!job) return;
 
-      // 1. Mark current job as completed
+      // 1. Mark current job as completed, optionally with photo
       useJobsStore.getState().completeJob(jobId);
+      if (photoUri) {
+        useJobsStore.getState().updateJob(jobId, { photoUri });
+      }
 
       // 2. Award XP (triggers level calc + HustleBucks)
       const gameState = useGameStore.getState();
@@ -469,6 +473,37 @@ export default function JobsScreen() {
       }
     },
     [jobs, showXPToast],
+  );
+
+  const handleComplete = useCallback(
+    (jobId: string) => {
+      Alert.alert(
+        'Complete Job',
+        'Would you like to add a photo of your finished work?',
+        [
+          {
+            text: 'Skip',
+            onPress: () => completeJobWithOptionalPhoto(jobId),
+          },
+          {
+            text: 'Add Photo',
+            onPress: async () => {
+              const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ['images'],
+                allowsEditing: true,
+                quality: 0.8,
+              });
+              if (!result.canceled && result.assets[0]) {
+                completeJobWithOptionalPhoto(jobId, result.assets[0].uri);
+              } else {
+                completeJobWithOptionalPhoto(jobId);
+              }
+            },
+          },
+        ],
+      );
+    },
+    [completeJobWithOptionalPhoto],
   );
 
   const handleCardPress = useCallback(
