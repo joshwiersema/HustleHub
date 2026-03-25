@@ -27,6 +27,8 @@ import { Job } from '../src/types';
 import { useJobsStore } from '../src/store/jobsStore';
 import { useClientsStore } from '../src/store/clientsStore';
 import { useGameStore } from '../src/store/gameStore';
+import { checkBadges, getTotalEarningsFromJobs } from '../src/utils/gamification';
+import { useCelebration } from '../src/components/CelebrationProvider';
 import { getNextOccurrenceDate, formatDuration } from '../src/utils/dateHelpers';
 
 const DURATION_OPTIONS = [
@@ -55,6 +57,7 @@ export default function JobDetailScreen() {
   const deleteJobAction = useJobsStore((s) => s.deleteJob);
   const completeJobAction = useJobsStore((s) => s.completeJob);
   const addJobAction = useJobsStore((s) => s.addJob);
+  const { showXPToast } = useCelebration();
 
   const [editModalVisible, setEditModalVisible] = useState(false);
 
@@ -95,9 +98,26 @@ export default function JobDetailScreen() {
           onPress: () => {
             // 1. Mark complete in store
             completeJobAction(job.id);
-            // 2. Award XP
-            useGameStore.getState().addXP(25);
-            // 3. Auto-generate next occurrence for recurring jobs
+            // 2. Award XP (triggers level calc + HustleBucks)
+            const gameState = useGameStore.getState();
+            gameState.addXP(25);
+            // 3. Update streak
+            gameState.updateStreak();
+            // 4. Check badges
+            const updated = useGameStore.getState();
+            const allJobs = useJobsStore.getState().jobs;
+            const newBadges = checkBadges(
+              { earnedBadges: updated.earnedBadges, streak: updated.streak },
+              {
+                totalClients: useClientsStore.getState().clients.length,
+                completedJobs: allJobs.filter(j => j.status === 'completed').length,
+                totalEarnings: getTotalEarningsFromJobs(allJobs),
+              }
+            );
+            newBadges.forEach(id => useGameStore.getState().earnBadge(id));
+            // 5. Show XP toast
+            showXPToast(25);
+            // 6. Auto-generate next occurrence for recurring jobs
             if (job.recurring && job.recurringFrequency) {
               const nextDate = getNextOccurrenceDate(job.date, job.recurringFrequency);
               const newId = Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -109,7 +129,6 @@ export default function JobDetailScreen() {
               };
               addJobAction(nextJob);
             }
-            Alert.alert('Job Complete!', 'You earned 25 XP!');
           },
         },
       ]

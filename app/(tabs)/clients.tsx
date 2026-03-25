@@ -25,6 +25,9 @@ import {
 import { Client } from '../../src/types';
 import { useClientsStore } from '../../src/store/clientsStore';
 import { useGameStore } from '../../src/store/gameStore';
+import { useJobsStore } from '../../src/store/jobsStore';
+import { checkBadges, getTotalEarningsFromJobs } from '../../src/utils/gamification';
+import { useCelebration } from '../../src/components/CelebrationProvider';
 import { EmptyState, ScreenHeader } from '../../src/components';
 
 // ---------------------------------------------------------------------------
@@ -172,6 +175,7 @@ export default function ClientsScreen() {
   const addClient = useClientsStore((s) => s.addClient);
   const updateClient = useClientsStore((s) => s.updateClient);
   const deleteClient = useClientsStore((s) => s.deleteClient);
+  const { showXPToast } = useCelebration();
 
   // Local state
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -270,9 +274,10 @@ export default function ClientsScreen() {
     };
 
     if (editingClient) {
+      // Edit -- no XP for edits (maintenance, not meaningful activity)
       updateClient(editingClient.id, trimmed);
     } else {
-      const isFirstClient = clients.length === 0;
+      // New client -- full gamification sequence
       const newClient: Client = {
         id: Date.now().toString(36) + Math.random().toString(36).substr(2),
         ...trimmed,
@@ -280,9 +285,25 @@ export default function ClientsScreen() {
       };
       addClient(newClient);
 
-      if (isFirstClient) {
-        useGameStore.getState().addXP(15);
-      }
+      // 1. Award XP for every new client add
+      const gameState = useGameStore.getState();
+      gameState.addXP(15);
+      // 2. Update streak
+      gameState.updateStreak();
+      // 3. Check badges
+      const updated = useGameStore.getState();
+      const allJobs = useJobsStore.getState().jobs;
+      const newBadges = checkBadges(
+        { earnedBadges: updated.earnedBadges, streak: updated.streak },
+        {
+          totalClients: clients.length + 1, // +1 because we just added
+          completedJobs: allJobs.filter(j => j.status === 'completed').length,
+          totalEarnings: getTotalEarningsFromJobs(allJobs),
+        }
+      );
+      newBadges.forEach(id => useGameStore.getState().earnBadge(id));
+      // 4. Show XP toast
+      showXPToast(15);
     }
 
     setModalVisible(false);
@@ -296,6 +317,7 @@ export default function ClientsScreen() {
     clients.length,
     addClient,
     updateClient,
+    showXPToast,
   ]);
 
   const handleCancel = useCallback(() => {
