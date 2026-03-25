@@ -91,6 +91,10 @@ Recent decisions affecting current work:
 - [Phase 04-03]: BadgeGallery uses flex-wrap grid (not FlatList) since only 10 badges -- no virtualization needed
 - [Phase 04-03]: Expanded badge takes full width (100%) for readable detail with progress bar
 - [Phase 04-03]: Profile screen uses granular Zustand selectors per field to minimize re-renders
+- [Phase 05-02]: QUICK_ACTIONS defined at module level for referential stability (not inside component)
+- [Phase 05-02]: Toolkit quick action route temporarily points to /(tabs)/earnings -- Phase 6 will add real toolkit screen
+- [Phase 05-02]: Used 'as any' for router.push route typing to avoid expo-router strict route type issues
+- [Phase 05-02]: Upcoming jobs empty state uses Card with prompt text -- consistent with app UI patterns
 - [Phase 05-03]: Replaced getTotalEarningsFromJobs proxy with payments.reduce -- paymentsStore is single source of truth for earnings
 - [Phase 05-03]: Top stats row 2 reorganized to HustleBucks + Clients to avoid duplication with Lifetime Stats section
 - [Phase 05-03]: Days active calculated from profile.joinedDate with Math.max(1, ...) floor
@@ -113,6 +117,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T04:13:50Z
-Stopped at: Completed 05-03-PLAN.md
-Resume file: .planning/phases/05-payments-and-dashboard/05-03-SUMMARY.md
+Last session: 2026-03-24T17:15:18Z
+Stopped at: Completed 05-01-PLAN.md (Earnings Tab)
+Resume file: .planning/phases/05-payments-and-dashboard/05-01-SUMMARY.md

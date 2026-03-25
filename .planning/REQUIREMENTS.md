@@ -56,11 +56,11 @@
 
 ### Dashboard
 
-- [ ] **DASH-01**: User sees a home screen with greeting, business name, and quick stats
-- [ ] **DASH-02**: User sees their XP bar and current level on the home screen
-- [ ] **DASH-03**: User sees upcoming jobs on the home screen (next 3)
-- [ ] **DASH-04**: User can access quick actions from the home screen (add job, add client, log payment, toolkit)
-- [ ] **DASH-05**: User sees HustleBucks balance on the home screen
+- [x] **DASH-01**: User sees a home screen with greeting, business name, and quick stats
+- [x] **DASH-02**: User sees their XP bar and current level on the home screen
+- [x] **DASH-03**: User sees upcoming jobs on the home screen (next 3)
+- [x] **DASH-04**: User can access quick actions from the home screen (add job, add client, log payment, toolkit)
+- [x] **DASH-05**: User sees HustleBucks balance on the home screen
 
 ### Profile
 
@@ -166,11 +166,11 @@
 | EARN-02 | Phase 5 | Pending |
 | EARN-03 | Phase 5 | Pending |
 | EARN-04 | Phase 5 | Pending |
-| DASH-01 | Phase 5 | Pending |
-| DASH-02 | Phase 5 | Pending |
-| DASH-03 | Phase 5 | Pending |
-| DASH-04 | Phase 5 | Pending |
-| DASH-05 | Phase 5 | Pending |
+| DASH-01 | Phase 5 | Complete |
+| DASH-02 | Phase 5 | Complete |
+| DASH-03 | Phase 5 | Complete |
+| DASH-04 | Phase 5 | Complete |
+| DASH-05 | Phase 5 | Complete |
 | PROF-01 | Phase 5 | Complete |
 | PROF-02 | Phase 5 | Complete |
 | PROF-03 | Phase 5 | Complete |
