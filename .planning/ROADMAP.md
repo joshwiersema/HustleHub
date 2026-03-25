@@ -18,6 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Gamification Engine** - Event-driven XP, levels, HustleBucks, badges, and celebration feedback (completed 2026-03-25)
 - [ ] **Phase 5: Payments and Dashboard** - Payment logging, earnings charts, and the composed home dashboard
 - [x] **Phase 6: Tools and Discovery** - Marketing tools, pricing calculator, business ideas engine, and profile completion (completed 2026-03-25)
+- [ ] **Phase 7: Integration Verification** - Full codebase verification, bug fixes, and compilation validation
 
 ## Phase Details
 
@@ -134,16 +135,20 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 4. Gamification Engine | 3/3 | Complete   | 2026-03-25 |
 | 5. Payments and Dashboard | 0/3 | Not started | - |
 | 6. Tools and Discovery | 3/3 | Complete   | 2026-03-25 |
-| 7. Integration Verification | 0/TBD | Not started | - |
+| 7. Integration Verification | 0/2 | Not started | - |
 
 ### Phase 7: Integration Verification
-**Goal**: The entire app compiles cleanly, all screens render without crashes, cross-phase data flows work end-to-end (onboarding → clients → jobs → payments → gamification → tools → dashboard), and the complete user experience matches v1.0 requirements
+**Goal**: The entire app compiles cleanly, all screens render without crashes, cross-phase data flows work end-to-end (onboarding -> clients -> jobs -> payments -> gamification -> tools -> dashboard), and the complete user experience matches v1.0 requirements
 **Depends on**: Phase 6
 **Requirements**: All v1 requirements (cross-cutting verification)
 **Success Criteria** (what must be TRUE):
   1. TypeScript compiles with zero errors (`npx tsc --noEmit` passes)
   2. Expo bundler runs without errors (`npx expo export --platform ios` passes)
-  3. Complete user flow works: onboarding → add client → create job → complete job → log payment → XP/badges awarded → earnings visible → tools accessible
+  3. Complete user flow works: onboarding -> add client -> create job -> complete job -> log payment -> XP/badges awarded -> earnings visible -> tools accessible
   4. All 5 tabs render correctly with live data from Zustand stores
   5. No orphaned imports, missing exports, or broken cross-screen navigation
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Fix job-detail query param bug, replace earnings proxy in badge checks, remove dead storage.ts
+- [ ] 07-02-PLAN.md — Run TypeScript compilation and Expo bundler, fix any remaining errors
