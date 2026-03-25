@@ -117,9 +117,9 @@ Plans:
 **Plans:** 3/3 plans complete
 
 Plans:
-- [ ] 06-01-PLAN.md — Install packages, refactor toolkit/name-generator/pricing-calculator with Zustand and gamification
-- [ ] 06-02-PLAN.md — Refactor flyer generator and business card generator with Zustand, gamification, and real sharing
-- [ ] 06-03-PLAN.md — Refactor business ideas browser with Zustand, gamification, and hustle switch
+- [x] 06-01-PLAN.md — Install packages, refactor toolkit/name-generator/pricing-calculator with Zustand and gamification
+- [x] 06-02-PLAN.md — Refactor flyer generator and business card generator with Zustand, gamification, and real sharing
+- [x] 06-03-PLAN.md — Refactor business ideas browser with Zustand, gamification, and hustle switch
 
 ## Progress
 

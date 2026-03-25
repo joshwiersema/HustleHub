@@ -81,9 +81,9 @@
 
 ### Business Ideas
 
-- [ ] **IDEA-01**: User can browse all 6 hustle types with startup cost, earning potential, and difficulty
-- [ ] **IDEA-02**: User can expand a hustle type to see getting-started checklist, pro tips, and equipment needed
-- [ ] **IDEA-03**: User can switch their hustle type from the ideas screen
+- [x] **IDEA-01**: User can browse all 6 hustle types with startup cost, earning potential, and difficulty
+- [x] **IDEA-02**: User can expand a hustle type to see getting-started checklist, pro tips, and equipment needed
+- [x] **IDEA-03**: User can switch their hustle type from the ideas screen
 
 ### Design & UX
 
@@ -182,9 +182,9 @@
 | TOOL-04 | Phase 6 | Complete |
 | TOOL-05 | Phase 6 | Complete |
 | TOOL-06 | Phase 6 | Complete |
-| IDEA-01 | Phase 6 | Pending |
-| IDEA-02 | Phase 6 | Pending |
-| IDEA-03 | Phase 6 | Pending |
+| IDEA-01 | Phase 6 | Complete |
+| IDEA-02 | Phase 6 | Complete |
+| IDEA-03 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 55 total
