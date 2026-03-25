@@ -8,17 +8,22 @@ A gamified iOS mobile app where teenagers can start, run, and grow their service
 
 Teens can manage every aspect of their service business from one app — schedule jobs, track clients, log earnings, and generate marketing materials — while staying motivated through gamification that rewards real business activity.
 
-## Current Milestone: v1.1 Fix, Verify & Enhance
+## Current Milestone: v2.0 Complete Redesign & Feature Overhaul
 
-**Goal:** Fix broken web/device preview, verify the entire codebase end-to-end, add window washing hustle type, and establish comprehensive test coverage.
+**Goal:** Complete visual overhaul with The Outsiders-inspired dark design language (red/white/dark palette), AI-powered business card & flyer generators, streamlined 6-step onboarding, feature removals, and professional icon system replacing all emojis.
 
 **Target features:**
-- Fix white screen on web preview (root cause + fix)
-- Establish working test path (web preview or EAS dev build)
-- Full codebase audit — every screen, store, and flow verified
-- Add "Window Washing" as new hustle type with full content
-- Comprehensive test cases for all critical user flows
-- Verify all existing hustles (including dog walking) are complete
+- New color scheme: red (#DC2626) + white + rich dark grays (#0C0C0F, #141418, #1A1A22)
+- Remove name generator, invoice template, rankings/leaderboard
+- Replace ALL emojis with professional @expo/vector-icons throughout
+- AI multi-option business card generator with print/export (3-4 variations)
+- AI multi-option flyer generator with print/export (multiple variations)
+- Business card & flyer generation integrated into onboarding (steps 4-5)
+- 6-step onboarding: Welcome → Pick Hustle → Business Info → Card Gen → Flyer Gen → Ready
+- Optional photo upload on job completion (expo-image-picker)
+- Every screen redesigned: The Outsiders design language (big bold stats, glass-morphism cards, generous padding)
+- Refined bottom tab bar with red accent active state
+- Typography hierarchy with large hero numbers for key stats
 
 ## Current State
 
@@ -54,27 +59,36 @@ Teens can manage every aspect of their service business from one app — schedul
 
 ### Active
 
-- [ ] Push notifications for job reminders
-- [ ] Email reminders for upcoming appointments
-- [ ] Real social leaderboards
-- [ ] HustleBucks shop for cosmetic items
-- [ ] Android support and testing
-- [ ] Invoice generation tool
+- [ ] Complete color scheme overhaul: red (#DC2626) + white + dark grays
+- [ ] Professional icon system replacing all emojis
+- [ ] AI multi-option business card generator with print/export
+- [ ] AI multi-option flyer generator with print/export
+- [ ] 6-step onboarding with integrated card & flyer generation
+- [ ] Optional photo upload on job completion
+- [ ] Every screen redesigned with The Outsiders design language
+- [ ] Bottom tab bar redesign with red accent
 
 ### Out of Scope
 
-- Parental controls — defer to v2 after core is solid
+- Parental controls — defer to later version
 - Real payment processing (Stripe, etc.) — teens just log payments they receive directly
 - Website builder — too complex, defer
 - AI chat coach — defer full AI integration
 - Expense tracking / profit-loss accounting — revenue focus is more motivating for teens
+- Push notifications — defer to v2.1
+- Email reminders — defer to v2.1
+- Real social leaderboards — removed in v2.0 scope
+- HustleBucks shop — defer to v2.1
+- Name generator — removed, replaced by direct business name input
+- Invoice generation — removed from v2.0 scope
+- Rankings/leaderboard — removed from v2.0 scope
 
 ## Context
 
 - Target audience: teenagers (13-18) running neighborhood service businesses
-- Design inspiration: Stake iOS app on Mobbin (dark fintech aesthetic, bold typography, card layouts)
-- Design tone: "Robinhood meets Duolingo" — clean data presentation with gamified progression
-- Dark mode first with green (#00E676) for money/growth, purple (#B388FF) for XP/levels, amber (#FFD740) for HustleBucks
+- Design inspiration: The Outsiders iOS app on Mobbin (dark athlete tracker, big bold stats, glass-morphism cards, 8px grid)
+- Design tone: Professional, serious — NOT a toy app. Clean data presentation with refined gamification
+- Dark mode first with red (#DC2626) for primary actions/accents, white for text/cards, dark grays (#0C0C0F, #141418, #1A1A22) for depth, muted grays (#8A8A96, #6B6B78) for secondary text, muted green (#22C55E) for success
 - All data stored locally via Zustand + AsyncStorage — no backend, no user accounts
 - 5 Zustand stores: profileStore, clientsStore, jobsStore, paymentsStore, gameStore
 - CelebrationProvider at root layout manages XP toasts, level-up modals, badge unlock sheets
@@ -84,8 +98,8 @@ Teens can manage every aspect of their service business from one app — schedul
 
 - **Tech Stack**: React Native with Expo SDK 55 (TypeScript) — cross-platform but iOS-first
 - **Storage**: Zustand v5 + AsyncStorage persist for v1 — local-only data
-- **Design**: Dark mode first, iOS native feel, Stake/Mobbin aesthetic
-- **Scope**: 7 service-based hustle types (adding window washing in v1.1)
+- **Design**: Dark mode first, The Outsiders aesthetic — red/white/dark, no emojis, professional icons only
+- **Scope**: 6 service-based hustle types (lawn care, power washing, dog walking, tutoring, car detailing, snow removal)
 - **No Backend**: All data stored locally on device for v1
 - **Accessibility**: Minimum 44x44px touch targets, 4.5:1 contrast ratios
 
@@ -120,5 +134,11 @@ This document evolves at phase transitions and milestone boundaries.
 3. Audit Out of Scope — reasons still valid?
 4. Update Context with current state
 
+| Red/white/dark palette over green/purple | The Outsiders design language, professional serious tone, not gamey | — Pending |
+| Remove name generator, invoice, rankings | Streamline features, focus on core business tools | — Pending |
+| AI multi-option generators over static templates | More engaging, unique outputs per user, better onboarding experience | — Pending |
+| 6-step onboarding with integrated generators | First-time experience includes marketing materials creation | — Pending |
+| expo-image-picker for job photos | Lightweight, optional enhancement for job completion | — Pending |
+
 ---
-*Last updated: 2026-03-25 after v1.1 milestone start*
+*Last updated: 2026-03-25 after v2.0 milestone start*

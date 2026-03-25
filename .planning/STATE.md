@@ -1,13 +1,13 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Fix, Verify & Enhance
+milestone: v2.0
+milestone_name: Complete Redesign & Feature Overhaul
 status: active
-stopped_at: Roadmap created, ready to plan Phase 8
-last_updated: "2026-03-25T07:00:00.000Z"
-last_activity: 2026-03-25 — Completed quick task 260325-kp4: Fix Expo web white screen - import.meta outside module error
+stopped_at: Defining requirements
+last_updated: "2026-03-25T12:00:00.000Z"
+last_activity: 2026-03-25 — Milestone v2.0 started
 progress:
-  total_phases: 3
+  total_phases: 0
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-25)
 
 **Core value:** Teens can manage every aspect of their service business from one app while staying motivated through gamification that rewards real business activity.
-**Current focus:** Phase 8 — Fix & Testability
+**Current focus:** v2.0 — Complete Redesign & Feature Overhaul
 
 ## Current Position
 
-Phase: 8 of 10 (Fix & Testability) — first phase of v1.1
-Plan: 0 of ? in current phase
-Status: Ready to plan
-Last activity: 2026-03-25 — Roadmap created for v1.1 milestone
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-25 — Milestone v2.0 started
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -62,13 +62,20 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - babel.config.js and metro.config.js were missing from project root (added)
 - babel-preset-expo was not installed as dependency (added)
 
+### v2.0 Design Context
+
+- Design reference: The Outsiders iOS app (Mobbin) — dark athlete tracker with big bold stats, glass-morphism cards, 8px spacing grid
+- Color palette: Red (#DC2626) + White + Dark grays (#0C0C0F, #141418, #1A1A22)
+- No emojis — professional icons only (@expo/vector-icons)
+- Mobile-first priority, iOS-native feel
+
 ### Pending Todos
 
 None yet.
 
 ### Blockers/Concerns
 
-- ~~White screen on web preview is the #1 blocker~~ RESOLVED by quick task 260325-kp4
+None.
 
 ### Quick Tasks Completed
 
@@ -79,5 +86,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-25
-Stopped at: Completed 260325-kp4 (fix Expo web white screen import.meta)
+Stopped at: v2.0 milestone started, defining requirements
 Resume file: None
