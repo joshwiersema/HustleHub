@@ -1,17 +1,20 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { useMemo, useCallback } from 'react';
+import { View, Text, ScrollView, StyleSheet, Alert, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors, Spacing, FontSize, FontWeight } from '../../src/constants/theme';
+import { useRouter } from 'expo-router';
+import { Colors, Spacing, FontSize, FontWeight, BorderRadius } from '../../src/constants/theme';
 import { ScreenHeader, Card, StatCard, XPBar, HustleBucksDisplay } from '../../src/components';
 import { useProfileStore } from '../../src/store/profileStore';
 import { useGameStore } from '../../src/store/gameStore';
 import { useClientsStore } from '../../src/store/clientsStore';
 import { useJobsStore } from '../../src/store/jobsStore';
-import { getXPForLevel, getTotalEarningsFromJobs } from '../../src/utils/gamification';
+import { usePaymentsStore } from '../../src/store/paymentsStore';
+import { getXPForLevel } from '../../src/utils/gamification';
 import { LEVELS } from '../../src/types';
 import BadgeGallery from '../../src/components/BadgeGallery';
 
 export default function ProfileScreen() {
+  const router = useRouter();
   const profile = useProfileStore((s) => s.profile);
 
   // Granular game state selectors
@@ -24,15 +27,46 @@ export default function ProfileScreen() {
   // Data stores
   const clients = useClientsStore((s) => s.clients);
   const jobs = useJobsStore((s) => s.jobs);
+  const payments = usePaymentsStore((s) => s.payments);
 
   // Derived values
   const levelInfo = LEVELS.find((l) => l.level === level) ?? LEVELS[0];
   const { xpIntoLevel, xpForNextLevel } = getXPForLevel(level, xp);
   const completedJobs = jobs.filter((j) => j.status === 'completed').length;
-  const totalEarnings = getTotalEarningsFromJobs(jobs);
+  const totalEarnings = payments.reduce((sum, p) => sum + p.amount, 0);
 
   const displayName = profile?.name ?? 'Hustler';
   const displayBusiness = profile?.businessName ?? 'My Business';
+
+  const daysActive = useMemo(() => {
+    if (!profile?.joinedDate) return 1;
+    const joined = new Date(profile.joinedDate);
+    const now = new Date();
+    const diffMs = now.getTime() - joined.getTime();
+    return Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+  }, [profile?.joinedDate]);
+
+  const handleReset = useCallback(() => {
+    Alert.alert(
+      'Reset All Data',
+      'This will permanently delete all your data including clients, jobs, payments, and progress. This cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Reset Everything',
+          style: 'destructive',
+          onPress: () => {
+            useProfileStore.getState().reset();
+            useClientsStore.getState().reset();
+            useJobsStore.getState().reset();
+            usePaymentsStore.getState().reset();
+            useGameStore.getState().reset();
+            router.replace('/onboarding');
+          },
+        },
+      ],
+    );
+  }, [router]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -76,26 +110,20 @@ export default function ProfileScreen() {
           />
         </View>
 
-        {/* Stats row 2: Jobs Done + Earned */}
+        {/* Stats row 2: HustleBucks + Clients */}
         <View style={styles.statsRow}>
           <StatCard
-            label="Jobs Done"
-            value={completedJobs.toString()}
-            icon="checkmark-circle-outline"
-            color={Colors.primary}
+            label="H-Bucks"
+            value={hustleBucks.toLocaleString()}
+            icon="diamond-outline"
+            color={Colors.amber}
           />
           <StatCard
-            label="Earned"
-            value={`$${totalEarnings.toFixed(0)}`}
-            icon="cash-outline"
-            color={Colors.primary}
+            label="Clients"
+            value={clients.length.toString()}
+            icon="people-outline"
+            color={Colors.secondary}
           />
-        </View>
-
-        {/* HustleBucks display */}
-        <View style={styles.hbRow}>
-          <Text style={styles.hbLabel}>HustleBucks</Text>
-          <HustleBucksDisplay amount={hustleBucks} />
         </View>
 
         {/* Badge Gallery */}
@@ -108,6 +136,76 @@ export default function ProfileScreen() {
             streak,
           }}
         />
+
+        {/* Lifetime Stats */}
+        <Text style={styles.sectionTitle}>Lifetime Stats</Text>
+        <View style={styles.statsRow}>
+          <StatCard
+            label="Total Earned"
+            value={`$${totalEarnings.toFixed(0)}`}
+            icon="cash-outline"
+            color={Colors.primary}
+          />
+          <StatCard
+            label="Jobs Done"
+            value={completedJobs.toString()}
+            icon="checkmark-circle-outline"
+            color={Colors.primary}
+          />
+        </View>
+        <View style={styles.statsRow}>
+          <StatCard
+            label="Clients"
+            value={clients.length.toString()}
+            icon="people-outline"
+            color={Colors.secondary}
+          />
+          <StatCard
+            label="Days Active"
+            value={daysActive.toString()}
+            icon="calendar-outline"
+            color={Colors.amber}
+          />
+        </View>
+
+        {/* Leaderboard Teaser */}
+        <Text style={styles.sectionTitle}>Local Rankings</Text>
+        <Card style={styles.leaderboardCard}>
+          <View style={styles.leaderboardHeader}>
+            <Text style={styles.leaderboardTitle}>Coming Soon</Text>
+            <Text style={styles.leaderboardSubtitle}>See how you stack up</Text>
+          </View>
+          {/* 3 fake entries */}
+          <View style={styles.leaderboardEntry}>
+            <Text style={styles.leaderboardRank}>1</Text>
+            <Text style={styles.leaderboardName}>LawnKing_Mike</Text>
+            <Text style={styles.leaderboardXP}>4,200 XP</Text>
+          </View>
+          <View style={styles.leaderboardEntry}>
+            <Text style={styles.leaderboardRank}>2</Text>
+            <Text style={styles.leaderboardName}>DetailQueen_Sara</Text>
+            <Text style={styles.leaderboardXP}>3,800 XP</Text>
+          </View>
+          <View style={styles.leaderboardEntry}>
+            <Text style={styles.leaderboardRank}>3</Text>
+            <Text style={styles.leaderboardName}>TutorPro_Alex</Text>
+            <Text style={styles.leaderboardXP}>3,100 XP</Text>
+          </View>
+          {/* User's position */}
+          <View style={[styles.leaderboardEntry, styles.leaderboardEntryYou]}>
+            <Text style={styles.leaderboardRank}>--</Text>
+            <Text style={[styles.leaderboardName, { color: Colors.primary }]}>You ({displayBusiness})</Text>
+            <Text style={[styles.leaderboardXP, { color: Colors.primary }]}>{xp.toLocaleString()} XP</Text>
+          </View>
+        </Card>
+
+        {/* Data Reset */}
+        <Pressable
+          onPress={handleReset}
+          style={({ pressed }) => [styles.resetButton, pressed && styles.resetButtonPressed]}
+        >
+          <Text style={styles.resetButtonText}>Reset All Data</Text>
+        </Pressable>
 
         <View style={styles.bottomSpacer} />
       </ScrollView>
@@ -152,17 +250,75 @@ const styles = StyleSheet.create({
     gap: Spacing.sm,
     marginBottom: Spacing.sm,
   },
-  hbRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: Spacing.lg,
-    marginTop: Spacing.sm,
+  sectionTitle: {
+    fontSize: FontSize.lg,
+    fontWeight: FontWeight.bold,
+    color: Colors.text,
+    marginBottom: Spacing.md,
+    marginTop: Spacing.lg,
   },
-  hbLabel: {
+  leaderboardCard: {
+    marginBottom: Spacing.lg,
+  },
+  leaderboardHeader: {
+    marginBottom: Spacing.md,
+  },
+  leaderboardTitle: {
     fontSize: FontSize.md,
+    fontWeight: FontWeight.bold,
+    color: Colors.amber,
+  },
+  leaderboardSubtitle: {
+    fontSize: FontSize.sm,
+    color: Colors.textMuted,
+    marginTop: 2,
+  },
+  leaderboardEntry: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: Spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: Colors.borderLight,
+  },
+  leaderboardEntryYou: {
+    borderTopWidth: 2,
+    borderTopColor: Colors.primaryBorder,
+    marginTop: Spacing.xs,
+    paddingTop: Spacing.md,
+  },
+  leaderboardRank: {
+    width: 28,
+    fontSize: FontSize.md,
+    fontWeight: FontWeight.bold,
+    color: Colors.textMuted,
+  },
+  leaderboardName: {
+    flex: 1,
+    fontSize: FontSize.md,
+    color: Colors.text,
+  },
+  leaderboardXP: {
+    fontSize: FontSize.sm,
     color: Colors.textSecondary,
     fontWeight: FontWeight.medium,
+  },
+  resetButton: {
+    marginTop: Spacing.xxl,
+    marginBottom: Spacing.lg,
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.xl,
+    borderRadius: BorderRadius.md,
+    borderWidth: 1,
+    borderColor: Colors.error,
+    alignItems: 'center',
+  },
+  resetButtonPressed: {
+    backgroundColor: 'rgba(255, 82, 82, 0.1)',
+  },
+  resetButtonText: {
+    fontSize: FontSize.md,
+    fontWeight: FontWeight.semibold,
+    color: Colors.error,
   },
   bottomSpacer: {
     height: Spacing.huge,
