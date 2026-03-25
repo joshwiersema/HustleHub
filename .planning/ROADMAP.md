@@ -35,8 +35,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md — Install Zustand v5 and create 5 domain stores with AsyncStorage persist
-- [ ] 01-02-PLAN.md — Refactor navigation shell with Stack.Protected guard and dark mode validation
-- [ ] 01-03-PLAN.md — Fix touch targets, create placeholder tab screens, and verify in Expo Go
+- [x] 01-02-PLAN.md — Refactor navigation shell with Stack.Protected guard and dark mode validation
+- [x] 01-03-PLAN.md — Fix touch targets, create placeholder tab screens, and verify in Expo Go
 
 ### Phase 2: Onboarding
 **Goal**: A first-time user can complete the two-step onboarding flow, establish their business identity, and land on the home tab — and the onboarding never re-triggers on subsequent launches
@@ -48,7 +48,10 @@ Plans:
   3. User can enter a business name manually or tap to generate AI-style name suggestions based on their selected hustle type
   4. User sees a preview of their business identity (name, hustle type) before entering the app
   5. On second and subsequent launches the app goes directly to the home tab — onboarding does not re-appear
-**Plans**: TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 02-01-PLAN.md — Refactor setup-business.tsx to use Zustand profileStore, fix back button touch targets, and verify onboarding flow
 
 ### Phase 3: Core Business Data
 **Goal**: Users can add, view, edit, and delete both clients and jobs (including recurring jobs) — the primary daily operational workflow works end-to-end
@@ -101,12 +104,12 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 1/3 | Complete    | 2026-03-24 |
-| 2. Onboarding | 0/TBD | Not started | - |
+| 1. Foundation | 3/3 | Complete    | 2026-03-24 |
+| 2. Onboarding | 0/1 | In progress | - |
 | 3. Core Business Data | 0/TBD | Not started | - |
 | 4. Gamification Engine | 0/TBD | Not started | - |
 | 5. Payments and Dashboard | 0/TBD | Not started | - |
