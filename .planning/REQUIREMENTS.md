@@ -3,103 +3,121 @@
 **Defined:** 2026-03-25
 **Core Value:** Teens can manage every aspect of their service business from one app while staying motivated through gamification that rewards real business activity.
 
-## v1.1 Requirements
+## v2.0 Requirements
 
-Requirements for v1.1 milestone. Each maps to roadmap phases.
+Requirements for v2.0 Complete Redesign & Feature Overhaul milestone. Each maps to roadmap phases.
 
-### Testability & Fix
+### Cleanup
 
-- [ ] **TEST-01**: App renders and is interactive on web preview (no white screen)
-- [ ] **TEST-02**: All 5 tab screens load without runtime errors on web
-- [ ] **TEST-03**: Onboarding flow completes successfully (welcome → pick hustle → setup → tabs)
-- [ ] **TEST-04**: Navigation between all screens works without crashes
-- [ ] **TEST-05**: Zustand stores hydrate correctly and persist data across page refresh
+- [ ] **CLN-01**: Name generator screen (/app/name-generator.tsx) and all references removed from toolkit, onboarding, and gamification
+- [ ] **CLN-02**: Invoice template stub and toolkit entry removed
+- [ ] **CLN-03**: Rankings/leaderboard UI and data structures removed from profile and any other screens
+- [ ] **CLN-04**: All emojis replaced with professional icons from @expo/vector-icons throughout the entire app
 
-### Codebase Verification
+### Theme & Design System
 
-- [ ] **VERIFY-01**: All Zustand stores (profile, clients, jobs, payments, game) read/write correctly
-- [ ] **VERIFY-02**: Job CRUD works end-to-end (create, read, update, delete, complete, recurring)
-- [ ] **VERIFY-03**: Client CRUD works end-to-end (create, read, update, delete)
-- [ ] **VERIFY-04**: Payment logging works with all 5 payment methods
-- [ ] **VERIFY-05**: Earnings dashboard calculates totals, averages, and bar chart correctly
-- [ ] **VERIFY-06**: XP awards fire for all 9 granting actions
-- [ ] **VERIFY-07**: Level progression triggers level-up celebrations
-- [ ] **VERIFY-08**: Badge unlock detection works for all 10 badges
-- [ ] **VERIFY-09**: Streak tracking increments on consecutive days and resets on gaps
-- [ ] **VERIFY-10**: All 6 toolkit screens function (flyers, cards, name gen, pricing calc, ideas, toolkit hub)
-- [ ] **VERIFY-11**: Profile screen shows accurate lifetime stats and badge gallery
-- [ ] **VERIFY-12**: Data reset clears all stores and returns to onboarding
+- [ ] **THM-01**: Color palette updated in theme.ts — primary red (#DC2626), white text/cards, dark backgrounds (#0C0C0F, #141418, #1A1A22), secondary grays (#8A8A96, #6B6B78), success green (#22C55E)
+- [ ] **THM-02**: All screens, components, and gradients use new colors with zero green/purple remnants
+- [ ] **THM-03**: Typography hierarchy established with large hero numbers (40-48px) for key stats as visual focal points
+- [ ] **THM-04**: Consistent spacing with generous padding and 8px-based grid system throughout
+- [ ] **THM-05**: Consistent card border radius in 12-16px range across all card-like elements
+- [ ] **THM-06**: All interactive elements have minimum 44x44 point touch targets
 
-### New Hustle Type
+### Navigation
 
-- [ ] **HUSTLE-01**: Window washing added as 7th hustle type with icon, emoji, description, earnings, cost, difficulty
-- [ ] **HUSTLE-02**: Window washing available in onboarding pick-hustle screen
-- [ ] **HUSTLE-03**: Window washing has business name suggestions in setup-business screen
-- [ ] **HUSTLE-04**: Window washing appears in business ideas browser with expandable details
-- [ ] **HUSTLE-05**: Window washing has pricing calculator data
+- [ ] **NAV-01**: Bottom tab bar redesigned with clean icons, red (#DC2626) accent for active tab, muted gray for inactive
+- [ ] **NAV-02**: Consistent single icon family used across entire app (all Ionicons or all Feather — no mixing)
+- [ ] **NAV-03**: 5 tabs maintained: Home, Jobs, Clients, Earnings, Profile
 
-## v2 Requirements
+### Onboarding
 
-Deferred to future release. Tracked but not in current roadmap.
+- [ ] **ONB-01**: Step 1 — Clean professional welcome screen with bold typographic layout, brief tagline, no emojis or animations
+- [ ] **ONB-02**: Step 2 — Pick hustle with redesigned cards using proper icons, hustle name + one-line description only (no difficulty/earnings badges)
+- [ ] **ONB-03**: Step 3 — Business info with name + business name inputs only, clean form design, no AI name suggestions
+- [ ] **ONB-04**: Step 4 — Business card generator generates 3-4 AI design variations with different layouts/typography/colors in red/white/dark palette, user picks one, can export as image/PDF or skip
+- [ ] **ONB-05**: Step 5 — Flyer generator generates multiple AI design variations based on hustle type and business info, user picks one, can export as image/PDF or skip
+- [ ] **ONB-06**: Step 6 — Summary card showing user profile, then launch into main app
+
+### Generators
+
+- [ ] **GEN-01**: Business card generator produces 3-4 AI-generated design variations with different layouts, typography, and color arrangements
+- [ ] **GEN-02**: Flyer generator produces multiple AI-generated design variations tailored to hustle type
+- [ ] **GEN-03**: Generators pre-fill with saved business info when accessed from toolkit (post-onboarding)
+- [ ] **GEN-04**: Export as image (PNG) option available for both cards and flyers
+- [ ] **GEN-05**: Export as PDF option available for both cards and flyers
+- [ ] **GEN-06**: Print via system print dialog available for both cards and flyers
+- [ ] **GEN-07**: Share via native share sheet available for both cards and flyers
+
+### Jobs
+
+- [ ] **JOB-01**: Optional photo upload field on job completion flow using expo-image-picker (camera or gallery)
+- [ ] **JOB-02**: Photo URI stored with job record in jobs store
+- [ ] **JOB-03**: Photo displayed in job detail view (/app/job-detail.tsx)
+
+### Screen Redesign
+
+- [ ] **SCR-01**: Dashboard/Home — big hero stat at top (total earnings or streak), clean card grid with key stats, subtle quick action buttons, recent activity feed
+- [ ] **SCR-02**: Jobs — clean list view with status indicators, styled filter tabs (upcoming/completed), job cards show client/service/date/price without emojis
+- [ ] **SCR-03**: Clients — professional contact list with name/phone/last job, search/filter capability
+- [ ] **SCR-04**: Earnings — dark background chart/graph at top with colored line, payment method breakdown, time period filters
+- [ ] **SCR-05**: Profile — stats overview at top, badge gallery with proper icons (not emojis), refined level progress bar, settings section with reset/start-over option
+- [ ] **SCR-06**: Toolkit — clean grid of 4 tools: Business Card, Flyer, Pricing Calculator, Business Ideas — icons + labels only, no emojis or "coming soon" badges
+
+### Components
+
+- [ ] **CMP-01**: All shared components (Card, StatCard, EmptyState, ScreenHeader) redesigned to match The Outsiders glass-morphism aesthetic
+- [ ] **CMP-02**: GradientButton updated from green to red-based gradient styling
+- [ ] **CMP-03**: Badge icons redesigned with proper vector icons replacing emoji representations
+- [ ] **CMP-04**: Empty states redesigned with professional icons and clean typography
+- [ ] **CMP-05**: XP bar, streak badge, and level indicators refined with subtle, professional appearance (less gamey)
+
+## v2.1 Requirements
+
+Deferred to next release. Tracked but not in current roadmap.
 
 ### Notifications
 
 - **NOTIF-01**: User receives push notifications for upcoming job reminders
 - **NOTIF-02**: User receives email reminders for appointments
 
-### Social
+### Social & Economy
 
 - **SOCIAL-01**: Real social leaderboards with other users
 - **SOCIAL-02**: HustleBucks shop for cosmetic items
 
 ### Platform
 
-- **PLAT-01**: Android support and testing
-- **PLAT-02**: Invoice generation tool
+- **PLAT-01**: Android-specific testing and optimization
+- **PLAT-02**: Backend/user accounts for cross-device sync
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Parental controls | Defer to v2 after core is solid |
+| Parental controls | Defer to later version |
 | Real payment processing (Stripe) | Teens just log payments they receive directly |
 | Website builder | Too complex, defer |
 | AI chat coach | Defer full AI integration |
 | Expense tracking / P&L | Revenue focus is more motivating for teens |
-| Backend / user accounts | Local-only for v1.x |
+| Backend / user accounts | Local-only for v2.0 |
+| Name generator | Removed — users type business name directly |
+| Invoice generation | Removed from v2.0 scope |
+| Rankings/leaderboard | Removed from v2.0 scope |
+| Window washing hustle type | Deferred from v1.1 — not in v2.0 scope |
+| Custom fonts | System font stack (San Francisco/Roboto) sufficient |
+| Real-time AI generation | "AI-generated" variations use algorithmic layout generation, not LLM calls |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TEST-01 | Phase 8 | Pending |
-| TEST-02 | Phase 8 | Pending |
-| TEST-03 | Phase 8 | Pending |
-| TEST-04 | Phase 8 | Pending |
-| TEST-05 | Phase 8 | Pending |
-| VERIFY-01 | Phase 9 | Pending |
-| VERIFY-02 | Phase 9 | Pending |
-| VERIFY-03 | Phase 9 | Pending |
-| VERIFY-04 | Phase 9 | Pending |
-| VERIFY-05 | Phase 9 | Pending |
-| VERIFY-06 | Phase 9 | Pending |
-| VERIFY-07 | Phase 9 | Pending |
-| VERIFY-08 | Phase 9 | Pending |
-| VERIFY-09 | Phase 9 | Pending |
-| VERIFY-10 | Phase 9 | Pending |
-| VERIFY-11 | Phase 9 | Pending |
-| VERIFY-12 | Phase 9 | Pending |
-| HUSTLE-01 | Phase 10 | Pending |
-| HUSTLE-02 | Phase 10 | Pending |
-| HUSTLE-03 | Phase 10 | Pending |
-| HUSTLE-04 | Phase 10 | Pending |
-| HUSTLE-05 | Phase 10 | Pending |
+| (populated during roadmap creation) | | |
 
 **Coverage:**
-- v1.1 requirements: 22 total
-- Mapped to phases: 22
-- Unmapped: 0 ✓
+- v2.0 requirements: 37 total
+- Mapped to phases: 0 (pending roadmap)
+- Unmapped: 37
 
 ---
 *Requirements defined: 2026-03-25*
-*Last updated: 2026-03-25 after initial definition*
+*Last updated: 2026-03-25 after v2.0 milestone definition*
