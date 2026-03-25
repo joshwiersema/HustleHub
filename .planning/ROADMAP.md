@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Core Business Data** - Full client and job management (the primary daily workflow) (completed 2026-03-25)
 - [x] **Phase 4: Gamification Engine** - Event-driven XP, levels, HustleBucks, badges, and celebration feedback (completed 2026-03-25)
 - [ ] **Phase 5: Payments and Dashboard** - Payment logging, earnings charts, and the composed home dashboard
-- [ ] **Phase 6: Tools and Discovery** - Marketing tools, pricing calculator, business ideas engine, and profile completion
+- [x] **Phase 6: Tools and Discovery** - Marketing tools, pricing calculator, business ideas engine, and profile completion (completed 2026-03-25)
 
 ## Phase Details
 
@@ -114,7 +114,7 @@ Plans:
   3. User can generate a business card from 3 style options auto-populated with their business info — and share or export the result
   4. User can enter time, cost, rate, and jobs per week into the pricing calculator and see a monthly earnings projection
   5. User can browse all 6 hustle types in the business ideas screen with startup cost, earning potential, difficulty — and expand any to see a getting-started checklist, pro tips, and equipment list
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 06-01-PLAN.md — Install packages, refactor toolkit/name-generator/pricing-calculator with Zustand and gamification
@@ -133,7 +133,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Core Business Data | 3/3 | Complete    | 2026-03-25 |
 | 4. Gamification Engine | 3/3 | Complete   | 2026-03-25 |
 | 5. Payments and Dashboard | 0/3 | Not started | - |
-| 6. Tools and Discovery | 0/3 | Not started | - |
+| 6. Tools and Discovery | 3/3 | Complete   | 2026-03-25 |
 | 7. Integration Verification | 0/TBD | Not started | - |
 
 ### Phase 7: Integration Verification

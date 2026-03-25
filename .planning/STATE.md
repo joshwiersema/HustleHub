@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 05-01-PLAN.md (Earnings Tab)
-last_updated: "2026-03-25T04:20:12.620Z"
-last_activity: 2026-03-25 — Completed Plan 05-03 (Profile Lifetime Stats, Leaderboard & Data Reset)
+stopped_at: Completed 06-02-PLAN.md
+last_updated: "2026-03-25T04:41:20.996Z"
+last_activity: 2026-03-25 — Completed Plan 06-02 (Flyer & Business Card Generator)
 progress:
   total_phases: 7
-  completed_phases: 5
-  total_plans: 13
-  completed_plans: 13
-  percent: 93
+  completed_phases: 6
+  total_plans: 16
+  completed_plans: 16
+  percent: 88
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** Teens can manage every aspect of their service business from one app while staying motivated through gamification that rewards real business activity.
-**Current focus:** Phase 5 — Payments & Dashboard
+**Current focus:** Phase 6 — Tools & Discovery
 
 ## Current Position
 
-Phase: 5 of 6 (Payments & Dashboard)
-Plan: 3 of 3 in current phase (05-03 complete)
+Phase: 6 of 7 (Tools & Discovery)
+Plan: 2 of 3 in current phase (06-02 complete)
 Status: In Progress
-Last activity: 2026-03-25 — Completed Plan 05-03 (Profile Lifetime Stats, Leaderboard & Data Reset)
+Last activity: 2026-03-25 — Completed Plan 06-02 (Flyer & Business Card Generator)
 
-Progress: [█████████░] 93%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
@@ -48,12 +48,15 @@ Progress: [█████████░] 93%
 | 03-core-business-data | 3/3 | 8 min | 2.7 min |
 | 04-gamification-engine | 3/3 | 5 min | 1.7 min |
 | 05-payments-and-dashboard | 3/3 | 6 min | 2.0 min |
+| 06-tools-and-discovery | 2/3 | 2 min | 1.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (3 min), 04-03 (2 min), 05-01 (2 min), 05-02 (2 min), 05-03 (2 min)
+- Last 5 plans: 04-03 (2 min), 05-01 (2 min), 05-02 (2 min), 05-03 (2 min), 06-02 (2 min)
 - Trend: stable
 
 *Updated after each plan completion*
+| Phase 06 P01 | 3 | 3 tasks | 5 files |
+| Phase 06 P02 | 2 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -103,6 +106,11 @@ Recent decisions affecting current work:
 - [Phase 05-03]: Top stats row 2 reorganized to HustleBucks + Clients to avoid duplication with Lifetime Stats section
 - [Phase 05-03]: Days active calculated from profile.joinedDate with Math.max(1, ...) floor
 - [Phase 05-03]: Data reset uses getState().reset() on all 5 stores then router.replace('/onboarding')
+- [Phase 06-02]: buildFlyerHTML/buildCardHTML placed outside component as pure functions for PDF fallback
+- [Phase 06-02]: View capture ref wraps full preview with collapsable={false} for Android compatibility with captureRef
+- [Phase 06-02]: Business card populates editable fields via useEffect on profile change; flyer reads profile directly via selector
+- [Phase 06]: Gamification orchestration follows same screen-level pattern as Phase 4-5 to avoid cross-store coupling
+- [Phase 06]: XP amount updated from 5 to 10 for name generator and pricing calculator per CONTEXT.md spec
 
 ### Roadmap Evolution
 
@@ -117,10 +125,10 @@ None yet.
 - [Phase 1]: MMKV v4 has minor open Expo compatibility issues — install via `npx expo install react-native-mmkv react-native-nitro-modules` and test early; fallback is AsyncStorage for Zustand persist only
 - [Phase 3]: (RESOLVED in 03-02) Recurring job date generation uses plain JS Date arithmetic with day clamping; no date-fns needed, no recurrenceGroupId needed
 - [Phase 4]: GAMIFICATION_CONFIG XP curve numbers (level 1-10 = 3-6 months arc) must be modeled in a balancing spreadsheet BEFORE any XP constants are written — this is the single most important pre-code design task
-- [Phase 6]: react-native-view-shot + expo-media-library flyer export needs a proof-of-concept spike before full implementation
+- [Phase 6]: (RESOLVED in 06-02) react-native-view-shot + expo-sharing implemented with expo-print PDF fallback; no expo-media-library needed
 
 ## Session Continuity
 
-Last session: 2026-03-24T17:15:18Z
-Stopped at: Completed 05-01-PLAN.md (Earnings Tab)
-Resume file: .planning/phases/05-payments-and-dashboard/05-01-SUMMARY.md
+Last session: 2026-03-25T04:41:15.007Z
+Stopped at: Completed 06-02-PLAN.md
+Resume file: None
