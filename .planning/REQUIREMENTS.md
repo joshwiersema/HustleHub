@@ -64,11 +64,11 @@
 
 ### Profile
 
-- [ ] **PROF-01**: User can view their profile with level, XP, badges, and business stats
-- [ ] **PROF-02**: User can see all earned and locked badges in a collection view
-- [ ] **PROF-03**: User can see a leaderboard teaser with simulated local rankings
-- [ ] **PROF-04**: User can see lifetime stats (total earned, jobs done, clients, days active)
-- [ ] **PROF-05**: User can reset all data (with confirmation)
+- [x] **PROF-01**: User can view their profile with level, XP, badges, and business stats
+- [x] **PROF-02**: User can see all earned and locked badges in a collection view
+- [x] **PROF-03**: User can see a leaderboard teaser with simulated local rankings
+- [x] **PROF-04**: User can see lifetime stats (total earned, jobs done, clients, days active)
+- [x] **PROF-05**: User can reset all data (with confirmation)
 
 ### Marketing Tools
 
@@ -171,11 +171,11 @@
 | DASH-03 | Phase 5 | Pending |
 | DASH-04 | Phase 5 | Pending |
 | DASH-05 | Phase 5 | Pending |
-| PROF-01 | Phase 5 | Pending |
-| PROF-02 | Phase 5 | Pending |
-| PROF-03 | Phase 5 | Pending |
-| PROF-04 | Phase 5 | Pending |
-| PROF-05 | Phase 5 | Pending |
+| PROF-01 | Phase 5 | Complete |
+| PROF-02 | Phase 5 | Complete |
+| PROF-03 | Phase 5 | Complete |
+| PROF-04 | Phase 5 | Complete |
+| PROF-05 | Phase 5 | Complete |
 | TOOL-01 | Phase 6 | Pending |
 | TOOL-02 | Phase 6 | Pending |
 | TOOL-03 | Phase 6 | Pending |

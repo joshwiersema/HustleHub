@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 04-02-PLAN.md (all Phase 4 plans now complete)
-last_updated: "2026-03-25T03:45:01.229Z"
-last_activity: 2026-03-25 — Completed Plan 04-03 (Badge Gallery & Profile)
+status: in-progress
+stopped_at: Completed 05-03-PLAN.md
+last_updated: "2026-03-25T04:13:50Z"
+last_activity: 2026-03-25 — Completed Plan 05-03 (Profile Lifetime Stats, Leaderboard & Data Reset)
 progress:
   total_phases: 6
   completed_phases: 4
-  total_plans: 10
-  completed_plans: 10
-  percent: 90
+  total_plans: 13
+  completed_plans: 13
+  percent: 93
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** Teens can manage every aspect of their service business from one app while staying motivated through gamification that rewards real business activity.
-**Current focus:** Phase 4 — Gamification Engine
+**Current focus:** Phase 5 — Payments & Dashboard
 
 ## Current Position
 
-Phase: 4 of 6 (Gamification Engine)
-Plan: 3 of 3 in current phase (04-03 complete)
-Status: Phase Complete
-Last activity: 2026-03-25 — Completed Plan 04-03 (Badge Gallery & Profile)
+Phase: 5 of 6 (Payments & Dashboard)
+Plan: 3 of 3 in current phase (05-03 complete)
+Status: In Progress
+Last activity: 2026-03-25 — Completed Plan 05-03 (Profile Lifetime Stats, Leaderboard & Data Reset)
 
-Progress: [█████████░] 90%
+Progress: [█████████░] 93%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 2.3 min
-- Total execution time: 0.37 hours
+- Total plans completed: 12
+- Average duration: 2.2 min
+- Total execution time: 0.43 hours
 
 **By Phase:**
 
@@ -47,9 +47,10 @@ Progress: [█████████░] 90%
 | 02-onboarding | 1/1 | 2 min | 2.0 min |
 | 03-core-business-data | 3/3 | 8 min | 2.7 min |
 | 04-gamification-engine | 3/3 | 5 min | 1.7 min |
+| 05-payments-and-dashboard | 3/3 | 6 min | 2.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (2 min), 03-02 (3 min), 03-03 (3 min), 04-01 (3 min), 04-03 (2 min)
+- Last 5 plans: 04-01 (3 min), 04-03 (2 min), 05-01 (2 min), 05-02 (2 min), 05-03 (2 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -90,6 +91,10 @@ Recent decisions affecting current work:
 - [Phase 04-03]: BadgeGallery uses flex-wrap grid (not FlatList) since only 10 badges -- no virtualization needed
 - [Phase 04-03]: Expanded badge takes full width (100%) for readable detail with progress bar
 - [Phase 04-03]: Profile screen uses granular Zustand selectors per field to minimize re-renders
+- [Phase 05-03]: Replaced getTotalEarningsFromJobs proxy with payments.reduce -- paymentsStore is single source of truth for earnings
+- [Phase 05-03]: Top stats row 2 reorganized to HustleBucks + Clients to avoid duplication with Lifetime Stats section
+- [Phase 05-03]: Days active calculated from profile.joinedDate with Math.max(1, ...) floor
+- [Phase 05-03]: Data reset uses getState().reset() on all 5 stores then router.replace('/onboarding')
 
 ### Roadmap Evolution
 
@@ -108,6 +113,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T03:38:49Z
-Stopped at: Completed 04-02-PLAN.md (all Phase 4 plans now complete)
-Resume file: .planning/phases/04-gamification-engine/04-02-SUMMARY.md
+Last session: 2026-03-25T04:13:50Z
+Stopped at: Completed 05-03-PLAN.md
+Resume file: .planning/phases/05-payments-and-dashboard/05-03-SUMMARY.md
