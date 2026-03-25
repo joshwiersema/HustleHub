@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  TextInput,
   Alert,
   Dimensions,
   PixelRatio,
@@ -17,7 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 
-// Native-only imports — crash on web
+// Native-only imports
 let captureRef: any = null;
 let Sharing: any = null;
 let Print: any = null;
@@ -34,7 +33,7 @@ import {
   FontWeight,
   Shadows,
 } from '../src/constants/theme';
-import { UserProfile, HUSTLE_TYPES } from '../src/types';
+import { HUSTLE_TYPES } from '../src/types';
 import { useProfileStore } from '../src/store/profileStore';
 import { useGameStore } from '../src/store/gameStore';
 import { useClientsStore } from '../src/store/clientsStore';
@@ -45,552 +44,270 @@ import { checkBadges } from '../src/utils/gamification';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = width - Spacing.xl * 2;
-const CARD_HEIGHT = CARD_WIDTH * (2 / 3.5); // Standard business card ratio 3.5:2
+const CARD_HEIGHT = CARD_WIDTH * (2 / 3.5);
 
-type CardStyle = 'dark' | 'gradient' | 'minimal';
-
-interface CardFields {
-  businessName: string;
-  ownerName: string;
-  hustleLabel: string;
-  phone: string;
-  email: string;
+interface CardDesign {
+  id: string;
+  name: string;
+  bg: string;
+  textColor: string;
+  subtextColor: string;
+  accentColor: string;
+  gradient?: readonly [string, string];
 }
 
-function buildCardHTML(fields: CardFields, style: CardStyle): string {
-  const isDark = style !== 'minimal';
-  return `
-    <html>
-      <body style="margin:0; padding:40px; font-family:system-ui; background:${isDark ? '#1A1A2E' : '#FFFFFF'}; color:${isDark ? '#FFFFFF' : '#111111'};">
-        <div style="max-width:400px; margin:auto; padding:30px; border-radius:12px; background:${isDark ? '#252542' : '#F5F5F5'};">
-          <h1 style="font-size:24px; margin:0 0 4px;">${fields.businessName}</h1>
-          <p style="font-size:14px; color:${isDark ? '#B388FF' : '#6200EA'}; margin:0 0 16px;">${fields.hustleLabel}</p>
-          <p style="font-size:14px; margin:4px 0;">${fields.ownerName}</p>
-          <p style="font-size:12px; margin:4px 0; color:#888;">${fields.phone}</p>
-          <p style="font-size:12px; margin:4px 0; color:#888;">${fields.email}</p>
-        </div>
-      </body>
-    </html>
-  `;
+const CARD_DESIGNS: CardDesign[] = [
+  {
+    id: 'executive',
+    name: 'Executive',
+    bg: '#0C0C0F',
+    textColor: '#FFFFFF',
+    subtextColor: 'rgba(255,255,255,0.5)',
+    accentColor: '#DC2626',
+  },
+  {
+    id: 'crimson',
+    name: 'Crimson',
+    bg: '#DC2626',
+    textColor: '#FFFFFF',
+    subtextColor: 'rgba(255,255,255,0.7)',
+    accentColor: '#FFFFFF',
+    gradient: ['#DC2626', '#991B1B'],
+  },
+  {
+    id: 'clean',
+    name: 'Clean',
+    bg: '#FFFFFF',
+    textColor: '#0C0C0F',
+    subtextColor: '#6B6B78',
+    accentColor: '#DC2626',
+  },
+  {
+    id: 'slate',
+    name: 'Slate',
+    bg: '#1A1A22',
+    textColor: '#FFFFFF',
+    subtextColor: '#8A8A96',
+    accentColor: '#DC2626',
+    gradient: ['#1A1A22', '#141418'],
+  },
+];
+
+function buildCardHTML(fields: any, design: CardDesign): string {
+  return `<html><body style="margin:0;padding:40px;font-family:system-ui;background:${design.bg};color:${design.textColor};">
+    <div style="max-width:400px;margin:auto;padding:30px;border-radius:12px;">
+      <h1 style="font-size:24px;margin:0 0 4px;">${fields.businessName}</h1>
+      <p style="font-size:14px;color:${design.accentColor};margin:0 0 16px;">${fields.hustleLabel}</p>
+      <p style="font-size:14px;margin:4px 0;">${fields.ownerName}</p>
+      <p style="font-size:12px;margin:4px 0;color:${design.subtextColor};">${fields.phone}</p>
+      <p style="font-size:12px;margin:4px 0;color:${design.subtextColor};">${fields.email}</p>
+    </div></body></html>`;
 }
 
 export default function BusinessCardScreen() {
   const router = useRouter();
   const profile = useProfileStore((s) => s.profile);
   const { showXPToast } = useCelebration();
-  const [selectedStyle, setSelectedStyle] = useState<CardStyle>('dark');
+  const [selectedDesign, setSelectedDesign] = useState(0);
   const [xpAwarded, setXpAwarded] = useState(false);
   const cardRef = useRef<View>(null);
-  const [fields, setFields] = useState<CardFields>({
-    businessName: '',
-    ownerName: '',
-    hustleLabel: '',
-    phone: '(555) 123-4567',
-    email: 'hello@mybusiness.com',
-  });
-
-  useEffect(() => {
-    if (profile) {
-      const hustleInfo = HUSTLE_TYPES.find((h) => h.id === profile.hustleType);
-      setFields({
-        businessName: profile.businessName || 'My Business',
-        ownerName: profile.name || 'Your Name',
-        hustleLabel: hustleInfo?.name || 'Services',
-        phone: '(555) 123-4567',
-        email: 'hello@mybusiness.com',
-      });
-    }
-  }, [profile]);
-
-  const updateField = (key: keyof CardFields, value: string) => {
-    setFields((prev) => ({ ...prev, [key]: value }));
-  };
 
   const hustleInfo = HUSTLE_TYPES.find((h) => h.id === (profile?.hustleType || 'lawn_care'));
+  const fields = {
+    businessName: profile?.businessName || 'My Business',
+    ownerName: profile?.name || 'Your Name',
+    hustleLabel: hustleInfo?.name || 'Services',
+    phone: '(555) 123-4567',
+    email: 'hello@mybusiness.com',
+  };
+
+  const design = CARD_DESIGNS[selectedDesign];
+
+  const awardXP = () => {
+    if (xpAwarded) return;
+    const gs = useGameStore.getState();
+    gs.addXP(10);
+    gs.updateStreak();
+    const clients = useClientsStore.getState().clients;
+    const jobs = useJobsStore.getState().jobs;
+    const payments = usePaymentsStore.getState().payments;
+    const totalEarnings = payments.reduce((sum, p) => sum + p.amount, 0);
+    const completedJobs = jobs.filter((j) => j.status === 'completed').length;
+    const newBadges = checkBadges(
+      { earnedBadges: gs.earnedBadges, streak: gs.streak },
+      { totalClients: clients.length, completedJobs, totalEarnings }
+    );
+    newBadges.forEach((id) => useGameStore.getState().earnBadge(id));
+    showXPToast(10);
+    setXpAwarded(true);
+  };
 
   const handleShare = async () => {
     if (Platform.OS === 'web') {
-      Alert.alert('Share', 'Sharing is not available on web preview. Use a native device to share.');
+      Alert.alert('Share', 'Use a native device to share.');
       return;
     }
-    // Gamification orchestration (first share per session)
-    if (!xpAwarded) {
-      const gs = useGameStore.getState();
-      gs.addXP(10);
-      gs.updateStreak();
-      const clients = useClientsStore.getState().clients;
-      const jobs = useJobsStore.getState().jobs;
-      const payments = usePaymentsStore.getState().payments;
-      const totalEarnings = payments.reduce((sum, p) => sum + p.amount, 0);
-      const completedJobs = jobs.filter((j) => j.status === 'completed').length;
-      const newBadges = checkBadges(
-        { earnedBadges: gs.earnedBadges, streak: gs.streak },
-        { totalClients: clients.length, completedJobs, totalEarnings }
-      );
-      newBadges.forEach((id) => useGameStore.getState().earnBadge(id));
-      showXPToast(10);
-      setXpAwarded(true);
-    }
-
-    // Real sharing via view-shot capture
+    awardXP();
     try {
-      const uri = await captureRef(cardRef, {
-        format: 'png',
-        quality: 1,
-        width: 1080 / PixelRatio.get(),
-      });
-      await Sharing.shareAsync(uri, {
-        mimeType: 'image/png',
-        dialogTitle: 'Share your business card',
-      });
-    } catch (error) {
-      // Fallback to expo-print HTML-to-PDF
-      try {
-        const { uri } = await Print.printToFileAsync({
-          html: buildCardHTML(fields, selectedStyle),
-        });
-        await Sharing.shareAsync(uri, {
-          mimeType: 'application/pdf',
-          dialogTitle: 'Share your business card',
-        });
-      } catch {
-        Alert.alert('Share Error', 'Unable to share at this time.');
-      }
+      const uri = await captureRef(cardRef, { format: 'png', quality: 1, width: 1080 / PixelRatio.get() });
+      await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: 'Share your business card' });
+    } catch {
+      Alert.alert('Error', 'Unable to share at this time.');
     }
   };
 
-  const renderCardContent = (style: CardStyle) => {
-    const isDark = style === 'dark';
-    const isMinimal = style === 'minimal';
-    const textColor = isMinimal ? '#111111' : '#FFFFFF';
-    const subtextColor = isMinimal ? '#666666' : 'rgba(255,255,255,0.7)';
-    const accentColor = isMinimal ? Colors.primary : style === 'dark' ? Colors.primary : '#FFFFFF';
-    const dividerColor = isMinimal ? '#E0E0E0' : 'rgba(255,255,255,0.15)';
+  const handleExportPDF = async () => {
+    if (Platform.OS === 'web') {
+      Alert.alert('Export', 'Use a native device to export PDF.');
+      return;
+    }
+    awardXP();
+    try {
+      const { uri } = await Print.printToFileAsync({ html: buildCardHTML(fields, design) });
+      await Sharing.shareAsync(uri, { mimeType: 'application/pdf', dialogTitle: 'Export business card PDF' });
+    } catch {
+      Alert.alert('Error', 'Unable to export PDF.');
+    }
+  };
 
-    return (
-      <View style={styles.cardContent}>
-        {/* Top Row: Icon + Business Name */}
+  const handlePrint = async () => {
+    if (Platform.OS === 'web') {
+      Alert.alert('Print', 'Use a native device to print.');
+      return;
+    }
+    awardXP();
+    try {
+      await Print.printAsync({ html: buildCardHTML(fields, design) });
+    } catch {
+      Alert.alert('Error', 'Unable to print.');
+    }
+  };
+
+  const renderCard = (d: CardDesign) => {
+    const content = (
+      <View style={[styles.cardContent]}>
         <View style={styles.cardTopRow}>
-          <Ionicons name={(hustleInfo?.icon || 'briefcase') as any} size={24} color={accentColor} />
+          <Ionicons name={(hustleInfo?.icon || 'briefcase') as any} size={22} color={d.accentColor} />
           <View style={styles.cardNameBlock}>
-            <Text
-              style={[styles.cardBusinessName, { color: textColor }]}
-              numberOfLines={1}
-            >
+            <Text style={[styles.cardBusinessName, { color: d.textColor }]} numberOfLines={1}>
               {fields.businessName}
             </Text>
-            <Text
-              style={[styles.cardHustleLabel, { color: accentColor }]}
-              numberOfLines={1}
-            >
+            <Text style={[styles.cardHustleLabel, { color: d.accentColor }]} numberOfLines={1}>
               {fields.hustleLabel}
             </Text>
           </View>
         </View>
-
-        {/* Divider */}
-        <View
-          style={[styles.cardDivider, { backgroundColor: dividerColor }]}
-        />
-
-        {/* Bottom Row: Contact Info */}
+        <View style={[styles.cardDivider, { backgroundColor: d.subtextColor }]} />
         <View style={styles.cardBottomRow}>
-          <Text
-            style={[styles.cardOwnerName, { color: textColor }]}
-            numberOfLines={1}
-          >
-            {fields.ownerName}
-          </Text>
-          <View style={styles.cardContactRow}>
-            <Ionicons
-              name="call-outline"
-              size={12}
-              color={subtextColor}
-              style={{ marginRight: 4 }}
-            />
-            <Text style={[styles.cardContactText, { color: subtextColor }]}>
-              {fields.phone}
-            </Text>
-          </View>
-          <View style={styles.cardContactRow}>
-            <Ionicons
-              name="mail-outline"
-              size={12}
-              color={subtextColor}
-              style={{ marginRight: 4 }}
-            />
-            <Text style={[styles.cardContactText, { color: subtextColor }]}>
-              {fields.email}
-            </Text>
-          </View>
+          <Text style={[styles.cardOwnerName, { color: d.textColor }]}>{fields.ownerName}</Text>
+          <Text style={[styles.cardContactText, { color: d.subtextColor }]}>{fields.phone}</Text>
+          <Text style={[styles.cardContactText, { color: d.subtextColor }]}>{fields.email}</Text>
         </View>
+      </View>
+    );
 
-        {/* Corner accent */}
-        <View
-          style={[
-            styles.cardCornerAccent,
-            { borderColor: accentColor },
-          ]}
-        />
+    if (d.gradient) {
+      return (
+        <LinearGradient colors={[...d.gradient]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.businessCard}>
+          {content}
+        </LinearGradient>
+      );
+    }
+    return (
+      <View style={[styles.businessCard, { backgroundColor: d.bg }, d.id === 'clean' && { borderWidth: 1, borderColor: '#E0E0E0' }]}>
+        {content}
       </View>
     );
   };
 
-  const renderCard = (style: CardStyle) => {
-    switch (style) {
-      case 'dark':
-        return (
-          <View style={[styles.businessCard, { backgroundColor: '#1A1A2E' }]}>
-            {renderCardContent(style)}
-          </View>
-        );
-      case 'gradient':
-        return (
-          <LinearGradient
-            colors={['#7C4DFF', '#00C853']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.businessCard}
-          >
-            {renderCardContent(style)}
-          </LinearGradient>
-        );
-      case 'minimal':
-        return (
-          <View
-            style={[
-              styles.businessCard,
-              { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E0E0E0' },
-            ]}
-          >
-            {renderCardContent(style)}
-          </View>
-        );
-      default:
-        return null;
-    }
-  };
-
-  const STYLE_OPTIONS: { id: CardStyle; label: string; previewColors: string[] }[] = [
-    { id: 'dark', label: 'Dark', previewColors: ['#1A1A2E', '#16213E'] },
-    { id: 'gradient', label: 'Gradient', previewColors: ['#7C4DFF', '#00C853'] },
-    { id: 'minimal', label: 'Minimal', previewColors: ['#FFFFFF', '#F5F5F5'] },
-  ];
-
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <Stack.Screen options={{ headerShown: false }} />
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header */}
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.backButton}
-          >
-            <Ionicons name="arrow-back" size={24} color={Colors.text} />
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <Ionicons name="chevron-back" size={24} color={Colors.text} />
           </TouchableOpacity>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>Business Card</Text>
-            <Text style={styles.headerSubtitle}>
-              Design your professional card
-            </Text>
+            <Text style={styles.headerSubtitle}>Choose a design for your card</Text>
           </View>
         </View>
 
-        {/* Card Preview */}
+        {/* Selected Card Preview */}
         <View style={styles.cardPreviewContainer}>
           <View ref={cardRef} collapsable={false}>
-            {renderCard(selectedStyle)}
+            {renderCard(design)}
           </View>
         </View>
 
-        {/* Style Selection */}
-        <Text style={styles.sectionTitle}>Card Style</Text>
-        <View style={styles.styleRow}>
-          {STYLE_OPTIONS.map((opt) => (
+        {/* Design Options */}
+        <Text style={styles.sectionTitle}>DESIGNS</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.designScroll} contentContainerStyle={styles.designScrollContent}>
+          {CARD_DESIGNS.map((d, i) => (
             <TouchableOpacity
-              key={opt.id}
-              onPress={() => setSelectedStyle(opt.id)}
-              style={[
-                styles.styleOption,
-                selectedStyle === opt.id && styles.styleOptionSelected,
-              ]}
+              key={d.id}
+              onPress={() => setSelectedDesign(i)}
+              style={[styles.designOption, selectedDesign === i && styles.designOptionSelected]}
             >
-              <LinearGradient
-                colors={opt.previewColors as [string, string]}
-                style={styles.stylePreviewDot}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-              />
-              <Text
-                style={[
-                  styles.styleLabel,
-                  selectedStyle === opt.id && styles.styleLabelSelected,
-                ]}
-              >
-                {opt.label}
-              </Text>
+              <View style={[styles.designPreview, { backgroundColor: d.bg }, d.id === 'clean' && { borderWidth: 1, borderColor: '#E0E0E0' }]}>
+                <View style={[styles.designAccentDot, { backgroundColor: d.accentColor }]} />
+              </View>
+              <Text style={[styles.designLabel, selectedDesign === i && styles.designLabelSelected]}>{d.name}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
 
-        {/* Edit Fields */}
-        <Text style={styles.sectionTitle}>Customize</Text>
-        <View style={styles.fieldsContainer}>
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Business Name</Text>
-            <TextInput
-              style={styles.fieldInput}
-              value={fields.businessName}
-              onChangeText={(v) => updateField('businessName', v)}
-              placeholderTextColor={Colors.textMuted}
-              placeholder="Your business name"
-            />
-          </View>
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Your Name</Text>
-            <TextInput
-              style={styles.fieldInput}
-              value={fields.ownerName}
-              onChangeText={(v) => updateField('ownerName', v)}
-              placeholderTextColor={Colors.textMuted}
-              placeholder="Your name"
-            />
-          </View>
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Service Type</Text>
-            <TextInput
-              style={styles.fieldInput}
-              value={fields.hustleLabel}
-              onChangeText={(v) => updateField('hustleLabel', v)}
-              placeholderTextColor={Colors.textMuted}
-              placeholder="Service type"
-            />
-          </View>
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Phone</Text>
-            <TextInput
-              style={styles.fieldInput}
-              value={fields.phone}
-              onChangeText={(v) => updateField('phone', v)}
-              placeholderTextColor={Colors.textMuted}
-              placeholder="Your phone number"
-              keyboardType="phone-pad"
-            />
-          </View>
-          <View style={styles.fieldGroup}>
-            <Text style={styles.fieldLabel}>Email</Text>
-            <TextInput
-              style={styles.fieldInput}
-              value={fields.email}
-              onChangeText={(v) => updateField('email', v)}
-              placeholderTextColor={Colors.textMuted}
-              placeholder="Your email address"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
+        {/* Action Buttons */}
+        <View style={styles.actionsGrid}>
+          <TouchableOpacity onPress={handleShare} style={styles.actionBtn} activeOpacity={0.7}>
+            <Ionicons name="share-outline" size={20} color={Colors.text} />
+            <Text style={styles.actionBtnText}>Share</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleExportPDF} style={styles.actionBtn} activeOpacity={0.7}>
+            <Ionicons name="document-outline" size={20} color={Colors.text} />
+            <Text style={styles.actionBtnText}>PDF</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handlePrint} style={styles.actionBtn} activeOpacity={0.7}>
+            <Ionicons name="print-outline" size={20} color={Colors.text} />
+            <Text style={styles.actionBtnText}>Print</Text>
+          </TouchableOpacity>
         </View>
-
-        {/* Share Button */}
-        <TouchableOpacity onPress={handleShare} activeOpacity={0.8}>
-          <LinearGradient
-            colors={Colors.gradientGreen}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.shareButton}
-          >
-            <Ionicons name="share-outline" size={22} color="#FFFFFF" />
-            <Text style={styles.shareButtonText}>Share Card</Text>
-          </LinearGradient>
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.bg,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: Spacing.xl,
-    paddingBottom: Spacing.huge,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: Spacing.md,
-    marginBottom: Spacing.xxl,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: BorderRadius.full,
-    backgroundColor: Colors.bgCard,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: Spacing.md,
-  },
-  headerTextContainer: {
-    flex: 1,
-  },
-  headerTitle: {
-    fontSize: FontSize.xxl,
-    fontWeight: FontWeight.bold,
-    color: Colors.text,
-  },
-  headerSubtitle: {
-    fontSize: FontSize.sm,
-    color: Colors.textSecondary,
-    marginTop: 2,
-  },
-  cardPreviewContainer: {
-    alignItems: 'center',
-    marginBottom: Spacing.xxl,
-    ...Shadows.elevated,
-  },
-  businessCard: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    borderRadius: BorderRadius.md,
-    padding: Spacing.xl,
-    overflow: 'hidden',
-    justifyContent: 'space-between',
-  },
-  cardContent: {
-    flex: 1,
-    justifyContent: 'space-between',
-    position: 'relative',
-  },
-  cardTopRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.md,
-  },
-  cardNameBlock: {
-    flex: 1,
-  },
-  cardBusinessName: {
-    fontSize: FontSize.xl,
-    fontWeight: FontWeight.bold,
-    letterSpacing: 0.5,
-  },
-  cardHustleLabel: {
-    fontSize: FontSize.xs,
-    fontWeight: FontWeight.semibold,
-    textTransform: 'uppercase',
-    letterSpacing: 2,
-    marginTop: 2,
-  },
-  cardDivider: {
-    height: 1,
-    width: '100%',
-  },
-  cardBottomRow: {
-    gap: 3,
-  },
-  cardOwnerName: {
-    fontSize: FontSize.md,
-    fontWeight: FontWeight.semibold,
-    marginBottom: 4,
-  },
-  cardContactRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  cardContactText: {
-    fontSize: FontSize.xs,
-  },
-  cardCornerAccent: {
-    position: 'absolute',
-    bottom: -Spacing.xl,
-    right: -Spacing.xl,
-    width: 60,
-    height: 60,
-    borderWidth: 2,
-    borderRadius: BorderRadius.full,
-    opacity: 0.3,
-  },
-  sectionTitle: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.bold,
-    color: Colors.text,
-    marginBottom: Spacing.md,
-  },
-  styleRow: {
-    flexDirection: 'row',
-    gap: Spacing.md,
-    marginBottom: Spacing.xxl,
-  },
-  styleOption: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: Colors.bgCard,
-    borderRadius: BorderRadius.md,
-    paddingVertical: Spacing.md,
-    borderWidth: 2,
-    borderColor: Colors.border,
-  },
-  styleOptionSelected: {
-    borderColor: Colors.primary,
-  },
-  stylePreviewDot: {
-    width: 32,
-    height: 32,
-    borderRadius: BorderRadius.full,
-    marginBottom: Spacing.sm,
-  },
-  styleLabel: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.medium,
-    color: Colors.textSecondary,
-  },
-  styleLabelSelected: {
-    color: Colors.primary,
-  },
-  fieldsContainer: {
-    gap: Spacing.md,
-    marginBottom: Spacing.xxl,
-  },
-  fieldGroup: {
-    gap: Spacing.xs,
-  },
-  fieldLabel: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.medium,
-    color: Colors.textSecondary,
-  },
-  fieldInput: {
-    backgroundColor: Colors.bgInput,
-    borderRadius: BorderRadius.md,
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    fontSize: FontSize.md,
-    color: Colors.text,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  shareButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    gap: Spacing.sm,
-    ...Shadows.card,
-  },
-  shareButtonText: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.bold,
-    color: '#FFFFFF',
-  },
+  container: { flex: 1, backgroundColor: Colors.bg },
+  scrollView: { flex: 1 },
+  scrollContent: { paddingHorizontal: Spacing.xl, paddingBottom: Spacing.huge },
+  header: { flexDirection: 'row', alignItems: 'center', marginTop: Spacing.md, marginBottom: Spacing.xxl },
+  backButton: { width: 44, height: 44, borderRadius: BorderRadius.md, backgroundColor: Colors.bgCard, alignItems: 'center', justifyContent: 'center', marginRight: Spacing.md },
+  headerTextContainer: { flex: 1 },
+  headerTitle: { fontSize: FontSize.xxl, fontWeight: FontWeight.bold, color: Colors.text },
+  headerSubtitle: { fontSize: FontSize.sm, color: Colors.textSecondary, marginTop: 2 },
+  cardPreviewContainer: { alignItems: 'center', marginBottom: Spacing.xxl, ...Shadows.elevated },
+  businessCard: { width: CARD_WIDTH, height: CARD_HEIGHT, borderRadius: BorderRadius.lg, padding: Spacing.xl, overflow: 'hidden', justifyContent: 'space-between' },
+  cardContent: { flex: 1, justifyContent: 'space-between' },
+  cardTopRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md },
+  cardNameBlock: { flex: 1 },
+  cardBusinessName: { fontSize: FontSize.xl, fontWeight: FontWeight.bold, letterSpacing: 0.5 },
+  cardHustleLabel: { fontSize: FontSize.xs, fontWeight: FontWeight.semibold, textTransform: 'uppercase', letterSpacing: 2, marginTop: 2 },
+  cardDivider: { height: 1, width: '100%', opacity: 0.2 },
+  cardBottomRow: { gap: 3 },
+  cardOwnerName: { fontSize: FontSize.md, fontWeight: FontWeight.semibold, marginBottom: 4 },
+  cardContactText: { fontSize: FontSize.xs },
+  sectionTitle: { fontSize: FontSize.xs, fontWeight: FontWeight.semibold, color: Colors.textMuted, letterSpacing: 2, marginBottom: Spacing.md },
+  designScroll: { marginBottom: Spacing.xxl },
+  designScrollContent: { gap: Spacing.md },
+  designOption: { alignItems: 'center', paddingVertical: Spacing.sm, paddingHorizontal: Spacing.md, borderRadius: BorderRadius.md, borderWidth: 2, borderColor: 'transparent' },
+  designOptionSelected: { borderColor: Colors.primary },
+  designPreview: { width: 56, height: 36, borderRadius: BorderRadius.sm, marginBottom: Spacing.xs, alignItems: 'center', justifyContent: 'center' },
+  designAccentDot: { width: 12, height: 12, borderRadius: 6 },
+  designLabel: { fontSize: FontSize.xs, fontWeight: FontWeight.medium, color: Colors.textMuted },
+  designLabelSelected: { color: Colors.primary },
+  actionsGrid: { flexDirection: 'row', gap: Spacing.md },
+  actionBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: Spacing.sm, backgroundColor: Colors.bgCard, borderRadius: BorderRadius.md, paddingVertical: Spacing.lg, borderWidth: 1, borderColor: Colors.border },
+  actionBtnText: { fontSize: FontSize.sm, fontWeight: FontWeight.semibold, color: Colors.text },
 });

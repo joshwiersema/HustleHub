@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
-  Animated,
   Dimensions,
   PixelRatio,
   Platform,
@@ -17,7 +16,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 
-// Native-only imports — crash on web
 let captureRef: any = null;
 let Sharing: any = null;
 let Print: any = null;
@@ -34,7 +32,7 @@ import {
   FontWeight,
   Shadows,
 } from '../src/constants/theme';
-import { UserProfile, HustleType, HUSTLE_TYPES } from '../src/types';
+import { HUSTLE_TYPES } from '../src/types';
 import { useProfileStore } from '../src/store/profileStore';
 import { useGameStore } from '../src/store/gameStore';
 import { useClientsStore } from '../src/store/clientsStore';
@@ -44,615 +42,246 @@ import { useCelebration } from '../src/components/CelebrationProvider';
 import { checkBadges } from '../src/utils/gamification';
 
 const { width } = Dimensions.get('window');
-const FLYER_PREVIEW_WIDTH = (width - Spacing.xl * 2 - Spacing.md) / 2;
-const FLYER_FULL_WIDTH = width - Spacing.xl * 2;
+const FLYER_WIDTH = width - Spacing.xl * 2;
+const FLYER_HEIGHT = FLYER_WIDTH * 1.4;
 
-interface FlyerTemplate {
+interface FlyerDesign {
   id: string;
   name: string;
-  bgType: 'green-gradient' | 'dark' | 'purple-gradient' | 'classic';
+  bgColor: string;
+  textColor: string;
+  accentColor: string;
+  subtextColor: string;
+  gradient?: readonly [string, string];
 }
 
-const TEMPLATES: FlyerTemplate[] = [
-  { id: 'bold', name: 'Bold', bgType: 'green-gradient' },
-  { id: 'clean', name: 'Clean', bgType: 'dark' },
-  { id: 'friendly', name: 'Friendly', bgType: 'purple-gradient' },
-  { id: 'classic', name: 'Classic', bgType: 'classic' },
+const FLYER_DESIGNS: FlyerDesign[] = [
+  {
+    id: 'bold',
+    name: 'Bold',
+    bgColor: '#0C0C0F',
+    textColor: '#FFFFFF',
+    accentColor: '#DC2626',
+    subtextColor: '#8A8A96',
+  },
+  {
+    id: 'impact',
+    name: 'Impact',
+    bgColor: '#DC2626',
+    textColor: '#FFFFFF',
+    accentColor: '#FFFFFF',
+    subtextColor: 'rgba(255,255,255,0.7)',
+    gradient: ['#DC2626', '#991B1B'],
+  },
+  {
+    id: 'classic',
+    name: 'Classic',
+    bgColor: '#FFFFFF',
+    textColor: '#0C0C0F',
+    accentColor: '#DC2626',
+    subtextColor: '#6B6B78',
+  },
+  {
+    id: 'midnight',
+    name: 'Midnight',
+    bgColor: '#141418',
+    textColor: '#FFFFFF',
+    accentColor: '#DC2626',
+    subtextColor: '#6B6B78',
+    gradient: ['#1A1A22', '#0C0C0F'],
+  },
 ];
 
-const SERVICES_BY_TYPE: Record<HustleType, string[]> = {
-  lawn_care: ['Lawn Mowing', 'Edging & Trimming', 'Leaf Cleanup', 'Garden Beds'],
-  power_washing: ['Driveway Cleaning', 'Deck Restoration', 'House Siding', 'Fence Cleaning'],
-  dog_walking: ['Daily Dog Walks', 'Pet Sitting', 'Puppy Visits', 'Weekend Care'],
-  tutoring: ['Math Tutoring', 'Science Help', 'Essay Writing', 'Test Prep'],
-  car_detailing: ['Full Detail', 'Interior Clean', 'Exterior Wash & Wax', 'Engine Bay'],
-  snow_removal: ['Driveway Clearing', 'Walkway Shoveling', 'Salt Treatment', 'Emergency Service'],
-};
-
-const PRICING_BY_TYPE: Record<HustleType, string> = {
-  lawn_care: 'Starting at $25/yard',
-  power_washing: 'Starting at $50/job',
-  dog_walking: 'Starting at $15/walk',
-  tutoring: 'Starting at $20/hour',
-  car_detailing: 'Starting at $50/car',
-  snow_removal: 'Starting at $25/job',
-};
-
-function buildFlyerHTML(profile: UserProfile | null, templateId: string): string {
-  const businessName = profile?.businessName ?? 'My Business';
-  const hustleType = profile?.hustleType ?? 'lawn_care';
-  const hustleInfo = HUSTLE_TYPES.find((h) => h.id === hustleType);
-  const isDark = templateId !== 'classic';
-  return `
-    <html>
-      <body style="margin:0; padding:40px; font-family:system-ui; background:${isDark ? '#1A1A2E' : '#FFFFFF'}; color:${isDark ? '#FFFFFF' : '#111111'};">
-        <h1 style="text-align:center; font-size:32px; margin-bottom:8px;">${businessName}</h1>
-        <p style="text-align:center; font-size:18px; color:${isDark ? '#B388FF' : '#6200EA'};">${hustleInfo?.name ?? 'Services'}</p>
-        <hr style="border:1px solid ${isDark ? '#333' : '#DDD'}; margin:20px 0;">
-        <p style="text-align:center; font-size:14px;">Professional services in your neighborhood</p>
-        <p style="text-align:center; font-size:12px; margin-top:20px; color:#888;">Created with HustleHub</p>
-      </body>
-    </html>
-  `;
+function buildFlyerHTML(fields: any, design: FlyerDesign): string {
+  return `<html><body style="margin:0;padding:40px;font-family:system-ui;background:${design.bgColor};color:${design.textColor};text-align:center;">
+    <div style="max-width:500px;margin:auto;padding:40px;">
+      <h1 style="font-size:36px;margin:0 0 8px;font-weight:900;">${fields.businessName}</h1>
+      <p style="font-size:18px;color:${design.accentColor};margin:0 0 24px;">${fields.hustleLabel}</p>
+      <p style="font-size:16px;margin:0 0 8px;color:${design.subtextColor};">${fields.tagline}</p>
+      <hr style="border:none;border-top:1px solid ${design.subtextColor};opacity:0.3;margin:24px 0;" />
+      <p style="font-size:14px;margin:4px 0;">${fields.ownerName}</p>
+      <p style="font-size:14px;margin:4px 0;color:${design.subtextColor};">${fields.phone}</p>
+    </div></body></html>`;
 }
 
 export default function FlyerGeneratorScreen() {
   const router = useRouter();
   const profile = useProfileStore((s) => s.profile);
   const { showXPToast } = useCelebration();
-  const [selectedTemplate, setSelectedTemplate] = useState<string>('bold');
+  const [selectedDesign, setSelectedDesign] = useState(0);
   const [xpAwarded, setXpAwarded] = useState(false);
   const flyerRef = useRef<View>(null);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const scaleAnim = useRef(new Animated.Value(0.9)).current;
 
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        friction: 8,
-        tension: 40,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [selectedTemplate]);
+  const hustleInfo = HUSTLE_TYPES.find((h) => h.id === (profile?.hustleType || 'lawn_care'));
+  const fields = {
+    businessName: profile?.businessName || 'My Business',
+    ownerName: profile?.name || 'Your Name',
+    hustleLabel: hustleInfo?.name || 'Services',
+    tagline: `Professional ${hustleInfo?.name || 'Service'} — Quality You Can Trust`,
+    phone: '(555) 123-4567',
+  };
 
-  const hustleType = profile?.hustleType || 'lawn_care';
-  const hustleInfo = HUSTLE_TYPES.find((h) => h.id === hustleType);
-  const businessName = profile?.businessName || 'My Business';
-  const services = SERVICES_BY_TYPE[hustleType];
-  const pricing = PRICING_BY_TYPE[hustleType];
+  const design = FLYER_DESIGNS[selectedDesign];
+
+  const awardXP = () => {
+    if (xpAwarded) return;
+    const gs = useGameStore.getState();
+    gs.addXP(10);
+    gs.updateStreak();
+    const clients = useClientsStore.getState().clients;
+    const jobs = useJobsStore.getState().jobs;
+    const payments = usePaymentsStore.getState().payments;
+    const totalEarnings = payments.reduce((sum, p) => sum + p.amount, 0);
+    const completedJobs = jobs.filter((j) => j.status === 'completed').length;
+    const newBadges = checkBadges(
+      { earnedBadges: gs.earnedBadges, streak: gs.streak },
+      { totalClients: clients.length, completedJobs, totalEarnings }
+    );
+    newBadges.forEach((id) => useGameStore.getState().earnBadge(id));
+    showXPToast(10);
+    setXpAwarded(true);
+  };
 
   const handleShare = async () => {
-    if (Platform.OS === 'web') {
-      Alert.alert('Share', 'Sharing is not available on web preview. Use a native device to share.');
-      return;
-    }
-    // Gamification orchestration (first share per session)
-    if (!xpAwarded) {
-      const gs = useGameStore.getState();
-      gs.addXP(10);
-      gs.updateStreak();
-      const clients = useClientsStore.getState().clients;
-      const jobs = useJobsStore.getState().jobs;
-      const payments = usePaymentsStore.getState().payments;
-      const totalEarnings = payments.reduce((sum, p) => sum + p.amount, 0);
-      const completedJobs = jobs.filter((j) => j.status === 'completed').length;
-      const newBadges = checkBadges(
-        { earnedBadges: gs.earnedBadges, streak: gs.streak },
-        { totalClients: clients.length, completedJobs, totalEarnings }
-      );
-      newBadges.forEach((id) => useGameStore.getState().earnBadge(id));
-      showXPToast(10);
-      setXpAwarded(true);
-    }
-
-    // Real sharing via view-shot capture
+    if (Platform.OS === 'web') { Alert.alert('Share', 'Use a native device.'); return; }
+    awardXP();
     try {
-      const uri = await captureRef(flyerRef, {
-        format: 'png',
-        quality: 1,
-        width: 1080 / PixelRatio.get(),
-      });
-      await Sharing.shareAsync(uri, {
-        mimeType: 'image/png',
-        dialogTitle: 'Share your flyer',
-      });
-    } catch (error) {
-      // Fallback to expo-print HTML-to-PDF
-      try {
-        const { uri } = await Print.printToFileAsync({
-          html: buildFlyerHTML(profile, selectedTemplate),
-        });
-        await Sharing.shareAsync(uri, {
-          mimeType: 'application/pdf',
-          dialogTitle: 'Share your flyer',
-        });
-      } catch {
-        Alert.alert('Share Error', 'Unable to share at this time.');
-      }
-    }
+      const uri = await captureRef(flyerRef, { format: 'png', quality: 1, width: 1080 / PixelRatio.get() });
+      await Sharing.shareAsync(uri, { mimeType: 'image/png' });
+    } catch { Alert.alert('Error', 'Unable to share.'); }
   };
 
-  const handleSelectTemplate = (id: string) => {
-    fadeAnim.setValue(0);
-    scaleAnim.setValue(0.9);
-    setSelectedTemplate(id);
+  const handleExportPDF = async () => {
+    if (Platform.OS === 'web') { Alert.alert('Export', 'Use a native device.'); return; }
+    awardXP();
+    try {
+      const { uri } = await Print.printToFileAsync({ html: buildFlyerHTML(fields, design) });
+      await Sharing.shareAsync(uri, { mimeType: 'application/pdf' });
+    } catch { Alert.alert('Error', 'Unable to export PDF.'); }
   };
 
-  const renderFlyerContent = (
-    templateId: string,
-    isPreview: boolean,
-  ) => {
-    const scaleFactor = isPreview ? 0.45 : 1;
-    const s = (n: number) => n * scaleFactor;
+  const handlePrint = async () => {
+    if (Platform.OS === 'web') { Alert.alert('Print', 'Use a native device.'); return; }
+    awardXP();
+    try { await Print.printAsync({ html: buildFlyerHTML(fields, design) }); }
+    catch { Alert.alert('Error', 'Unable to print.'); }
+  };
 
+  const renderFlyer = (d: FlyerDesign) => {
     const content = (
-      <View style={[isPreview ? styles.flyerPreviewInner : styles.flyerFullInner]}>
-        {/* Top accent bar */}
-        <View
-          style={{
-            height: s(4),
-            backgroundColor:
-              templateId === 'classic' ? Colors.primary : 'rgba(255,255,255,0.3)',
-            borderRadius: 2,
-            marginBottom: s(12),
-            width: '40%',
-            alignSelf: 'center',
-          }}
-        />
-
-        {/* Icon */}
-        <View style={{ alignItems: 'center', marginBottom: s(8) }}>
-          <Ionicons name={(hustleInfo?.icon || 'briefcase') as any} size={s(32)} color={Colors.primary} />
+      <View style={styles.flyerContent}>
+        <View style={styles.flyerTop}>
+          <Ionicons name={(hustleInfo?.icon || 'briefcase') as any} size={32} color={d.accentColor} />
+          <Text style={[styles.flyerBusinessName, { color: d.textColor }]}>{fields.businessName}</Text>
+          <Text style={[styles.flyerHustle, { color: d.accentColor }]}>{fields.hustleLabel}</Text>
         </View>
-
-        {/* Business Name */}
-        <Text
-          style={{
-            fontSize: s(22),
-            fontWeight: FontWeight.black,
-            color: templateId === 'classic' ? '#111111' : '#FFFFFF',
-            textAlign: 'center',
-            marginBottom: s(4),
-            letterSpacing: 0.5,
-          }}
-          numberOfLines={isPreview ? 1 : 2}
-        >
-          {businessName}
-        </Text>
-
-        {/* Tagline */}
-        <Text
-          style={{
-            fontSize: s(11),
-            fontWeight: FontWeight.medium,
-            color:
-              templateId === 'classic'
-                ? Colors.textSecondary
-                : 'rgba(255,255,255,0.8)',
-            textAlign: 'center',
-            marginBottom: s(16),
-            textTransform: 'uppercase',
-            letterSpacing: s(2),
-          }}
-        >
-          {hustleInfo?.name || 'Services'}
-        </Text>
-
-        {/* Divider */}
-        <View
-          style={{
-            height: 1,
-            backgroundColor:
-              templateId === 'classic'
-                ? '#E0E0E0'
-                : 'rgba(255,255,255,0.2)',
-            marginBottom: s(12),
-            width: '60%',
-            alignSelf: 'center',
-          }}
-        />
-
-        {/* Services */}
-        <View style={{ marginBottom: s(14), alignItems: 'center' }}>
-          <Text
-            style={{
-              fontSize: s(10),
-              fontWeight: FontWeight.bold,
-              color:
-                templateId === 'classic' ? Colors.primary : '#FFFFFF',
-              marginBottom: s(6),
-              textTransform: 'uppercase',
-              letterSpacing: s(1.5),
-            }}
-          >
-            Our Services
-          </Text>
-          {services.map((service, i) => (
-            <Text
-              key={i}
-              style={{
-                fontSize: s(12),
-                color:
-                  templateId === 'classic'
-                    ? '#333333'
-                    : 'rgba(255,255,255,0.9)',
-                marginBottom: s(3),
-                textAlign: 'center',
-              }}
-              numberOfLines={1}
-            >
-              {isPreview ? service : `\u2022 ${service}`}
-            </Text>
-          ))}
-        </View>
-
-        {/* Pricing */}
-        <View
-          style={{
-            backgroundColor:
-              templateId === 'classic'
-                ? Colors.primaryBg
-                : 'rgba(0,0,0,0.2)',
-            borderRadius: s(8),
-            paddingVertical: s(8),
-            paddingHorizontal: s(12),
-            marginBottom: s(12),
-            alignSelf: 'center',
-          }}
-        >
-          <Text
-            style={{
-              fontSize: s(13),
-              fontWeight: FontWeight.bold,
-              color:
-                templateId === 'classic' ? Colors.primary : '#FFFFFF',
-              textAlign: 'center',
-            }}
-          >
-            {pricing}
-          </Text>
-        </View>
-
-        {/* Contact */}
-        <View style={{ alignItems: 'center' }}>
-          <Text
-            style={{
-              fontSize: s(12),
-              fontWeight: FontWeight.semibold,
-              color:
-                templateId === 'classic' ? '#111111' : '#FFFFFF',
-              textAlign: 'center',
-            }}
-          >
-            Call/Text (555) 123-4567
-          </Text>
+        <View style={[styles.flyerDivider, { backgroundColor: d.subtextColor }]} />
+        <Text style={[styles.flyerTagline, { color: d.subtextColor }]}>{fields.tagline}</Text>
+        <View style={styles.flyerBottom}>
+          <Text style={[styles.flyerOwner, { color: d.textColor }]}>{fields.ownerName}</Text>
+          <Text style={[styles.flyerPhone, { color: d.subtextColor }]}>{fields.phone}</Text>
         </View>
       </View>
     );
 
-    return content;
-  };
-
-  const renderFlyerBackground = (
-    templateId: string,
-    isPreview: boolean,
-    children: React.ReactNode,
-  ) => {
-    const containerStyle = isPreview ? styles.flyerPreview : styles.flyerFull;
-
-    switch (templateId) {
-      case 'bold':
-        return (
-          <LinearGradient
-            colors={['#00C853', '#00E676', '#69F0AE']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={containerStyle}
-          >
-            {children}
-          </LinearGradient>
-        );
-      case 'clean':
-        return (
-          <View style={[containerStyle, { backgroundColor: '#1A1A2E' }]}>
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 4,
-                backgroundColor: Colors.primary,
-              }}
-            />
-            {children}
-          </View>
-        );
-      case 'friendly':
-        return (
-          <LinearGradient
-            colors={['#7C4DFF', '#B388FF', '#CE93D8']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={containerStyle}
-          >
-            {children}
-          </LinearGradient>
-        );
-      case 'classic':
-        return (
-          <View
-            style={[
-              containerStyle,
-              {
-                backgroundColor: '#FFFFFF',
-                borderWidth: 2,
-                borderColor: '#E0E0E0',
-              },
-            ]}
-          >
-            {children}
-          </View>
-        );
-      default:
-        return <View style={containerStyle}>{children}</View>;
+    if (d.gradient) {
+      return (
+        <LinearGradient colors={[...d.gradient]} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={styles.flyer}>
+          {content}
+        </LinearGradient>
+      );
     }
+    return (
+      <View style={[styles.flyer, { backgroundColor: d.bgColor }, d.id === 'classic' && { borderWidth: 1, borderColor: '#E0E0E0' }]}>
+        {content}
+      </View>
+    );
   };
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <Stack.Screen options={{ headerShown: false }} />
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header */}
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.backButton}
-          >
-            <Ionicons name="arrow-back" size={24} color={Colors.text} />
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <Ionicons name="chevron-back" size={24} color={Colors.text} />
           </TouchableOpacity>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>Flyer Generator</Text>
-            <Text style={styles.headerSubtitle}>
-              Create eye-catching flyers for your business
-            </Text>
+            <Text style={styles.headerSubtitle}>Promote your business</Text>
           </View>
         </View>
 
-        {/* Template Selection */}
-        <Text style={styles.sectionTitle}>Choose a Template</Text>
-        <View style={styles.templateGrid}>
-          {TEMPLATES.map((template) => (
-            <TouchableOpacity
-              key={template.id}
-              onPress={() => handleSelectTemplate(template.id)}
-              style={[
-                styles.templateCard,
-                selectedTemplate === template.id && styles.templateCardSelected,
-              ]}
-            >
-              {renderFlyerBackground(
-                template.id,
-                true,
-                renderFlyerContent(template.id, true),
-              )}
-              <View style={styles.templateLabelRow}>
-                <Text
-                  style={[
-                    styles.templateLabel,
-                    selectedTemplate === template.id &&
-                      styles.templateLabelSelected,
-                  ]}
-                >
-                  {template.name}
-                </Text>
-                {selectedTemplate === template.id && (
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={16}
-                    color={Colors.primary}
-                  />
-                )}
+        {/* Flyer Preview */}
+        <View style={styles.flyerPreviewContainer}>
+          <View ref={flyerRef} collapsable={false}>
+            {renderFlyer(design)}
+          </View>
+        </View>
+
+        {/* Design Options */}
+        <Text style={styles.sectionTitle}>DESIGNS</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.designScroll} contentContainerStyle={styles.designScrollContent}>
+          {FLYER_DESIGNS.map((d, i) => (
+            <TouchableOpacity key={d.id} onPress={() => setSelectedDesign(i)} style={[styles.designOption, selectedDesign === i && styles.designOptionSelected]}>
+              <View style={[styles.designPreview, { backgroundColor: d.bgColor }, d.id === 'classic' && { borderWidth: 1, borderColor: '#E0E0E0' }]}>
+                <View style={[styles.designAccentDot, { backgroundColor: d.accentColor }]} />
               </View>
+              <Text style={[styles.designLabel, selectedDesign === i && styles.designLabelSelected]}>{d.name}</Text>
             </TouchableOpacity>
           ))}
+        </ScrollView>
+
+        {/* Actions */}
+        <View style={styles.actionsGrid}>
+          <TouchableOpacity onPress={handleShare} style={styles.actionBtn} activeOpacity={0.7}>
+            <Ionicons name="share-outline" size={20} color={Colors.text} />
+            <Text style={styles.actionBtnText}>Share</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleExportPDF} style={styles.actionBtn} activeOpacity={0.7}>
+            <Ionicons name="document-outline" size={20} color={Colors.text} />
+            <Text style={styles.actionBtnText}>PDF</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handlePrint} style={styles.actionBtn} activeOpacity={0.7}>
+            <Ionicons name="print-outline" size={20} color={Colors.text} />
+            <Text style={styles.actionBtnText}>Print</Text>
+          </TouchableOpacity>
         </View>
-
-        {/* Full Preview */}
-        <Text style={styles.sectionTitle}>Preview</Text>
-        <Animated.View
-          style={[
-            styles.fullPreviewContainer,
-            { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
-          ]}
-        >
-          <View ref={flyerRef} collapsable={false}>
-            {renderFlyerBackground(
-              selectedTemplate,
-              false,
-              renderFlyerContent(selectedTemplate, false),
-            )}
-          </View>
-        </Animated.View>
-
-        {/* Share Button */}
-        <TouchableOpacity onPress={handleShare} activeOpacity={0.8}>
-          <LinearGradient
-            colors={Colors.gradientGreen}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.shareButton}
-          >
-            <Ionicons name="share-outline" size={22} color="#FFFFFF" />
-            <Text style={styles.shareButtonText}>Share Flyer</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-
-        {/* XP Notice */}
-        {!xpAwarded && (
-          <View style={styles.xpNotice}>
-            <Ionicons name="star" size={16} color={Colors.amber} />
-            <Text style={styles.xpNoticeText}>
-              Earn 10 XP for your first flyer!
-            </Text>
-          </View>
-        )}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.bg,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: Spacing.xl,
-    paddingBottom: Spacing.huge,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: Spacing.md,
-    marginBottom: Spacing.xxl,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: BorderRadius.full,
-    backgroundColor: Colors.bgCard,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: Spacing.md,
-  },
-  headerTextContainer: {
-    flex: 1,
-  },
-  headerTitle: {
-    fontSize: FontSize.xxl,
-    fontWeight: FontWeight.bold,
-    color: Colors.text,
-  },
-  headerSubtitle: {
-    fontSize: FontSize.sm,
-    color: Colors.textSecondary,
-    marginTop: 2,
-  },
-  sectionTitle: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.bold,
-    color: Colors.text,
-    marginBottom: Spacing.md,
-    marginTop: Spacing.lg,
-  },
-  templateGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: Spacing.md,
-  },
-  templateCard: {
-    width: FLYER_PREVIEW_WIDTH,
-    borderRadius: BorderRadius.md,
-    overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: Colors.border,
-    backgroundColor: Colors.bgCard,
-  },
-  templateCardSelected: {
-    borderColor: Colors.primary,
-  },
-  flyerPreview: {
-    width: '100%',
-    aspectRatio: 0.75,
-    borderTopLeftRadius: BorderRadius.sm,
-    borderTopRightRadius: BorderRadius.sm,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: Spacing.sm,
-  },
-  flyerPreviewInner: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-  },
-  templateLabelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: Spacing.sm,
-    paddingVertical: Spacing.sm,
-  },
-  templateLabel: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.semibold,
-    color: Colors.textSecondary,
-  },
-  templateLabelSelected: {
-    color: Colors.primary,
-  },
-  fullPreviewContainer: {
-    marginBottom: Spacing.xl,
-    borderRadius: BorderRadius.lg,
-    overflow: 'hidden',
-    ...Shadows.elevated,
-  },
-  flyerFull: {
-    width: '100%',
-    aspectRatio: 0.7,
-    borderRadius: BorderRadius.lg,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: Spacing.xxl,
-  },
-  flyerFullInner: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-  },
-  shareButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    gap: Spacing.sm,
-    ...Shadows.card,
-  },
-  shareButtonText: {
-    fontSize: FontSize.lg,
-    fontWeight: FontWeight.bold,
-    color: '#FFFFFF',
-  },
-  xpNotice: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: Spacing.md,
-    gap: Spacing.xs,
-  },
-  xpNoticeText: {
-    fontSize: FontSize.sm,
-    color: Colors.amber,
-    fontWeight: FontWeight.medium,
-  },
+  container: { flex: 1, backgroundColor: Colors.bg },
+  scrollView: { flex: 1 },
+  scrollContent: { paddingHorizontal: Spacing.xl, paddingBottom: Spacing.huge },
+  header: { flexDirection: 'row', alignItems: 'center', marginTop: Spacing.md, marginBottom: Spacing.xxl },
+  backButton: { width: 44, height: 44, borderRadius: BorderRadius.md, backgroundColor: Colors.bgCard, alignItems: 'center', justifyContent: 'center', marginRight: Spacing.md },
+  headerTextContainer: { flex: 1 },
+  headerTitle: { fontSize: FontSize.xxl, fontWeight: FontWeight.bold, color: Colors.text },
+  headerSubtitle: { fontSize: FontSize.sm, color: Colors.textSecondary, marginTop: 2 },
+  flyerPreviewContainer: { alignItems: 'center', marginBottom: Spacing.xxl, ...Shadows.elevated },
+  flyer: { width: FLYER_WIDTH, height: FLYER_HEIGHT, borderRadius: BorderRadius.lg, padding: Spacing.xxl, overflow: 'hidden' },
+  flyerContent: { flex: 1, justifyContent: 'space-between', alignItems: 'center' },
+  flyerTop: { alignItems: 'center', gap: Spacing.sm, paddingTop: Spacing.xxl },
+  flyerBusinessName: { fontSize: FontSize.xxxl, fontWeight: FontWeight.black, textAlign: 'center', letterSpacing: -0.5 },
+  flyerHustle: { fontSize: FontSize.sm, fontWeight: FontWeight.semibold, textTransform: 'uppercase', letterSpacing: 3 },
+  flyerDivider: { height: 1, width: '60%', opacity: 0.2 },
+  flyerTagline: { fontSize: FontSize.md, textAlign: 'center', lineHeight: 22, paddingHorizontal: Spacing.lg },
+  flyerBottom: { alignItems: 'center', gap: 4, paddingBottom: Spacing.lg },
+  flyerOwner: { fontSize: FontSize.lg, fontWeight: FontWeight.semibold },
+  flyerPhone: { fontSize: FontSize.sm },
+  sectionTitle: { fontSize: FontSize.xs, fontWeight: FontWeight.semibold, color: Colors.textMuted, letterSpacing: 2, marginBottom: Spacing.md },
+  designScroll: { marginBottom: Spacing.xxl },
+  designScrollContent: { gap: Spacing.md },
+  designOption: { alignItems: 'center', paddingVertical: Spacing.sm, paddingHorizontal: Spacing.md, borderRadius: BorderRadius.md, borderWidth: 2, borderColor: 'transparent' },
+  designOptionSelected: { borderColor: Colors.primary },
+  designPreview: { width: 56, height: 36, borderRadius: BorderRadius.sm, marginBottom: Spacing.xs, alignItems: 'center', justifyContent: 'center' },
+  designAccentDot: { width: 12, height: 12, borderRadius: 6 },
+  designLabel: { fontSize: FontSize.xs, fontWeight: FontWeight.medium, color: Colors.textMuted },
+  designLabelSelected: { color: Colors.primary },
+  actionsGrid: { flexDirection: 'row', gap: Spacing.md },
+  actionBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: Spacing.sm, backgroundColor: Colors.bgCard, borderRadius: BorderRadius.md, paddingVertical: Spacing.lg, borderWidth: 1, borderColor: Colors.border },
+  actionBtnText: { fontSize: FontSize.sm, fontWeight: FontWeight.semibold, color: Colors.text },
 });
