@@ -15,11 +15,11 @@
 
 ### Clients
 
-- [ ] **CLNT-01**: User can add a client with name, phone, email, address, and notes
-- [ ] **CLNT-02**: User can view a searchable list of all clients
-- [ ] **CLNT-03**: User can edit an existing client's information
-- [ ] **CLNT-04**: User can delete a client with confirmation
-- [ ] **CLNT-05**: User can tap a client to see their full details
+- [x] **CLNT-01**: User can add a client with name, phone, email, address, and notes
+- [x] **CLNT-02**: User can view a searchable list of all clients
+- [x] **CLNT-03**: User can edit an existing client's information
+- [x] **CLNT-04**: User can delete a client with confirmation
+- [x] **CLNT-05**: User can tap a client to see their full details
 
 ### Jobs
 
@@ -140,11 +140,11 @@
 | ONBD-03 | Phase 2 | Complete |
 | ONBD-04 | Phase 2 | Complete |
 | ONBD-05 | Phase 2 | Complete |
-| CLNT-01 | Phase 3 | Pending |
-| CLNT-02 | Phase 3 | Pending |
-| CLNT-03 | Phase 3 | Pending |
-| CLNT-04 | Phase 3 | Pending |
-| CLNT-05 | Phase 3 | Pending |
+| CLNT-01 | Phase 3 | Complete |
+| CLNT-02 | Phase 3 | Complete |
+| CLNT-03 | Phase 3 | Complete |
+| CLNT-04 | Phase 3 | Complete |
+| CLNT-05 | Phase 3 | Complete |
 | JOBS-01 | Phase 3 | Pending |
 | JOBS-02 | Phase 3 | Pending |
 | JOBS-03 | Phase 3 | Pending |
