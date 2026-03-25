@@ -5,9 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
-import * as Haptics from 'expo-haptics';
-import ConfettiCannon from 'react-native-confetti-cannon';
 import { LEVELS } from '../types';
 import {
   Colors,
@@ -15,6 +14,16 @@ import {
   FontWeight,
   Spacing,
 } from '../constants/theme';
+
+// Native-only: confetti and haptics crash on web
+const ConfettiCannon = Platform.OS !== 'web'
+  ? React.lazy(() => import('react-native-confetti-cannon').then(m => ({ default: m.default })))
+  : null;
+
+let Haptics: any = null;
+if (Platform.OS !== 'web') {
+  import('expo-haptics').then(m => { Haptics = m; }).catch(() => {});
+}
 
 interface LevelUpModalProps {
   visible: boolean;
@@ -31,7 +40,7 @@ export default function LevelUpModal({
 
   useEffect(() => {
     if (visible) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      Haptics?.impactAsync?.(Haptics?.ImpactFeedbackStyle?.Medium);
       const timer = setTimeout(onDismiss, 3000);
       return () => clearTimeout(timer);
     }
@@ -52,22 +61,26 @@ export default function LevelUpModal({
           <Text style={styles.title}>{levelInfo?.title ?? 'Unknown'}</Text>
         </View>
       </TouchableWithoutFeedback>
-      <ConfettiCannon
-        count={150}
-        origin={{ x: -10, y: 0 }}
-        explosionSpeed={350}
-        fallSpeed={3000}
-        fadeOut={true}
-        colors={[
-          '#B388FF',
-          '#7C4DFF',
-          '#00E676',
-          '#FFD740',
-          '#FF5252',
-          '#40C4FF',
-        ]}
-        autoStart={true}
-      />
+      {Platform.OS !== 'web' && ConfettiCannon && (
+        <React.Suspense fallback={null}>
+          <ConfettiCannon
+            count={150}
+            origin={{ x: -10, y: 0 }}
+            explosionSpeed={350}
+            fallSpeed={3000}
+            fadeOut={true}
+            colors={[
+              '#B388FF',
+              '#7C4DFF',
+              '#00E676',
+              '#FFD740',
+              '#FF5252',
+              '#40C4FF',
+            ]}
+            autoStart={true}
+          />
+        </React.Suspense>
+      )}
     </Modal>
   );
 }

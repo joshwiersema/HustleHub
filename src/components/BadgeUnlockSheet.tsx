@@ -6,9 +6,14 @@ import {
   StyleSheet,
   Pressable,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
-import * as Haptics from 'expo-haptics';
 import { Badge } from '../types';
+
+let Haptics: any = null;
+if (Platform.OS !== 'web') {
+  import('expo-haptics').then(m => { Haptics = m; }).catch(() => {});
+}
 import {
   Colors,
   FontSize,
@@ -30,7 +35,7 @@ export default function BadgeUnlockSheet({
 }: BadgeUnlockSheetProps) {
   useEffect(() => {
     if (visible) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      Haptics?.impactAsync?.(Haptics?.ImpactFeedbackStyle?.Medium);
     }
   }, [visible]);
 

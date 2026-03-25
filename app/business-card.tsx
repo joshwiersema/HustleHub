@@ -9,15 +9,23 @@ import {
   Alert,
   Dimensions,
   PixelRatio,
+  Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { captureRef } from 'react-native-view-shot';
-import * as Sharing from 'expo-sharing';
-import * as Print from 'expo-print';
+
+// Native-only imports — crash on web
+let captureRef: any = null;
+let Sharing: any = null;
+let Print: any = null;
+if (Platform.OS !== 'web') {
+  import('react-native-view-shot').then(m => { captureRef = m.captureRef; }).catch(() => {});
+  import('expo-sharing').then(m => { Sharing = m; }).catch(() => {});
+  import('expo-print').then(m => { Print = m; }).catch(() => {});
+}
 import {
   Colors,
   Spacing,
@@ -101,6 +109,10 @@ export default function BusinessCardScreen() {
   const hustleInfo = HUSTLE_TYPES.find((h) => h.id === (profile?.hustleType || 'lawn_care'));
 
   const handleShare = async () => {
+    if (Platform.OS === 'web') {
+      Alert.alert('Share', 'Sharing is not available on web preview. Use a native device to share.');
+      return;
+    }
     // Gamification orchestration (first share per session)
     if (!xpAwarded) {
       const gs = useGameStore.getState();
