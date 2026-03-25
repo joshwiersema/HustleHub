@@ -92,7 +92,7 @@ export default function SetupBusinessScreen() {
     setProfile(profile);
 
     setTimeout(() => {
-      router.replace('/(tabs)');
+      router.push('/onboarding/generate-card');
     }, 400);
   };
 
@@ -119,7 +119,10 @@ export default function SetupBusinessScreen() {
 
           <View style={styles.stepIndicator}>
             <View style={[styles.stepDot, styles.stepDotComplete]} />
+            <View style={[styles.stepDot, styles.stepDotComplete]} />
             <View style={[styles.stepDot, styles.stepDotActive]} />
+            <View style={styles.stepDot} />
+            <View style={styles.stepDot} />
           </View>
         </Animated.View>
 

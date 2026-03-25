@@ -24,7 +24,7 @@ export const useProfileStore = create<ProfileState>()(
     (set) => ({
       ...initialState,
 
-      setProfile: (profile) => set({ profile, isOnboarded: true }),
+      setProfile: (profile) => set({ profile }),
 
       updateProfile: (updates) =>
         set((state) => ({

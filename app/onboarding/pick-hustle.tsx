@@ -177,7 +177,10 @@ export default function PickHustleScreen() {
           </Pressable>
 
           <View style={styles.stepIndicator}>
+            <View style={[styles.stepDot, styles.stepDotComplete]} />
             <View style={[styles.stepDot, styles.stepDotActive]} />
+            <View style={styles.stepDot} />
+            <View style={styles.stepDot} />
             <View style={styles.stepDot} />
           </View>
         </Animated.View>
@@ -296,6 +299,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     width: 24,
     borderRadius: 4,
+  },
+  stepDotComplete: {
+    backgroundColor: Colors.primary,
   },
   scrollContent: {
     paddingHorizontal: Spacing.xxl,
