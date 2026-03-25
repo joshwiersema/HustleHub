@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 06-03-PLAN.md (Ideas Browser Zustand Migration)
-last_updated: "2026-03-25T04:47:25.941Z"
-last_activity: 2026-03-25 — Completed Plan 06-03 (Ideas Browser Zustand Migration)
+status: in-progress
+stopped_at: Completed 07-01-PLAN.md (Integration Bug Fixes)
+last_updated: "2026-03-25T04:57:36Z"
+last_activity: 2026-03-25 — Completed Plan 07-01 (Integration Bug Fixes)
 progress:
   total_phases: 7
   completed_phases: 6
-  total_plans: 16
-  completed_plans: 16
-  percent: 94
+  total_plans: 18
+  completed_plans: 17
+  percent: 97
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** Teens can manage every aspect of their service business from one app while staying motivated through gamification that rewards real business activity.
-**Current focus:** Phase 6 — Tools & Discovery
+**Current focus:** Phase 7 — Integration & Verification
 
 ## Current Position
 
-Phase: 6 of 7 (Tools & Discovery)
-Plan: 3 of 3 in current phase (06-03 complete)
-Status: Phase 6 Complete
-Last activity: 2026-03-25 — Completed Plan 06-03 (Ideas Browser Zustand Migration)
+Phase: 7 of 7 (Integration & Verification)
+Plan: 1 of 2 in current phase (07-01 complete)
+Status: In Progress
+Last activity: 2026-03-25 — Completed Plan 07-01 (Integration Bug Fixes)
 
-Progress: [█████████░] 94%
+Progress: [█████████░] 97%
 
 ## Performance Metrics
 
@@ -49,6 +49,7 @@ Progress: [█████████░] 94%
 | 04-gamification-engine | 3/3 | 5 min | 1.7 min |
 | 05-payments-and-dashboard | 3/3 | 6 min | 2.0 min |
 | 06-tools-and-discovery | 3/3 | 6 min | 2.0 min |
+| 07-integration-verification | 1/2 | 2 min | 2.0 min |
 
 **Recent Trend:**
 - Last 5 plans: 04-03 (2 min), 05-01 (2 min), 05-02 (2 min), 05-03 (2 min), 06-02 (2 min)
@@ -58,6 +59,7 @@ Progress: [█████████░] 94%
 | Phase 06 P01 | 3 | 3 tasks | 5 files |
 | Phase 06 P02 | 2 | 2 tasks | 2 files |
 | Phase 06 P03 | 4 | 2 tasks | 1 files |
+| Phase 07 P01 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -115,6 +117,9 @@ Recent decisions affecting current work:
 - [Phase 06-03]: Zustand selector with nullish coalescing for hustleType (s.profile?.hustleType ?? null) provides safe fallback
 - [Phase 06-03]: Session-scoped xpAwarded flag resets on component remount -- no persistent tracking needed
 - [Phase 06-03]: Zero storage.ts consumers verified across all app/ screens -- Phase 6 storage migration 100% complete
+- [Phase 07-01]: Badge earnings checks in all 3 screens (jobs, clients, job-detail) now use usePaymentsStore.getState() -- consistent with Phase 05-01 single source of truth decision
+- [Phase 07-01]: Home screen job-detail navigation fixed from ?id= to ?jobId= to match useLocalSearchParams type
+- [Phase 07-01]: Legacy storage.ts deleted (was untracked in git, 116 lines dead code)
 
 ### Roadmap Evolution
 
@@ -133,6 +138,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T04:40:28Z
-Stopped at: Completed 06-03-PLAN.md (Ideas Browser Zustand Migration)
-Resume file: .planning/phases/06-tools-and-discovery/06-03-SUMMARY.md
+Last session: 2026-03-25T04:57:36Z
+Stopped at: Completed 07-01-PLAN.md (Integration Bug Fixes)
+Resume file: .planning/phases/07-integration-verification/07-01-SUMMARY.md
