@@ -419,13 +419,13 @@ export default function EarningsScreen() {
             label="Average"
             value={`$${avgPerPayment.toFixed(0)}`}
             icon="trending-up-outline"
-            color={Colors.amber}
+            color={Colors.textSecondary}
           />
           <StatCard
             label="Payments"
             value={sortedPayments.length.toString()}
             icon="receipt-outline"
-            color={Colors.secondary}
+            color={Colors.textSecondary}
           />
         </View>
 

@@ -104,13 +104,13 @@ export default function ProfileScreen() {
             label="Level"
             value={level.toString()}
             icon="trophy-outline"
-            color={Colors.secondary}
+            color={Colors.primary}
           />
           <StatCard
             label="Streak"
             value={`${streak} days`}
             icon="flame-outline"
-            color={Colors.amber}
+            color={Colors.primary}
           />
         </View>
 
@@ -120,13 +120,13 @@ export default function ProfileScreen() {
             label="H-Bucks"
             value={hustleBucks.toLocaleString()}
             icon="diamond-outline"
-            color={Colors.amber}
+            color={Colors.textSecondary}
           />
           <StatCard
             label="Clients"
             value={clients.length.toString()}
             icon="people-outline"
-            color={Colors.secondary}
+            color={Colors.textSecondary}
           />
         </View>
 
@@ -162,13 +162,13 @@ export default function ProfileScreen() {
             label="Clients"
             value={clients.length.toString()}
             icon="people-outline"
-            color={Colors.secondary}
+            color={Colors.textSecondary}
           />
           <StatCard
             label="Days Active"
             value={daysActive.toString()}
             icon="calendar-outline"
-            color={Colors.amber}
+            color={Colors.textSecondary}
           />
         </View>
 
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   },
   levelLabel: {
     fontSize: FontSize.sm,
-    color: Colors.secondary,
+    color: Colors.primary,
     marginTop: Spacing.xs,
   },
   xpCard: {
