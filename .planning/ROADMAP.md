@@ -97,7 +97,12 @@ Plans:
   3. The home screen greets the user by business name, shows their XP bar and current level, upcoming jobs (next 3), HustleBucks balance, and quick action buttons for add job, add client, log payment, and toolkit
   4. User can view their profile screen showing level, XP, all earned and locked badges, and lifetime stats (total earned, jobs done, clients, days active)
   5. User can reset all app data from the profile screen after confirming the action — app returns to onboarding
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Rewrite Earnings tab with payment form modal, bar chart, time filters, and payment history
+- [ ] 05-02-PLAN.md — Extend Home screen with upcoming jobs, quick action buttons, and paymentsStore earnings
+- [ ] 05-03-PLAN.md — Extend Profile with lifetime stats, leaderboard teaser, and data reset
 
 ### Phase 6: Tools and Discovery
 **Goal**: Users have access to a full marketing toolkit (flyer generator, business card generator, pricing calculator, name generator) and a business ideas browser — tools are functional, shareable, and award XP
@@ -122,7 +127,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 2. Onboarding | 0/1 | Complete    | 2026-03-25 |
 | 3. Core Business Data | 3/3 | Complete    | 2026-03-25 |
 | 4. Gamification Engine | 3/3 | Complete   | 2026-03-25 |
-| 5. Payments and Dashboard | 0/TBD | Not started | - |
+| 5. Payments and Dashboard | 0/3 | Not started | - |
 | 6. Tools and Discovery | 0/TBD | Not started | - |
 | 7. Integration Verification | 0/TBD | Not started | - |
 
