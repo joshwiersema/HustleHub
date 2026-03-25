@@ -114,7 +114,12 @@ Plans:
   3. User can generate a business card from 3 style options auto-populated with their business info — and share or export the result
   4. User can enter time, cost, rate, and jobs per week into the pricing calculator and see a monthly earnings projection
   5. User can browse all 6 hustle types in the business ideas screen with startup cost, earning potential, difficulty — and expand any to see a getting-started checklist, pro tips, and equipment list
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Install packages, refactor toolkit/name-generator/pricing-calculator with Zustand and gamification
+- [ ] 06-02-PLAN.md — Refactor flyer generator and business card generator with Zustand, gamification, and real sharing
+- [ ] 06-03-PLAN.md — Refactor business ideas browser with Zustand, gamification, and hustle switch
 
 ## Progress
 
@@ -128,7 +133,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Core Business Data | 3/3 | Complete    | 2026-03-25 |
 | 4. Gamification Engine | 3/3 | Complete   | 2026-03-25 |
 | 5. Payments and Dashboard | 0/3 | Not started | - |
-| 6. Tools and Discovery | 0/TBD | Not started | - |
+| 6. Tools and Discovery | 0/3 | Not started | - |
 | 7. Integration Verification | 0/TBD | Not started | - |
 
 ### Phase 7: Integration Verification
