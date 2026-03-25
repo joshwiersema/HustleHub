@@ -46,27 +46,29 @@ Teens can manage every aspect of their service business from one app — schedul
 - ✓ Level progression (10 levels: Rookie Hustler → CEO) with celebration animations — v1.0
 - ✓ HustleBucks in-game currency earned at 50% of XP rate — v1.0
 - ✓ 10 unlockable badges with progress tracking and unlock celebrations — v1.0
-- ✓ Flyer generator with 4 templates and native sharing — v1.0
-- ✓ Business card generator with 3 styles and native sharing — v1.0
-- ✓ Business name generator with curated suggestions per hustle type — v1.0
+- ✓ Flyer generator with 4 designs and native sharing/print/PDF — v2.0
+- ✓ Business card generator with 4 designs and native sharing/print/PDF — v2.0
+- ✓ ~~Business name generator~~ removed in v2.0 — users type name directly
 - ✓ Pricing calculator with monthly earnings projections — v1.0
 - ✓ Business ideas browser with 6 hustle types, expandable details, hustle switching — v1.0
 - ✓ Home dashboard with quick stats, upcoming jobs, XP bar, streak, quick actions — v1.0
-- ✓ Profile screen with level, badges, lifetime stats, leaderboard teaser, data reset — v1.0
-- ✓ Dark mode first iOS-native design with Stake/Mobbin aesthetic — v1.0
+- ✓ Profile screen with level, badges, lifetime stats, data reset — v2.0 (leaderboard removed)
+- ✓ Dark mode first with The Outsiders design language — red/white/dark palette — v2.0
 - ✓ 5-tab bottom navigation (Home, Jobs, Clients, Earnings, Profile) — v1.0
 - ✓ Consecutive-day streak tracking tied to meaningful actions — v1.0
 
+- ✓ Complete color scheme: red (#DC2626) + white + dark grays — v2.0
+- ✓ Professional Ionicons replacing all emojis — v2.0
+- ✓ 4-design business card generator with share/print/PDF — v2.0
+- ✓ 4-design flyer generator with share/print/PDF — v2.0
+- ✓ 6-step onboarding with card & flyer generation — v2.0
+- ✓ Optional photo upload on job completion (expo-image-picker) — v2.0
+- ✓ Every screen redesigned with The Outsiders design language — v2.0
+- ✓ Bottom tab bar with red accent, labels, Ionicons — v2.0
+
 ### Active
 
-- [ ] Complete color scheme overhaul: red (#DC2626) + white + dark grays
-- [ ] Professional icon system replacing all emojis
-- [ ] AI multi-option business card generator with print/export
-- [ ] AI multi-option flyer generator with print/export
-- [ ] 6-step onboarding with integrated card & flyer generation
-- [ ] Optional photo upload on job completion
-- [ ] Every screen redesigned with The Outsiders design language
-- [ ] Bottom tab bar redesign with red accent
+(None — all v2.0 requirements shipped)
 
 ### Out of Scope
 

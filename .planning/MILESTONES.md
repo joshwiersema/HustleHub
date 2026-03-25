@@ -25,17 +25,18 @@
 
 ---
 
-## v2.0 Complete Redesign & Feature Overhaul (In Progress)
+## v2.0 Complete Redesign & Feature Overhaul (Shipped: 2026-03-25)
 
-**Phases:** 11-17 (7 phases)
-**Requirements:** 40 across 8 categories (CLN, THM, NAV, ONB, GEN, JOB, SCR, CMP)
+**Phases:** 11-17 (7 phases, 7 commits)
+**Requirements:** 40/40 complete across 8 categories (CLN, THM, NAV, ONB, GEN, JOB, SCR, CMP)
 
-**Key goals:**
-- Complete visual overhaul: The Outsiders design language with red/white/dark palette
-- Remove name generator, invoice template, rankings — replace all emojis with professional icons
-- AI multi-option business card & flyer generators with print/export
+**Key accomplishments:**
+- Complete visual overhaul: The Outsiders design language with red (#DC2626)/white/dark palette
+- Removed name generator, invoice template, rankings — replaced all emojis with Ionicons
+- 4-design business card & flyer generators with Share/PDF/Print
 - 6-step onboarding with integrated card & flyer generation
-- Optional photo upload on job completion
-- Every screen redesigned with big bold stats, glass-morphism cards, generous spacing
+- Optional photo upload on job completion via expo-image-picker
+- Every screen redesigned: hero stats, clean cards, generous spacing
+- TypeScript clean, web export verified
 
 ---
