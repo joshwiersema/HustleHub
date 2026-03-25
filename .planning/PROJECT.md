@@ -8,6 +8,18 @@ A gamified iOS mobile app where teenagers can start, run, and grow their service
 
 Teens can manage every aspect of their service business from one app — schedule jobs, track clients, log earnings, and generate marketing materials — while staying motivated through gamification that rewards real business activity.
 
+## Current Milestone: v1.1 Fix, Verify & Enhance
+
+**Goal:** Fix broken web/device preview, verify the entire codebase end-to-end, add window washing hustle type, and establish comprehensive test coverage.
+
+**Target features:**
+- Fix white screen on web preview (root cause + fix)
+- Establish working test path (web preview or EAS dev build)
+- Full codebase audit — every screen, store, and flow verified
+- Add "Window Washing" as new hustle type with full content
+- Comprehensive test cases for all critical user flows
+- Verify all existing hustles (including dog walking) are complete
+
 ## Current State
 
 **Shipped:** v1.0 MVP (2026-03-25)
@@ -73,7 +85,7 @@ Teens can manage every aspect of their service business from one app — schedul
 - **Tech Stack**: React Native with Expo SDK 55 (TypeScript) — cross-platform but iOS-first
 - **Storage**: Zustand v5 + AsyncStorage persist for v1 — local-only data
 - **Design**: Dark mode first, iOS native feel, Stake/Mobbin aesthetic
-- **Scope**: 6 service-based hustle types only
+- **Scope**: 7 service-based hustle types (adding window washing in v1.1)
 - **No Backend**: All data stored locally on device for v1
 - **Accessibility**: Minimum 44x44px touch targets, 4.5:1 contrast ratios
 
@@ -91,5 +103,22 @@ Teens can manage every aspect of their service business from one app — schedul
 | View-based bar chart (no chart library) | Keeps dependencies minimal, sufficient for simple earnings visualization | ✓ Good — zero extra deps |
 | react-native-view-shot for sharing | Captures flyer/card Views as images for native share sheet | ✓ Good — works with expo-sharing |
 
+## Evolution
+
+This document evolves at phase transitions and milestone boundaries.
+
+**After each phase transition** (via `/gsd:transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
+**After each milestone** (via `/gsd:complete-milestone`):
+1. Full review of all sections
+2. Core Value check — still the right priority?
+3. Audit Out of Scope — reasons still valid?
+4. Update Context with current state
+
 ---
-*Last updated: 2026-03-25 after v1.0 milestone*
+*Last updated: 2026-03-25 after v1.1 milestone start*
