@@ -151,9 +151,12 @@ export default function PricingCalculatorScreen() {
 
         {/* Hustle context */}
         <View style={styles.contextBadge}>
-          <Text style={styles.contextText}>
-            {hustleInfo?.emoji} Pricing for {hustleInfo?.name}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <Ionicons name={(hustleInfo?.icon || 'briefcase') as any} size={16} color={Colors.primary} />
+            <Text style={styles.contextText}>
+              Pricing for {hustleInfo?.name}
+            </Text>
+          </View>
         </View>
 
         {/* Input Fields */}

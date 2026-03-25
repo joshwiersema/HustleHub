@@ -51,7 +51,7 @@ export default function BadgeGallery({ earnedBadges, stats }: BadgeGalleryProps)
                   isEarned && styles.cellGlow,
                 ]}
               >
-                <BadgeIcon emoji={badge.icon} size={64} unlocked={isEarned} />
+                <BadgeIcon icon={badge.icon} size={64} unlocked={isEarned} />
                 <Text style={styles.expandedName}>{badge.name}</Text>
                 <Text style={styles.expandedDesc}>{badge.description}</Text>
                 <Text style={styles.expandedReq}>{badge.requirement}</Text>
@@ -94,7 +94,7 @@ export default function BadgeGallery({ earnedBadges, stats }: BadgeGalleryProps)
                   <Ionicons name="lock-closed" size={12} color={Colors.textMuted} />
                 </View>
               )}
-              <BadgeIcon emoji={badge.icon} size={56} unlocked={isEarned} />
+              <BadgeIcon icon={badge.icon} size={56} unlocked={isEarned} />
               <Text
                 style={[
                   styles.cellName,

@@ -1,50 +1,51 @@
 export const Colors = {
-  // Core backgrounds
-  bg: '#0A0A0F',
-  bgCard: '#141419',
+  // Core backgrounds — rich near-blacks for depth
+  bg: '#0C0C0F',
+  bgCard: '#141418',
   bgCardHover: '#1A1A22',
-  bgElevated: '#1E1E28',
+  bgElevated: '#1E1E26',
   bgInput: '#16161E',
 
   // Text
   text: '#FFFFFF',
-  textSecondary: '#8E8E9A',
-  textMuted: '#5A5A66',
-  textInverse: '#0A0A0F',
+  textSecondary: '#8A8A96',
+  textMuted: '#6B6B78',
+  textInverse: '#0C0C0F',
 
-  // Primary accent - vibrant green (money/growth)
-  primary: '#00E676',
-  primaryDim: '#00C853',
-  primaryBg: 'rgba(0, 230, 118, 0.12)',
-  primaryBorder: 'rgba(0, 230, 118, 0.25)',
+  // Primary accent — red/crimson
+  primary: '#DC2626',
+  primaryDim: '#B91C1C',
+  primaryBg: 'rgba(220, 38, 38, 0.12)',
+  primaryBorder: 'rgba(220, 38, 38, 0.25)',
 
-  // Secondary accent - purple (premium/XP)
-  secondary: '#B388FF',
-  secondaryDim: '#7C4DFF',
-  secondaryBg: 'rgba(179, 136, 255, 0.12)',
-  secondaryBorder: 'rgba(179, 136, 255, 0.25)',
+  // Secondary — muted (no bright purple; use subtle white-based accents)
+  secondary: '#8A8A96',
+  secondaryDim: '#6B6B78',
+  secondaryBg: 'rgba(138, 138, 150, 0.12)',
+  secondaryBorder: 'rgba(138, 138, 150, 0.25)',
 
-  // Accent - amber (coins/currency)
-  amber: '#FFD740',
-  amberDim: '#FFC400',
-  amberBg: 'rgba(255, 215, 64, 0.12)',
+  // Accent — kept minimal (no amber; use subtle warm gray if needed)
+  amber: '#8A8A96',
+  amberDim: '#6B6B78',
+  amberBg: 'rgba(138, 138, 150, 0.08)',
 
   // Status
-  success: '#00E676',
-  warning: '#FFD740',
-  error: '#FF5252',
-  info: '#40C4FF',
+  success: '#22C55E',
+  warning: '#F59E0B',
+  error: '#EF4444',
+  info: '#3B82F6',
 
   // Borders
-  border: '#2A2A35',
-  borderLight: '#1E1E28',
+  border: '#1E1E28',
+  borderLight: '#1A1A22',
 
-  // Gradients
-  gradientGreen: ['#00E676', '#00C853'] as const,
-  gradientPurple: ['#B388FF', '#7C4DFF'] as const,
-  gradientGold: ['#FFD740', '#FFC400'] as const,
-  gradientDark: ['#141419', '#0A0A0F'] as const,
-  gradientHero: ['#00E676', '#7C4DFF'] as const,
+  // Gradients — red-based system
+  gradientPrimary: ['#DC2626', '#B91C1C'] as const,
+  gradientGreen: ['#DC2626', '#B91C1C'] as const, // alias for backward compat
+  gradientPurple: ['#DC2626', '#991B1B'] as const, // alias for backward compat
+  gradientGold: ['#DC2626', '#B91C1C'] as const, // alias for backward compat
+  gradientDark: ['#141418', '#0C0C0F'] as const,
+  gradientHero: ['#DC2626', '#991B1B'] as const,
 };
 
 export const Spacing = {

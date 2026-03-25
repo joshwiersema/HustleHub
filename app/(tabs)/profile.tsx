@@ -2,6 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import { View, Text, ScrollView, StyleSheet, Alert, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { Colors, Spacing, FontSize, FontWeight, BorderRadius } from '../../src/constants/theme';
 import { ScreenHeader, Card, StatCard, XPBar, HustleBucksDisplay } from '../../src/components';
 import { useProfileStore } from '../../src/store/profileStore';
@@ -81,7 +82,10 @@ export default function ProfileScreen() {
         <Card style={styles.profileCard}>
           <Text style={styles.profileName}>{displayName}</Text>
           <Text style={styles.profileBusiness}>{displayBusiness}</Text>
-          <Text style={styles.levelLabel}>{levelInfo.icon} {levelInfo.title}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <Ionicons name={levelInfo.icon as any} size={16} color={Colors.primary} />
+            <Text style={styles.levelLabel}>{levelInfo.title}</Text>
+          </View>
         </Card>
 
         {/* XP Bar */}
@@ -168,37 +172,6 @@ export default function ProfileScreen() {
           />
         </View>
 
-        {/* Leaderboard Teaser */}
-        <Text style={styles.sectionTitle}>Local Rankings</Text>
-        <Card style={styles.leaderboardCard}>
-          <View style={styles.leaderboardHeader}>
-            <Text style={styles.leaderboardTitle}>Coming Soon</Text>
-            <Text style={styles.leaderboardSubtitle}>See how you stack up</Text>
-          </View>
-          {/* 3 fake entries */}
-          <View style={styles.leaderboardEntry}>
-            <Text style={styles.leaderboardRank}>1</Text>
-            <Text style={styles.leaderboardName}>LawnKing_Mike</Text>
-            <Text style={styles.leaderboardXP}>4,200 XP</Text>
-          </View>
-          <View style={styles.leaderboardEntry}>
-            <Text style={styles.leaderboardRank}>2</Text>
-            <Text style={styles.leaderboardName}>DetailQueen_Sara</Text>
-            <Text style={styles.leaderboardXP}>3,800 XP</Text>
-          </View>
-          <View style={styles.leaderboardEntry}>
-            <Text style={styles.leaderboardRank}>3</Text>
-            <Text style={styles.leaderboardName}>TutorPro_Alex</Text>
-            <Text style={styles.leaderboardXP}>3,100 XP</Text>
-          </View>
-          {/* User's position */}
-          <View style={[styles.leaderboardEntry, styles.leaderboardEntryYou]}>
-            <Text style={styles.leaderboardRank}>--</Text>
-            <Text style={[styles.leaderboardName, { color: Colors.primary }]}>You ({displayBusiness})</Text>
-            <Text style={[styles.leaderboardXP, { color: Colors.primary }]}>{xp.toLocaleString()} XP</Text>
-          </View>
-        </Card>
-
         {/* Data Reset */}
         <Pressable
           onPress={handleReset}
@@ -256,51 +229,6 @@ const styles = StyleSheet.create({
     color: Colors.text,
     marginBottom: Spacing.md,
     marginTop: Spacing.lg,
-  },
-  leaderboardCard: {
-    marginBottom: Spacing.lg,
-  },
-  leaderboardHeader: {
-    marginBottom: Spacing.md,
-  },
-  leaderboardTitle: {
-    fontSize: FontSize.md,
-    fontWeight: FontWeight.bold,
-    color: Colors.amber,
-  },
-  leaderboardSubtitle: {
-    fontSize: FontSize.sm,
-    color: Colors.textMuted,
-    marginTop: 2,
-  },
-  leaderboardEntry: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: Spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: Colors.borderLight,
-  },
-  leaderboardEntryYou: {
-    borderTopWidth: 2,
-    borderTopColor: Colors.primaryBorder,
-    marginTop: Spacing.xs,
-    paddingTop: Spacing.md,
-  },
-  leaderboardRank: {
-    width: 28,
-    fontSize: FontSize.md,
-    fontWeight: FontWeight.bold,
-    color: Colors.textMuted,
-  },
-  leaderboardName: {
-    flex: 1,
-    fontSize: FontSize.md,
-    color: Colors.text,
-  },
-  leaderboardXP: {
-    fontSize: FontSize.sm,
-    color: Colors.textSecondary,
-    fontWeight: FontWeight.medium,
   },
   resetButton: {
     marginTop: Spacing.xxl,

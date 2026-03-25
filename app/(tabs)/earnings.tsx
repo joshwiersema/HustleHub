@@ -289,9 +289,9 @@ export default function EarningsScreen() {
   // Render helpers
   // ---------------------------------------------------------------------------
 
-  const getMethodEmoji = useCallback((method: Payment['method']) => {
+  const getMethodIcon = useCallback((method: Payment['method']) => {
     const found = PAYMENT_METHODS.find((m) => m.id === method);
-    return found ? found.emoji : '';
+    return found ? found.icon : 'ellipsis-horizontal';
   }, []);
 
   const renderPaymentRow = useCallback(
@@ -308,11 +308,11 @@ export default function EarningsScreen() {
         </View>
         <View style={styles.paymentRight}>
           <Text style={styles.paymentAmount}>${item.amount.toFixed(2)}</Text>
-          <Text style={styles.paymentMethod}>{getMethodEmoji(item.method)}</Text>
+          <Ionicons name={getMethodIcon(item.method) as any} size={16} color={Colors.textSecondary} />
         </View>
       </Pressable>
     ),
-    [handleDeletePayment, getMethodEmoji],
+    [handleDeletePayment, getMethodIcon],
   );
 
   const keyExtractor = useCallback((item: Payment) => item.id, []);
@@ -540,7 +540,7 @@ export default function EarningsScreen() {
                   formMethod === method.id && styles.methodPillActive,
                 ]}
               >
-                <Text style={styles.methodEmoji}>{method.emoji}</Text>
+                <Ionicons name={method.icon as any} size={16} color={formMethod === method.id ? Colors.primary : Colors.textMuted} />
                 <Text
                   style={[
                     styles.methodLabel,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import {
   Colors,
   FontSize,
@@ -15,7 +16,7 @@ interface StreakBadgeProps {
 export default function StreakBadge({ streak }: StreakBadgeProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.fireEmoji}>🔥</Text>
+      <Ionicons name="flame" size={16} color={Colors.primary} />
       <Text style={styles.streakText}>{streak} day streak</Text>
     </View>
   );
@@ -25,17 +26,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.amberBg,
+    backgroundColor: Colors.primaryBg,
     paddingVertical: Spacing.xs,
     paddingHorizontal: Spacing.md,
     borderRadius: BorderRadius.full,
     gap: Spacing.xs,
   },
-  fireEmoji: {
-    fontSize: 16,
-  },
   streakText: {
-    color: Colors.amber,
+    color: Colors.primary,
     fontSize: FontSize.sm,
     fontWeight: FontWeight.semibold,
   },

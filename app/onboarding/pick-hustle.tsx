@@ -26,12 +26,6 @@ const { width } = Dimensions.get('window');
 const CARD_GAP = Spacing.md;
 const CARD_WIDTH = (width - Spacing.xxl * 2 - CARD_GAP) / 2;
 
-const DIFFICULTY_COLORS: Record<string, { bg: string; text: string }> = {
-  Easy: { bg: 'rgba(0, 230, 118, 0.15)', text: Colors.primary },
-  Medium: { bg: 'rgba(255, 215, 64, 0.15)', text: Colors.amber },
-  Hard: { bg: 'rgba(255, 82, 82, 0.15)', text: Colors.error },
-};
-
 export default function PickHustleScreen() {
   const router = useRouter();
   const [selected, setSelected] = useState<HustleType | null>(null);
@@ -44,7 +38,6 @@ export default function PickHustleScreen() {
   const buttonAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Title entrance
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -58,7 +51,6 @@ export default function PickHustleScreen() {
       }),
     ]).start();
 
-    // Staggered card entrance
     Animated.stagger(
       80,
       cardAnims.map((anim) =>
@@ -91,7 +83,6 @@ export default function PickHustleScreen() {
 
   const renderCard = (hustle: HustleTypeInfo, index: number) => {
     const isSelected = selected === hustle.id;
-    const diffStyle = DIFFICULTY_COLORS[hustle.difficulty];
     const animValue = cardAnims[index];
 
     return (
@@ -123,31 +114,25 @@ export default function PickHustleScreen() {
             pressed && styles.cardPressed,
           ]}
         >
-          {/* Selected glow overlay */}
-          {isSelected && (
-            <View style={styles.selectedGlow}>
-              <LinearGradient
-                colors={['rgba(0, 230, 118, 0.08)', 'rgba(0, 230, 118, 0.02)']}
-                style={StyleSheet.absoluteFillObject}
-              />
-            </View>
-          )}
-
           {/* Checkmark for selected */}
           {isSelected && (
             <View style={styles.checkBadge}>
-              <Ionicons name="checkmark" size={14} color={Colors.textInverse} />
+              <Ionicons name="checkmark" size={14} color="#FFFFFF" />
             </View>
           )}
 
-          {/* Emoji */}
+          {/* Icon */}
           <View
             style={[
-              styles.emojiContainer,
-              isSelected && styles.emojiContainerSelected,
+              styles.iconContainer,
+              isSelected && styles.iconContainerSelected,
             ]}
           >
-            <Text style={styles.cardEmoji}>{hustle.emoji}</Text>
+            <Ionicons
+              name={hustle.icon as any}
+              size={28}
+              color={isSelected ? Colors.primary : Colors.textSecondary}
+            />
           </View>
 
           {/* Name */}
@@ -158,20 +143,10 @@ export default function PickHustleScreen() {
             {hustle.name}
           </Text>
 
-          {/* Earnings */}
-          <View style={styles.earningsRow}>
-            <Text style={styles.earningsLabel}>Avg</Text>
-            <Text style={styles.earningsValue}>{hustle.avgEarnings}</Text>
-          </View>
-
-          {/* Difficulty badge */}
-          <View
-            style={[styles.difficultyBadge, { backgroundColor: diffStyle.bg }]}
-          >
-            <Text style={[styles.difficultyText, { color: diffStyle.text }]}>
-              {hustle.difficulty}
-            </Text>
-          </View>
+          {/* One-line description */}
+          <Text style={styles.cardDescription} numberOfLines={2}>
+            {hustle.description}
+          </Text>
         </Pressable>
       </Animated.View>
     );
@@ -195,7 +170,7 @@ export default function PickHustleScreen() {
             style={styles.backButton}
           >
             <Ionicons
-              name="arrow-back"
+              name="chevron-back"
               size={24}
               color={Colors.textSecondary}
             />
@@ -219,8 +194,7 @@ export default function PickHustleScreen() {
           >
             <Text style={styles.title}>What's your hustle?</Text>
             <Text style={styles.subtitle}>
-              Choose your business type. This is like picking your character
-              class — each one has unique strengths!
+              Choose your business type. You can always change this later.
             </Text>
           </Animated.View>
 
@@ -231,9 +205,9 @@ export default function PickHustleScreen() {
 
           {/* Info callout */}
           <View style={styles.infoCallout}>
-            <Text style={styles.infoEmoji}>💡</Text>
+            <Ionicons name="information-circle-outline" size={20} color={Colors.textSecondary} />
             <Text style={styles.infoText}>
-              Don't worry — you can always change this later in settings.
+              Don't worry — you can change this later in settings.
             </Text>
           </View>
         </ScrollView>
@@ -264,7 +238,7 @@ export default function PickHustleScreen() {
             ]}
           >
             <LinearGradient
-              colors={[...Colors.gradientGreen]}
+              colors={[...Colors.gradientPrimary]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={styles.nextButton}
@@ -273,7 +247,7 @@ export default function PickHustleScreen() {
               <Ionicons
                 name="arrow-forward"
                 size={20}
-                color={Colors.textInverse}
+                color="#FFFFFF"
               />
             </LinearGradient>
           </Pressable>
@@ -301,7 +275,7 @@ const styles = StyleSheet.create({
   backButton: {
     width: 44,
     height: 44,
-    borderRadius: 11,
+    borderRadius: BorderRadius.md,
     backgroundColor: Colors.bgCard,
     alignItems: 'center',
     justifyContent: 'center',
@@ -364,10 +338,6 @@ const styles = StyleSheet.create({
     opacity: 0.85,
     transform: [{ scale: 0.97 }],
   },
-  selectedGlow: {
-    ...StyleSheet.absoluteFillObject,
-    borderRadius: BorderRadius.lg,
-  },
   checkBadge: {
     position: 'absolute',
     top: Spacing.sm,
@@ -379,7 +349,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  emojiContainer: {
+  iconContainer: {
     width: 56,
     height: 56,
     borderRadius: 28,
@@ -388,46 +358,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: Spacing.md,
   },
-  emojiContainerSelected: {
+  iconContainerSelected: {
     backgroundColor: Colors.primaryBg,
-  },
-  cardEmoji: {
-    fontSize: 30,
   },
   cardName: {
     fontSize: FontSize.md,
     fontWeight: FontWeight.bold,
     color: Colors.text,
-    marginBottom: Spacing.sm,
+    marginBottom: Spacing.xs,
     textAlign: 'center',
   },
   cardNameSelected: {
     color: Colors.primary,
   },
-  earningsRow: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: Spacing.sm,
-  },
-  earningsLabel: {
+  cardDescription: {
     fontSize: FontSize.xs,
-    fontWeight: FontWeight.medium,
     color: Colors.textMuted,
-    marginBottom: 2,
-  },
-  earningsValue: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.semibold,
-    color: Colors.amber,
-  },
-  difficultyBadge: {
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.xs,
-    borderRadius: BorderRadius.full,
-  },
-  difficultyText: {
-    fontSize: FontSize.xs,
-    fontWeight: FontWeight.bold,
+    textAlign: 'center',
+    lineHeight: 16,
   },
   infoCallout: {
     flexDirection: 'row',
@@ -439,9 +387,6 @@ const styles = StyleSheet.create({
     gap: Spacing.md,
     borderWidth: 1,
     borderColor: Colors.border,
-  },
-  infoEmoji: {
-    fontSize: 20,
   },
   infoText: {
     flex: 1,
@@ -479,6 +424,6 @@ const styles = StyleSheet.create({
   nextButtonText: {
     fontSize: FontSize.lg,
     fontWeight: FontWeight.bold,
-    color: Colors.textInverse,
+    color: '#FFFFFF',
   },
 });

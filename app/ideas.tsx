@@ -391,7 +391,9 @@ export default function IdeasScreen() {
               {/* Card Header */}
               <View style={styles.hustleCardHeader}>
                 <View style={styles.hustleCardLeft}>
-                  <Text style={styles.hustleEmoji}>{hustle.emoji}</Text>
+                  <View style={styles.hustleIconWrap}>
+                    <Ionicons name={hustle.icon as any} size={24} color={Colors.primary} />
+                  </View>
                   <View style={styles.hustleCardInfo}>
                     <View style={styles.hustleNameRow}>
                       <Text style={styles.hustleName}>{hustle.name}</Text>
@@ -521,9 +523,13 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: Spacing.md,
   },
-  hustleEmoji: {
-    fontSize: 36,
-    marginTop: 2,
+  hustleIconWrap: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.primaryBg,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   hustleCardInfo: {
     flex: 1,

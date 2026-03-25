@@ -20,43 +20,9 @@ import {
   BorderRadius,
   FontSize,
   FontWeight,
-  Shadows,
 } from '../../src/constants/theme';
 import { HustleType, HUSTLE_TYPES, UserProfile } from '../../src/types';
 import { useProfileStore } from '../../src/store/profileStore';
-
-const BUSINESS_NAME_SUGGESTIONS: Record<HustleType, string[]> = {
-  lawn_care: [
-    'Green Machine Lawns',
-    'The Mow Squad',
-    'Fresh Cut Co.',
-  ],
-  power_washing: [
-    'Blast Zone Cleaning',
-    'Pressure Pro Services',
-    'Sparkle Wash Co.',
-  ],
-  dog_walking: [
-    'Paws & Hustle',
-    'The Bark Boss',
-    'Good Boy Walks',
-  ],
-  tutoring: [
-    'Brain Boost Academy',
-    'The Grade Maker',
-    'Level Up Tutoring',
-  ],
-  car_detailing: [
-    'Mirror Finish Detailing',
-    'Shine Squad Auto',
-    'The Detail Plug',
-  ],
-  snow_removal: [
-    'Blizzard Busters',
-    'Ice Breaker Services',
-    'Snow Day Pros',
-  ],
-};
 
 function generateId(): string {
   return (
@@ -75,12 +41,10 @@ export default function SetupBusinessScreen() {
 
   const [businessName, setBusinessName] = useState('');
   const [userName, setUserName] = useState('');
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
-  const suggestAnim = useRef(new Animated.Value(0)).current;
   const launchAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -97,21 +61,6 @@ export default function SetupBusinessScreen() {
       }),
     ]).start();
   }, []);
-
-  useEffect(() => {
-    Animated.spring(suggestAnim, {
-      toValue: showSuggestions ? 1 : 0,
-      tension: 50,
-      friction: 8,
-      useNativeDriver: true,
-    }).start();
-  }, [showSuggestions]);
-
-  const suggestions = BUSINESS_NAME_SUGGESTIONS[hustleType] || [
-    'My Awesome Business',
-    'Hustle Co.',
-    'The Side Gig',
-  ];
 
   const canLaunch = businessName.trim().length >= 2 && userName.trim().length >= 2;
 
@@ -147,11 +96,6 @@ export default function SetupBusinessScreen() {
     }, 400);
   };
 
-  const handleSuggestionPress = (name: string) => {
-    setBusinessName(name);
-    setShowSuggestions(false);
-  };
-
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -167,7 +111,7 @@ export default function SetupBusinessScreen() {
         >
           <Pressable onPress={() => router.back()} style={styles.backButton}>
             <Ionicons
-              name="arrow-back"
+              name="chevron-back"
               size={24}
               color={Colors.textSecondary}
             />
@@ -197,9 +141,11 @@ export default function SetupBusinessScreen() {
             >
               {/* Selected hustle badge */}
               <View style={styles.hustleBadge}>
-                <Text style={styles.hustleBadgeEmoji}>
-                  {hustleInfo?.emoji || '🚀'}
-                </Text>
+                <Ionicons
+                  name={(hustleInfo?.icon || 'briefcase') as any}
+                  size={18}
+                  color={Colors.primary}
+                />
                 <Text style={styles.hustleBadgeText}>
                   {hustleInfo?.name || 'Your Hustle'}
                 </Text>
@@ -207,7 +153,7 @@ export default function SetupBusinessScreen() {
 
               <Text style={styles.title}>Name your business</Text>
               <Text style={styles.subtitle}>
-                Every great empire starts with a name. Make it memorable!
+                Every great business starts with a name. Make it memorable.
               </Text>
             </Animated.View>
 
@@ -224,7 +170,7 @@ export default function SetupBusinessScreen() {
               <Text style={styles.inputLabel}>Your name</Text>
               <View style={styles.inputContainer}>
                 <Ionicons
-                  name="person"
+                  name="person-outline"
                   size={20}
                   color={
                     userName.length > 0 ? Colors.primary : Colors.textMuted
@@ -245,7 +191,7 @@ export default function SetupBusinessScreen() {
                   <Ionicons
                     name="checkmark-circle"
                     size={20}
-                    color={Colors.primary}
+                    color={Colors.success}
                   />
                 )}
               </View>
@@ -264,7 +210,7 @@ export default function SetupBusinessScreen() {
               <Text style={styles.inputLabel}>Business name</Text>
               <View style={styles.inputContainer}>
                 <Ionicons
-                  name="storefront"
+                  name="storefront-outline"
                   size={20}
                   color={
                     businessName.length > 0
@@ -287,99 +233,23 @@ export default function SetupBusinessScreen() {
                   <Ionicons
                     name="checkmark-circle"
                     size={20}
-                    color={Colors.primary}
+                    color={Colors.success}
                   />
                 )}
               </View>
             </Animated.View>
 
-            {/* AI Suggestion button */}
-            <Pressable
-              onPress={() => setShowSuggestions(!showSuggestions)}
-              style={({ pressed }) => [
-                styles.suggestButton,
-                pressed && styles.suggestButtonPressed,
-              ]}
-            >
-              <LinearGradient
-                colors={[...Colors.gradientPurple]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.suggestGradient}
-              >
-                <Ionicons name="sparkles" size={18} color={Colors.text} />
-                <Text style={styles.suggestButtonText}>
-                  {showSuggestions ? 'Hide Suggestions' : 'AI Name Ideas'}
-                </Text>
-              </LinearGradient>
-            </Pressable>
-
-            {/* Suggestions */}
-            {showSuggestions && (
-              <Animated.View
-                style={[
-                  styles.suggestionsContainer,
-                  {
-                    opacity: suggestAnim,
-                    transform: [
-                      {
-                        translateY: suggestAnim.interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [15, 0],
-                        }),
-                      },
-                    ],
-                  },
-                ]}
-              >
-                <View style={styles.suggestionsHeader}>
-                  <Ionicons
-                    name="bulb"
-                    size={18}
-                    color={Colors.amber}
-                  />
-                  <Text style={styles.suggestionsTitle}>
-                    Name ideas for {hustleInfo?.name || 'your hustle'}
-                  </Text>
-                </View>
-                {suggestions.map((name, index) => (
-                  <Pressable
-                    key={index}
-                    onPress={() => handleSuggestionPress(name)}
-                    style={({ pressed }) => [
-                      styles.suggestionItem,
-                      pressed && styles.suggestionItemPressed,
-                    ]}
-                  >
-                    <Text style={styles.suggestionNumber}>
-                      {index + 1}
-                    </Text>
-                    <Text style={styles.suggestionText}>{name}</Text>
-                    <Ionicons
-                      name="add-circle-outline"
-                      size={20}
-                      color={Colors.primary}
-                    />
-                  </Pressable>
-                ))}
-              </Animated.View>
-            )}
-
             {/* Preview card */}
             {canLaunch && (
               <View style={styles.previewCard}>
-                <LinearGradient
-                  colors={['rgba(0, 230, 118, 0.06)', 'rgba(124, 77, 255, 0.06)']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={StyleSheet.absoluteFillObject}
-                />
-                <Text style={styles.previewLabel}>YOUR BUSINESS CARD</Text>
+                <Text style={styles.previewLabel}>PREVIEW</Text>
                 <View style={styles.previewContent}>
-                  <View style={styles.previewEmojiCircle}>
-                    <Text style={styles.previewEmoji}>
-                      {hustleInfo?.emoji || '🚀'}
-                    </Text>
+                  <View style={styles.previewIconCircle}>
+                    <Ionicons
+                      name={(hustleInfo?.icon || 'briefcase') as any}
+                      size={26}
+                      color={Colors.primary}
+                    />
                   </View>
                   <View style={styles.previewInfo}>
                     <Text style={styles.previewBusinessName} numberOfLines={1}>
@@ -388,20 +258,6 @@ export default function SetupBusinessScreen() {
                     <Text style={styles.previewUserName}>
                       {userName} — {hustleInfo?.name || 'Entrepreneur'}
                     </Text>
-                  </View>
-                </View>
-                <View style={styles.previewStats}>
-                  <View style={styles.previewStat}>
-                    <Text style={styles.previewStatEmoji}>🌱</Text>
-                    <Text style={styles.previewStatText}>Level 1</Text>
-                  </View>
-                  <View style={styles.previewStat}>
-                    <Text style={styles.previewStatEmoji}>💰</Text>
-                    <Text style={styles.previewStatText}>50 HB</Text>
-                  </View>
-                  <View style={styles.previewStat}>
-                    <Text style={styles.previewStatEmoji}>⚡</Text>
-                    <Text style={styles.previewStatText}>0 XP</Text>
                   </View>
                 </View>
               </View>
@@ -436,7 +292,7 @@ export default function SetupBusinessScreen() {
             <LinearGradient
               colors={
                 canLaunch
-                  ? [...Colors.gradientGreen]
+                  ? [...Colors.gradientPrimary]
                   : [Colors.bgElevated, Colors.bgCard]
               }
               start={{ x: 0, y: 0 }}
@@ -445,15 +301,15 @@ export default function SetupBusinessScreen() {
             >
               {isLaunching ? (
                 <Text style={styles.launchButtonTextActive}>
-                  Launching... 🚀
+                  Setting up...
                 </Text>
               ) : (
                 <>
                   <Ionicons
-                    name="rocket"
+                    name="arrow-forward"
                     size={22}
                     color={
-                      canLaunch ? Colors.textInverse : Colors.textMuted
+                      canLaunch ? '#FFFFFF' : Colors.textMuted
                     }
                   />
                   <Text
@@ -462,7 +318,7 @@ export default function SetupBusinessScreen() {
                       !canLaunch && styles.launchButtonTextDisabled,
                     ]}
                   >
-                    Launch My Hustle
+                    Get Started
                   </Text>
                 </>
               )}
@@ -492,7 +348,7 @@ const styles = StyleSheet.create({
   backButton: {
     width: 44,
     height: 44,
-    borderRadius: 11,
+    borderRadius: BorderRadius.md,
     backgroundColor: Colors.bgCard,
     alignItems: 'center',
     justifyContent: 'center',
@@ -536,9 +392,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.primaryBorder,
     gap: Spacing.sm,
     marginBottom: Spacing.lg,
-  },
-  hustleBadgeEmoji: {
-    fontSize: 18,
   },
   hustleBadgeText: {
     fontSize: FontSize.sm,
@@ -589,87 +442,13 @@ const styles = StyleSheet.create({
     color: Colors.text,
     height: '100%',
   },
-  suggestButton: {
-    alignSelf: 'flex-start',
-    borderRadius: BorderRadius.full,
-    overflow: 'hidden',
-    marginBottom: Spacing.xl,
-  },
-  suggestButtonPressed: {
-    opacity: 0.85,
-    transform: [{ scale: 0.97 }],
-  },
-  suggestGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.sm + 2,
-    gap: Spacing.sm,
-    borderRadius: BorderRadius.full,
-  },
-  suggestButtonText: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.bold,
-    color: Colors.text,
-  },
-  suggestionsContainer: {
-    backgroundColor: Colors.bgCard,
-    borderRadius: BorderRadius.lg,
-    padding: Spacing.lg,
-    borderWidth: 1,
-    borderColor: Colors.secondaryBorder,
-    marginBottom: Spacing.xxl,
-    ...Shadows.card,
-  },
-  suggestionsHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.sm,
-    marginBottom: Spacing.lg,
-  },
-  suggestionsTitle: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.semibold,
-    color: Colors.amber,
-  },
-  suggestionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: Spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
-    gap: Spacing.md,
-  },
-  suggestionItemPressed: {
-    opacity: 0.7,
-  },
-  suggestionNumber: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: Colors.bgElevated,
-    textAlign: 'center',
-    lineHeight: 24,
-    fontSize: FontSize.xs,
-    fontWeight: FontWeight.bold,
-    color: Colors.textSecondary,
-    overflow: 'hidden',
-  },
-  suggestionText: {
-    flex: 1,
-    fontSize: FontSize.md,
-    fontWeight: FontWeight.medium,
-    color: Colors.text,
-  },
   previewCard: {
     backgroundColor: Colors.bgCard,
-    borderRadius: BorderRadius.xl,
+    borderRadius: BorderRadius.lg,
     padding: Spacing.xxl,
     borderWidth: 1,
-    borderColor: Colors.primaryBorder,
-    overflow: 'hidden',
-    marginTop: Spacing.sm,
-    ...Shadows.elevated,
+    borderColor: Colors.border,
+    marginTop: Spacing.lg,
   },
   previewLabel: {
     fontSize: FontSize.xs,
@@ -682,9 +461,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.lg,
-    marginBottom: Spacing.xl,
   },
-  previewEmojiCircle: {
+  previewIconCircle: {
     width: 52,
     height: 52,
     borderRadius: 26,
@@ -693,9 +471,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1.5,
     borderColor: Colors.primaryBorder,
-  },
-  previewEmoji: {
-    fontSize: 26,
   },
   previewInfo: {
     flex: 1,
@@ -709,26 +484,6 @@ const styles = StyleSheet.create({
   previewUserName: {
     fontSize: FontSize.sm,
     fontWeight: FontWeight.medium,
-    color: Colors.textSecondary,
-  },
-  previewStats: {
-    flexDirection: 'row',
-    gap: Spacing.lg,
-    paddingTop: Spacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
-  },
-  previewStat: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.xs,
-  },
-  previewStatEmoji: {
-    fontSize: 14,
-  },
-  previewStatText: {
-    fontSize: FontSize.sm,
-    fontWeight: FontWeight.semibold,
     color: Colors.textSecondary,
   },
   bottomBar: {
@@ -761,7 +516,7 @@ const styles = StyleSheet.create({
   launchButtonText: {
     fontSize: FontSize.lg,
     fontWeight: FontWeight.bold,
-    color: Colors.textInverse,
+    color: '#FFFFFF',
   },
   launchButtonTextDisabled: {
     color: Colors.textMuted,
@@ -769,6 +524,6 @@ const styles = StyleSheet.create({
   launchButtonTextActive: {
     fontSize: FontSize.lg,
     fontWeight: FontWeight.bold,
-    color: Colors.textInverse,
+    color: '#FFFFFF',
   },
 });

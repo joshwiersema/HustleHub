@@ -207,10 +207,10 @@ export default function FlyerGeneratorScreen() {
           }}
         />
 
-        {/* Emoji */}
-        <Text style={{ fontSize: s(32), textAlign: 'center', marginBottom: s(8) }}>
-          {hustleInfo?.emoji || '💼'}
-        </Text>
+        {/* Icon */}
+        <View style={{ alignItems: 'center', marginBottom: s(8) }}>
+          <Ionicons name={(hustleInfo?.icon || 'briefcase') as any} size={s(32)} color={Colors.primary} />
+        </View>
 
         {/* Business Name */}
         <Text

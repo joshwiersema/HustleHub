@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Pressable,
   Animated,
-  Dimensions,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,42 +18,28 @@ import {
   FontWeight,
 } from '../../src/constants/theme';
 
-const { width } = Dimensions.get('window');
-
 export default function WelcomeScreen() {
   const router = useRouter();
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(40)).current;
-  const scaleAnim = useRef(new Animated.Value(0.8)).current;
-  const emojiFloat = useRef(new Animated.Value(0)).current;
   const buttonSlide = useRef(new Animated.Value(60)).current;
   const buttonFade = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.sequence([
-      // Fade in and scale the emoji illustration
       Animated.parallel([
-        Animated.timing(scaleAnim, {
-          toValue: 1,
-          duration: 600,
-          useNativeDriver: true,
-        }),
         Animated.timing(fadeAnim, {
           toValue: 1,
           duration: 600,
           useNativeDriver: true,
         }),
-      ]),
-      // Slide up the text
-      Animated.parallel([
         Animated.timing(slideAnim, {
           toValue: 0,
           duration: 500,
           useNativeDriver: true,
         }),
       ]),
-      // Slide in the button
       Animated.parallel([
         Animated.timing(buttonSlide, {
           toValue: 0,
@@ -68,72 +53,24 @@ export default function WelcomeScreen() {
         }),
       ]),
     ]).start();
-
-    // Floating emoji loop
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(emojiFloat, {
-          toValue: -12,
-          duration: 2000,
-          useNativeDriver: true,
-        }),
-        Animated.timing(emojiFloat, {
-          toValue: 0,
-          duration: 2000,
-          useNativeDriver: true,
-        }),
-      ]),
-    ).start();
   }, []);
 
   return (
     <View style={styles.container}>
-      {/* Background grid pattern */}
-      <View style={styles.gridOverlay}>
-        {Array.from({ length: 12 }).map((_, row) => (
-          <View key={row} style={styles.gridRow}>
-            {Array.from({ length: 8 }).map((_, col) => (
-              <View key={col} style={styles.gridCell} />
-            ))}
-          </View>
-        ))}
-      </View>
-
-      {/* Radial glow effects */}
-      <View style={styles.glowGreen} />
-      <View style={styles.glowPurple} />
-
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.content}>
-          {/* Animated Emoji Illustration */}
+          {/* Icon mark */}
           <Animated.View
             style={[
-              styles.illustrationContainer,
+              styles.iconContainer,
               {
                 opacity: fadeAnim,
-                transform: [
-                  { scale: scaleAnim },
-                  { translateY: emojiFloat },
-                ],
+                transform: [{ translateY: slideAnim }],
               },
             ]}
           >
-            <View style={styles.emojiCircle}>
-              <LinearGradient
-                colors={[Colors.primaryBg, 'rgba(124, 77, 255, 0.12)']}
-                style={styles.emojiGradientBg}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-              />
-              <Text style={styles.mainEmoji}>🚀</Text>
-            </View>
-            <View style={styles.orbitEmojis}>
-              <Text style={[styles.orbitEmoji, styles.orbitTopLeft]}>💰</Text>
-              <Text style={[styles.orbitEmoji, styles.orbitTopRight]}>⚡</Text>
-              <Text style={[styles.orbitEmoji, styles.orbitBottomLeft]}>🌟</Text>
-              <Text style={[styles.orbitEmoji, styles.orbitBottomRight]}>💪</Text>
-              <Text style={[styles.orbitEmoji, styles.orbitLeft]}>🔥</Text>
-              <Text style={[styles.orbitEmoji, styles.orbitRight]}>📈</Text>
+            <View style={styles.iconCircle}>
+              <Ionicons name="trending-up" size={48} color={Colors.primary} />
             </View>
           </Animated.View>
 
@@ -153,25 +90,27 @@ export default function WelcomeScreen() {
             </View>
             <View style={styles.titleUnderline}>
               <LinearGradient
-                colors={[...Colors.gradientHero]}
+                colors={[...Colors.gradientPrimary]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={styles.underlineGradient}
               />
             </View>
-            <Text style={styles.tagline}>Turn your hustle into a business</Text>
+            <Text style={styles.tagline}>
+              Run your business. Track your growth.
+            </Text>
 
             <View style={styles.featurePills}>
               <View style={styles.pill}>
-                <Text style={styles.pillEmoji}>📊</Text>
+                <Ionicons name="briefcase-outline" size={14} color={Colors.textSecondary} />
                 <Text style={styles.pillText}>Track Jobs</Text>
               </View>
               <View style={styles.pill}>
-                <Text style={styles.pillEmoji}>💵</Text>
+                <Ionicons name="wallet-outline" size={14} color={Colors.textSecondary} />
                 <Text style={styles.pillText}>Earn More</Text>
               </View>
               <View style={styles.pill}>
-                <Text style={styles.pillEmoji}>🏆</Text>
+                <Ionicons name="trending-up-outline" size={14} color={Colors.textSecondary} />
                 <Text style={styles.pillText}>Level Up</Text>
               </View>
             </View>
@@ -195,7 +134,7 @@ export default function WelcomeScreen() {
               ]}
             >
               <LinearGradient
-                colors={[...Colors.gradientGreen]}
+                colors={[...Colors.gradientPrimary]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={styles.button}
@@ -204,13 +143,13 @@ export default function WelcomeScreen() {
                 <Ionicons
                   name="arrow-forward"
                   size={22}
-                  color={Colors.textInverse}
+                  color="#FFFFFF"
                 />
               </LinearGradient>
             </Pressable>
 
             <Text style={styles.footerText}>
-              Built for teen entrepreneurs 🎯
+              Built for teen entrepreneurs
             </Text>
           </Animated.View>
         </View>
@@ -224,40 +163,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.bg,
   },
-  gridOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    opacity: 0.04,
-    flexDirection: 'column',
-  },
-  gridRow: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  gridCell: {
-    flex: 1,
-    borderWidth: 0.5,
-    borderColor: Colors.text,
-  },
-  glowGreen: {
-    position: 'absolute',
-    top: '15%',
-    left: -50,
-    width: 250,
-    height: 250,
-    borderRadius: 125,
-    backgroundColor: Colors.primaryBg,
-    opacity: 0.6,
-  },
-  glowPurple: {
-    position: 'absolute',
-    bottom: '20%',
-    right: -60,
-    width: 280,
-    height: 280,
-    borderRadius: 140,
-    backgroundColor: Colors.secondaryBg,
-    opacity: 0.6,
-  },
   safeArea: {
     flex: 1,
   },
@@ -267,61 +172,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Spacing.xxl,
   },
-  illustrationContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 200,
-    height: 200,
+  iconContainer: {
     marginBottom: Spacing.xxxl,
   },
-  emojiCircle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+  iconCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: Colors.primaryBg,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: Colors.primaryBorder,
-    overflow: 'hidden',
-  },
-  emojiGradientBg: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  mainEmoji: {
-    fontSize: 56,
-  },
-  orbitEmojis: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  orbitEmoji: {
-    position: 'absolute',
-    fontSize: 28,
-  },
-  orbitTopLeft: {
-    top: 5,
-    left: 10,
-  },
-  orbitTopRight: {
-    top: 5,
-    right: 10,
-  },
-  orbitBottomLeft: {
-    bottom: 5,
-    left: 10,
-  },
-  orbitBottomRight: {
-    bottom: 5,
-    right: 10,
-  },
-  orbitLeft: {
-    left: -5,
-    top: '45%',
-  },
-  orbitRight: {
-    right: -5,
-    top: '45%',
   },
   textContainer: {
     alignItems: 'center',
@@ -376,9 +238,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     gap: Spacing.xs,
   },
-  pillEmoji: {
-    fontSize: 14,
-  },
   pillText: {
     fontSize: FontSize.xs,
     fontWeight: FontWeight.semibold,
@@ -408,7 +267,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: FontSize.xl,
     fontWeight: FontWeight.bold,
-    color: Colors.textInverse,
+    color: '#FFFFFF',
   },
   footerText: {
     fontSize: FontSize.sm,

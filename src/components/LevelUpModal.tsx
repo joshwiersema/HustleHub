@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { LEVELS } from '../types';
 import {
   Colors,
@@ -56,7 +57,13 @@ export default function LevelUpModal({
       <TouchableWithoutFeedback onPress={onDismiss}>
         <View style={styles.overlay}>
           <Text style={styles.levelUpLabel}>Level Up!</Text>
-          <Text style={styles.icon}>{levelInfo?.icon ?? '🌱'}</Text>
+          <View style={styles.iconCircle}>
+            <Ionicons
+              name={(levelInfo?.icon ?? 'leaf-outline') as any}
+              size={48}
+              color={Colors.primary}
+            />
+          </View>
           <Text style={styles.levelNumber}>Level {level}</Text>
           <Text style={styles.title}>{levelInfo?.title ?? 'Unknown'}</Text>
         </View>
@@ -70,12 +77,12 @@ export default function LevelUpModal({
             fallSpeed={3000}
             fadeOut={true}
             colors={[
-              '#B388FF',
-              '#7C4DFF',
-              '#00E676',
-              '#FFD740',
-              '#FF5252',
-              '#40C4FF',
+              '#DC2626',
+              '#B91C1C',
+              '#FFFFFF',
+              '#8A8A96',
+              '#EF4444',
+              '#22C55E',
             ]}
             autoStart={true}
           />
@@ -88,24 +95,31 @@ export default function LevelUpModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(10, 10, 15, 0.92)',
+    backgroundColor: 'rgba(12, 12, 15, 0.92)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   levelUpLabel: {
     fontSize: FontSize.lg,
     fontWeight: FontWeight.bold,
-    color: Colors.secondaryDim,
+    color: Colors.primary,
     marginBottom: Spacing.md,
   },
-  icon: {
-    fontSize: 80,
+  iconCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: Colors.primaryBg,
+    borderWidth: 2,
+    borderColor: Colors.primaryBorder,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: Spacing.lg,
   },
   levelNumber: {
     fontSize: FontSize.mega,
     fontWeight: FontWeight.heavy,
-    color: Colors.secondary,
+    color: Colors.primary,
     marginBottom: Spacing.sm,
   },
   title: {

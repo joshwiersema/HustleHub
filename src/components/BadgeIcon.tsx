@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Colors, BorderRadius } from '../constants/theme';
 
 interface BadgeIconProps {
-  emoji: string;
+  icon: string;
   size?: number;
   unlocked?: boolean;
 }
 
-export default function BadgeIcon({ emoji, size = 48, unlocked = true }: BadgeIconProps) {
-  const emojiSize = size * 0.5;
+export default function BadgeIcon({ icon, size = 48, unlocked = true }: BadgeIconProps) {
+  const iconSize = size * 0.45;
 
   return (
     <View
@@ -23,15 +24,12 @@ export default function BadgeIcon({ emoji, size = 48, unlocked = true }: BadgeIc
         unlocked ? styles.badgeUnlocked : styles.badgeLocked,
       ]}
     >
-      <Text
-        style={[
-          styles.emoji,
-          { fontSize: emojiSize },
-          !unlocked && styles.emojiLocked,
-        ]}
-      >
-        {emoji}
-      </Text>
+      <Ionicons
+        name={icon as any}
+        size={iconSize}
+        color={unlocked ? Colors.primary : Colors.textMuted}
+        style={!unlocked ? { opacity: 0.3 } : undefined}
+      />
     </View>
   );
 }
@@ -42,20 +40,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   badgeUnlocked: {
-    backgroundColor: Colors.bgElevated,
+    backgroundColor: Colors.primaryBg,
     borderWidth: 2,
-    borderColor: Colors.secondaryBorder,
+    borderColor: Colors.primaryBorder,
   },
   badgeLocked: {
     backgroundColor: Colors.bgCard,
     borderWidth: 2,
     borderColor: Colors.border,
     opacity: 0.45,
-  },
-  emoji: {
-    textAlign: 'center',
-  },
-  emojiLocked: {
-    opacity: 0.3,
   },
 });

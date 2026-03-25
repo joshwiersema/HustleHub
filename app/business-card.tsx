@@ -169,9 +169,9 @@ export default function BusinessCardScreen() {
 
     return (
       <View style={styles.cardContent}>
-        {/* Top Row: Emoji + Business Name */}
+        {/* Top Row: Icon + Business Name */}
         <View style={styles.cardTopRow}>
-          <Text style={{ fontSize: 24 }}>{hustleInfo?.emoji || '💼'}</Text>
+          <Ionicons name={(hustleInfo?.icon || 'briefcase') as any} size={24} color={accentColor} />
           <View style={styles.cardNameBlock}>
             <Text
               style={[styles.cardBusinessName, { color: textColor }]}
