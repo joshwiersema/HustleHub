@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-03-25T03:31:07Z"
-last_activity: 2026-03-25 — Completed Plan 04-01 (Gamification Utilities & Celebration UI)
+stopped_at: Completed 04-03-PLAN.md
+last_updated: "2026-03-25T03:38:44.876Z"
+last_activity: 2026-03-25 — Completed Plan 04-03 (Badge Gallery & Profile)
 progress:
   total_phases: 6
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 10
-  completed_plans: 8
-  percent: 80
+  completed_plans: 9
+  percent: 90
 ---
 
 # Project State
@@ -26,18 +26,18 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 4 of 6 (Gamification Engine)
-Plan: 1 of 3 in current phase (04-01 complete)
-Status: In Progress
-Last activity: 2026-03-25 — Completed Plan 04-01 (Gamification Utilities & Celebration UI)
+Plan: 3 of 3 in current phase (04-03 complete)
+Status: Phase Complete
+Last activity: 2026-03-25 — Completed Plan 04-03 (Badge Gallery & Profile)
 
-Progress: [████████░░] 80%
+Progress: [█████████░] 90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 2.4 min
-- Total execution time: 0.33 hours
+- Total plans completed: 9
+- Average duration: 2.3 min
+- Total execution time: 0.37 hours
 
 **By Phase:**
 
@@ -46,10 +46,10 @@ Progress: [████████░░] 80%
 | 01-foundation | 3/3 | 7 min | 2.3 min |
 | 02-onboarding | 1/1 | 2 min | 2.0 min |
 | 03-core-business-data | 3/3 | 8 min | 2.7 min |
-| 04-gamification-engine | 1/3 | 3 min | 3.0 min |
+| 04-gamification-engine | 3/3 | 5 min | 1.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (2 min), 03-01 (2 min), 03-02 (3 min), 03-03 (3 min), 04-01 (3 min)
+- Last 5 plans: 03-01 (2 min), 03-02 (3 min), 03-03 (3 min), 04-01 (3 min), 04-03 (2 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -84,6 +84,9 @@ Recent decisions affecting current work:
 - [Phase 04-01]: CelebrationProvider uses closure-variable pattern for prev state tracking in useGameStore.subscribe (simpler than subscribeWithSelector)
 - [Phase 04-01]: Internal celebration components (XPToast, LevelUpModal, BadgeUnlockSheet) not exported from barrel -- only CelebrationProvider and useCelebration are public API
 - [Phase 04-01]: getTotalEarningsFromJobs is explicit Phase 4 proxy -- sums completed job prices until Phase 5 payment system replaces it
+- [Phase 04-03]: BadgeGallery uses flex-wrap grid (not FlatList) since only 10 badges -- no virtualization needed
+- [Phase 04-03]: Expanded badge takes full width (100%) for readable detail with progress bar
+- [Phase 04-03]: Profile screen uses granular Zustand selectors per field to minimize re-renders
 
 ### Pending Todos
 
@@ -98,6 +101,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-25T03:31:07Z
-Stopped at: Completed 04-01-PLAN.md
-Resume file: .planning/phases/04-gamification-engine/04-01-SUMMARY.md
+Last session: 2026-03-25T03:37:33Z
+Stopped at: Completed 04-03-PLAN.md
+Resume file: .planning/phases/04-gamification-engine/04-03-SUMMARY.md
