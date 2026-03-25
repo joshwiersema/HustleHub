@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { Badge } from '../types';
 
 let Haptics: any = null;
@@ -50,7 +51,13 @@ export default function BadgeUnlockSheet({
         <View style={styles.overlay}>
           <TouchableWithoutFeedback>
             <View style={styles.sheet}>
-              <Text style={styles.badgeEmoji}>{badge?.icon ?? '🏅'}</Text>
+              <View style={styles.badgeIconCircle}>
+                <Ionicons
+                  name={(badge?.icon ?? 'ribbon-outline') as any}
+                  size={36}
+                  color={Colors.primary}
+                />
+              </View>
               <Text style={styles.earnedLabel}>Badge Earned!</Text>
               <Text style={styles.badgeName}>{badge?.name ?? 'Badge'}</Text>
               <Text style={styles.badgeDescription}>
@@ -70,7 +77,7 @@ export default function BadgeUnlockSheet({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(10, 10, 15, 0.7)',
+    backgroundColor: 'rgba(12, 12, 15, 0.7)',
     justifyContent: 'flex-end',
   },
   sheet: {
@@ -81,15 +88,21 @@ const styles = StyleSheet.create({
     paddingBottom: 48,
     alignItems: 'center',
   },
-  badgeEmoji: {
-    fontSize: 64,
-    textAlign: 'center',
+  badgeIconCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: Colors.primaryBg,
+    borderWidth: 2,
+    borderColor: Colors.primaryBorder,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: Spacing.lg,
   },
   earnedLabel: {
     fontSize: FontSize.md,
     fontWeight: FontWeight.semibold,
-    color: Colors.secondaryDim,
+    color: Colors.primary,
     marginBottom: Spacing.xs,
   },
   badgeName: {
@@ -105,7 +118,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.sm,
   },
   dismissButton: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     paddingVertical: 14,
     borderRadius: BorderRadius.md,
     marginTop: Spacing.xxl,
@@ -113,7 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dismissButtonText: {
-    color: Colors.textInverse,
+    color: '#FFFFFF',
     fontSize: FontSize.lg,
     fontWeight: FontWeight.bold,
     textAlign: 'center',
