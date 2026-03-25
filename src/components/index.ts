@@ -8,3 +8,4 @@ export { default as EmptyState } from './EmptyState';
 export { default as ScreenHeader } from './ScreenHeader';
 export { default as StreakBadge } from './StreakBadge';
 export { CelebrationProvider, useCelebration } from './CelebrationProvider';
+export { ErrorBoundary } from './ErrorBoundary';
