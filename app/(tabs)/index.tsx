@@ -17,7 +17,7 @@ const QUICK_ACTIONS = [
   { icon: 'add-circle-outline' as const, label: 'Add Job', route: '/(tabs)/jobs' },
   { icon: 'person-add-outline' as const, label: 'Add Client', route: '/(tabs)/clients' },
   { icon: 'cash-outline' as const, label: 'Log Payment', route: '/(tabs)/earnings' },
-  { icon: 'construct-outline' as const, label: 'Toolkit', route: '/(tabs)/earnings' },
+  { icon: 'construct-outline' as const, label: 'Toolkit', route: '/toolkit' },
 ];
 
 export default function HomeScreen() {
