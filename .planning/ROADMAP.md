@@ -40,11 +40,11 @@
   3. User can complete onboarding from welcome screen through hustle selection, business setup, and land on the home tab
   4. User can navigate to any nested screen (add job, add client, toolkit items) and back without crashes
   5. User can refresh the browser and see their previously entered data still present (stores hydrated from persistence)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 08-01: TBD
-- [ ] 08-02: TBD
+- [ ] 08-01-PLAN.md — Fix white screen: add error boundary, fix web-incompatible imports (confetti, haptics, sharing, print, view-shot)
+- [ ] 08-02-PLAN.md — Verify all screens, onboarding flow, tab navigation, and store persistence on web
 
 ### Phase 9: Full Codebase Verification
 **Goal**: Every feature built in v1.0 works correctly — CRUD operations, gamification, toolkit, and profile all function as designed
@@ -90,6 +90,6 @@ Plans:
 | 5. Payments and Dashboard | v1.0 | 3/3 | Complete | 2026-03-25 |
 | 6. Tools and Discovery | v1.0 | 3/3 | Complete | 2026-03-25 |
 | 7. Integration Verification | v1.0 | 2/2 | Complete | 2026-03-25 |
-| 8. Fix & Testability | v1.1 | 0/? | Not started | - |
+| 8. Fix & Testability | v1.1 | 0/2 | In Progress | - |
 | 9. Full Codebase Verification | v1.1 | 0/? | Not started | - |
 | 10. Window Washing Hustle Type | v1.1 | 0/? | Not started | - |
