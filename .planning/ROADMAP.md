@@ -3,7 +3,8 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-7 (shipped 2026-03-25)
-- 🚧 **v1.1 Fix, Verify & Enhance** — Phases 8-10 (in progress)
+- ⏭️ **v1.1 Fix, Verify & Enhance** — Phases 8-10 (superseded by v2.0)
+- 🚧 **v2.0 Complete Redesign & Feature Overhaul** — Phases 11-17 (active)
 
 ## Phases
 
@@ -20,13 +21,25 @@
 
 </details>
 
-### 🚧 v1.1 Fix, Verify & Enhance (In Progress)
+### ⏭️ v1.1 Fix, Verify & Enhance (Superseded by v2.0)
 
 **Milestone Goal:** Fix broken web/device preview, verify the entire codebase end-to-end, add window washing hustle type, and establish comprehensive test coverage.
 
 - [ ] **Phase 8: Fix & Testability** — Root-cause white screen, fix it, verify all screens load and stores hydrate
 - [ ] **Phase 9: Full Codebase Verification** — Verify every store, screen, and flow works correctly end-to-end
 - [ ] **Phase 10: Window Washing Hustle Type** — Add new hustle type with all supporting content across the app
+
+### 🚧 v2.0 Complete Redesign & Feature Overhaul (Active)
+
+**Milestone Goal:** Complete visual overhaul with The Outsiders-inspired dark design language (red/white/dark palette), AI-powered business card & flyer generators with print/export, streamlined 6-step onboarding, feature removals, and professional icon system replacing all emojis.
+
+- [ ] **Phase 11: Design System Foundation + Cleanup** — New color palette, typography, spacing, icon system, feature removals, and tab bar redesign
+- [ ] **Phase 12: Component Library Redesign** — Shared components rebuilt with glass-morphism aesthetic and red accent system
+- [ ] **Phase 13: Home, Jobs & Job Photos** — Dashboard and jobs list redesigned with hero stats; job photo upload feature added
+- [ ] **Phase 14: Clients & Earnings Redesign** — Professional contact list and dark-background earnings chart with payment breakdown
+- [ ] **Phase 15: Profile & Toolkit Redesign** — Profile stats/badge gallery refined, toolkit grid cleaned up with 4 tools
+- [ ] **Phase 16: Generator Overhaul** — AI multi-option business card and flyer generators with print, export, and share
+- [ ] **Phase 17: Onboarding Flow Redesign** — 6-step onboarding with integrated card and flyer generation
 
 ## Phase Details
 
@@ -77,9 +90,119 @@ Plans:
 Plans:
 - [ ] 10-01: TBD
 
+### Phase 11: Design System Foundation + Cleanup
+**Goal**: The app's entire visual foundation is replaced with The Outsiders design language, dead features are removed, and every icon is professional — establishing the base that all subsequent redesign phases build on
+**Depends on**: Phase 7 (v1.0 complete) — v1.1 superseded by v2.0
+**Requirements**: THM-01, THM-02, THM-03, THM-04, THM-05, THM-06, CLN-01, CLN-02, CLN-03, CLN-04, NAV-01, NAV-02, NAV-03
+**Success Criteria** (what must be TRUE):
+  1. User sees red/white/dark color scheme on every screen with zero green or purple remnants from v1.0
+  2. User sees large hero numbers (40-48px) for key stats on dashboard and earnings screens, with consistent typography hierarchy throughout
+  3. User sees professional vector icons everywhere — no emojis remain anywhere in the app
+  4. User navigates via a bottom tab bar with red accent on the active tab, consistent icon family, and muted gray inactive tabs
+  5. User cannot find name generator, invoice template, or rankings/leaderboard anywhere in the app — those features are fully removed
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 11-01: TBD
+- [ ] 11-02: TBD
+- [ ] 11-03: TBD
+
+### Phase 12: Component Library Redesign
+**Goal**: Every shared component matches The Outsiders glass-morphism aesthetic so that screen redesigns in subsequent phases compose correctly
+**Depends on**: Phase 11 (design system and theme in place)
+**Requirements**: CMP-01, CMP-02, CMP-03, CMP-04, CMP-05
+**Success Criteria** (what must be TRUE):
+  1. User sees glass-morphism styled cards (Card, StatCard) with consistent border radius (12-16px), subtle transparency, and dark background depth throughout the app
+  2. User sees red-gradient action buttons replacing all green-gradient buttons
+  3. User sees professional vector icons on all badges instead of emoji representations
+  4. User sees clean, typographic empty states with professional icons when lists are empty (no jobs, no clients, no payments)
+  5. User sees refined XP bar, streak badge, and level indicators that feel professional and understated rather than gamey
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 12-01: TBD
+- [ ] 12-02: TBD
+
+### Phase 13: Home, Jobs & Job Photos
+**Goal**: The two most-visited screens (dashboard and jobs) are fully redesigned, and users can attach photos when completing jobs
+**Depends on**: Phase 12 (shared components redesigned)
+**Requirements**: SCR-01, SCR-02, JOB-01, JOB-02, JOB-03
+**Success Criteria** (what must be TRUE):
+  1. User sees a bold hero stat at the top of the dashboard (total earnings or streak count), a clean card grid of key stats, and a recent activity feed
+  2. User sees the jobs list with styled filter tabs (upcoming/completed), clean job cards showing client, service, date, and price without any emojis
+  3. User can optionally attach a photo from camera or gallery when completing a job
+  4. User can view the attached photo in the job detail screen after completion
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 13-01: TBD
+- [ ] 13-02: TBD
+
+### Phase 14: Clients & Earnings Redesign
+**Goal**: The clients and earnings screens deliver professional data presentation matching The Outsiders design language
+**Depends on**: Phase 12 (shared components redesigned)
+**Requirements**: SCR-03, SCR-04
+**Success Criteria** (what must be TRUE):
+  1. User sees a professional contact list for clients with name, phone, and last job info, plus search/filter capability
+  2. User sees a dark-background chart at the top of earnings with a colored line, payment method breakdown below, and time period filter tabs
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 14-01: TBD
+
+### Phase 15: Profile & Toolkit Redesign
+**Goal**: The profile and toolkit screens complete the full-app redesign with refined gamification visuals and a streamlined tool grid
+**Depends on**: Phase 12 (shared components redesigned)
+**Requirements**: SCR-05, SCR-06
+**Success Criteria** (what must be TRUE):
+  1. User sees a profile screen with stats overview at top, badge gallery using proper vector icons, refined level progress bar, and a settings section with reset/start-over
+  2. User sees a toolkit screen with a clean 4-tool grid (Business Card, Flyer, Pricing Calculator, Business Ideas) using icons and labels only — no emojis or "coming soon" badges
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 15-01: TBD
+
+### Phase 16: Generator Overhaul
+**Goal**: Users can generate multiple AI design variations for business cards and flyers, then export, print, or share their chosen design
+**Depends on**: Phase 15 (toolkit screen redesigned with generator entry points)
+**Requirements**: GEN-01, GEN-02, GEN-03, GEN-04, GEN-05, GEN-06, GEN-07
+**Success Criteria** (what must be TRUE):
+  1. User generates 3-4 business card design variations with different layouts, typography, and color arrangements in the red/white/dark palette
+  2. User generates multiple flyer design variations tailored to their hustle type and business info
+  3. User accessing generators from toolkit sees their saved business info pre-filled automatically
+  4. User can export any generated card or flyer as PNG image or PDF, print via system dialog, or share via the native share sheet
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 16-01: TBD
+- [ ] 16-02: TBD
+
+### Phase 17: Onboarding Flow Redesign
+**Goal**: New users experience a polished 6-step onboarding that creates their profile, generates their first marketing materials, and launches them into the app
+**Depends on**: Phase 16 (generators built — onboarding steps 4-5 use them)
+**Requirements**: ONB-01, ONB-02, ONB-03, ONB-04, ONB-05, ONB-06
+**Success Criteria** (what must be TRUE):
+  1. User sees a clean professional welcome screen with bold typography and a brief tagline — no emojis or animations
+  2. User picks a hustle type from redesigned cards with proper icons and hustle name + one-line description only
+  3. User enters their name and business name on a clean form — no AI name suggestions
+  4. User generates and picks a business card design (or skips), then generates and picks a flyer design (or skips), with export/PDF options available
+  5. User sees a summary card showing their profile, then launches into the main app with all data saved
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] 17-01: TBD
+- [ ] 17-02: TBD
+
 ## Progress
 
-**Execution Order:** Phase 8 → Phase 9 → Phase 10
+**Execution Order:** Phase 11 → Phase 12 → Phase 13/14/15 (parallel-eligible) → Phase 16 → Phase 17
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -93,3 +216,10 @@ Plans:
 | 8. Fix & Testability | v1.1 | 0/2 | In Progress | - |
 | 9. Full Codebase Verification | v1.1 | 0/? | Not started | - |
 | 10. Window Washing Hustle Type | v1.1 | 0/? | Not started | - |
+| 11. Design System Foundation + Cleanup | v2.0 | 0/? | Not started | - |
+| 12. Component Library Redesign | v2.0 | 0/? | Not started | - |
+| 13. Home, Jobs & Job Photos | v2.0 | 0/? | Not started | - |
+| 14. Clients & Earnings Redesign | v2.0 | 0/? | Not started | - |
+| 15. Profile & Toolkit Redesign | v2.0 | 0/? | Not started | - |
+| 16. Generator Overhaul | v2.0 | 0/? | Not started | - |
+| 17. Onboarding Flow Redesign | v2.0 | 0/? | Not started | - |

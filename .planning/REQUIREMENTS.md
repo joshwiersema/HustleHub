@@ -111,13 +111,52 @@ Deferred to next release. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated during roadmap creation) | | |
+| CLN-01 | Phase 11 | Pending |
+| CLN-02 | Phase 11 | Pending |
+| CLN-03 | Phase 11 | Pending |
+| CLN-04 | Phase 11 | Pending |
+| THM-01 | Phase 11 | Pending |
+| THM-02 | Phase 11 | Pending |
+| THM-03 | Phase 11 | Pending |
+| THM-04 | Phase 11 | Pending |
+| THM-05 | Phase 11 | Pending |
+| THM-06 | Phase 11 | Pending |
+| NAV-01 | Phase 11 | Pending |
+| NAV-02 | Phase 11 | Pending |
+| NAV-03 | Phase 11 | Pending |
+| CMP-01 | Phase 12 | Pending |
+| CMP-02 | Phase 12 | Pending |
+| CMP-03 | Phase 12 | Pending |
+| CMP-04 | Phase 12 | Pending |
+| CMP-05 | Phase 12 | Pending |
+| SCR-01 | Phase 13 | Pending |
+| SCR-02 | Phase 13 | Pending |
+| JOB-01 | Phase 13 | Pending |
+| JOB-02 | Phase 13 | Pending |
+| JOB-03 | Phase 13 | Pending |
+| SCR-03 | Phase 14 | Pending |
+| SCR-04 | Phase 14 | Pending |
+| SCR-05 | Phase 15 | Pending |
+| SCR-06 | Phase 15 | Pending |
+| GEN-01 | Phase 16 | Pending |
+| GEN-02 | Phase 16 | Pending |
+| GEN-03 | Phase 16 | Pending |
+| GEN-04 | Phase 16 | Pending |
+| GEN-05 | Phase 16 | Pending |
+| GEN-06 | Phase 16 | Pending |
+| GEN-07 | Phase 16 | Pending |
+| ONB-01 | Phase 17 | Pending |
+| ONB-02 | Phase 17 | Pending |
+| ONB-03 | Phase 17 | Pending |
+| ONB-04 | Phase 17 | Pending |
+| ONB-05 | Phase 17 | Pending |
+| ONB-06 | Phase 17 | Pending |
 
 **Coverage:**
-- v2.0 requirements: 37 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 37
+- v2.0 requirements: 40 total
+- Mapped to phases: 40/40
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-25*
-*Last updated: 2026-03-25 after v2.0 milestone definition*
+*Last updated: 2026-03-25 after v2.0 roadmap creation*
