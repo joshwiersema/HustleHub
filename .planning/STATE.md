@@ -91,6 +91,10 @@ Recent decisions affecting current work:
 - [Phase 04-03]: BadgeGallery uses flex-wrap grid (not FlatList) since only 10 badges -- no virtualization needed
 - [Phase 04-03]: Expanded badge takes full width (100%) for readable detail with progress bar
 - [Phase 04-03]: Profile screen uses granular Zustand selectors per field to minimize re-renders
+- [Phase 05-01]: Earnings derived exclusively from paymentsStore -- getTotalEarningsFromJobs proxy not used in earnings tab
+- [Phase 05-01]: Bar chart rendered with plain View components (height ratio) -- no chart library dependency
+- [Phase 05-01]: Client picker uses inline filtered list with manual text entry fallback
+- [Phase 05-01]: Time filter pills with week/month/all toggle affecting all data displays simultaneously
 - [Phase 05-02]: QUICK_ACTIONS defined at module level for referential stability (not inside component)
 - [Phase 05-02]: Toolkit quick action route temporarily points to /(tabs)/earnings -- Phase 6 will add real toolkit screen
 - [Phase 05-02]: Used 'as any' for router.push route typing to avoid expo-router strict route type issues

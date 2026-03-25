@@ -33,16 +33,16 @@
 
 ### Payments
 
-- [ ] **PYMT-01**: User can log a payment with amount, client name, payment method, date, and notes
-- [ ] **PYMT-02**: User can select payment method from: Cash, Venmo, Zelle, PayPal, Other
-- [ ] **PYMT-03**: User can view payment history with client name, amount, method, and date
+- [x] **PYMT-01**: User can log a payment with amount, client name, payment method, date, and notes
+- [x] **PYMT-02**: User can select payment method from: Cash, Venmo, Zelle, PayPal, Other
+- [x] **PYMT-03**: User can view payment history with client name, amount, method, and date
 
 ### Earnings
 
-- [ ] **EARN-01**: User can see total earnings displayed prominently
-- [ ] **EARN-02**: User can filter earnings by time period (this week, this month, all time)
-- [ ] **EARN-03**: User can see earnings visualized in a bar chart
-- [ ] **EARN-04**: User can see summary stats (total, average per job, payment count)
+- [x] **EARN-01**: User can see total earnings displayed prominently
+- [x] **EARN-02**: User can filter earnings by time period (this week, this month, all time)
+- [x] **EARN-03**: User can see earnings visualized in a bar chart
+- [x] **EARN-04**: User can see summary stats (total, average per job, payment count)
 
 ### Gamification
 
@@ -159,13 +159,13 @@
 | GAME-05 | Phase 4 | Complete |
 | GAME-06 | Phase 4 | Complete |
 | GAME-07 | Phase 4 | Complete |
-| PYMT-01 | Phase 5 | Pending |
-| PYMT-02 | Phase 5 | Pending |
-| PYMT-03 | Phase 5 | Pending |
-| EARN-01 | Phase 5 | Pending |
-| EARN-02 | Phase 5 | Pending |
-| EARN-03 | Phase 5 | Pending |
-| EARN-04 | Phase 5 | Pending |
+| PYMT-01 | Phase 5 | Complete |
+| PYMT-02 | Phase 5 | Complete |
+| PYMT-03 | Phase 5 | Complete |
+| EARN-01 | Phase 5 | Complete |
+| EARN-02 | Phase 5 | Complete |
+| EARN-03 | Phase 5 | Complete |
+| EARN-04 | Phase 5 | Complete |
 | DASH-01 | Phase 5 | Complete |
 | DASH-02 | Phase 5 | Complete |
 | DASH-03 | Phase 5 | Complete |
