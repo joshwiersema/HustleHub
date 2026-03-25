@@ -51,7 +51,7 @@ Plans:
 **Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 02-01-PLAN.md — Refactor setup-business.tsx to use Zustand profileStore, fix back button touch targets, and verify onboarding flow
+- [x] 02-01-PLAN.md — Refactor setup-business.tsx to use Zustand profileStore, fix back button touch targets, and verify onboarding flow
 
 ### Phase 3: Core Business Data
 **Goal**: Users can add, view, edit, and delete both clients and jobs (including recurring jobs) — the primary daily operational workflow works end-to-end
@@ -66,8 +66,8 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Build full client management screen with search, inline expand, add/edit modal, and FAB
-- [ ] 03-02-PLAN.md — Build jobs list screen with tab filter, client picker, add/edit modal, recurring toggle, and date helpers
+- [x] 03-01-PLAN.md — Build full client management screen with search, inline expand, add/edit modal, and FAB
+- [x] 03-02-PLAN.md — Build jobs list screen with tab filter, client picker, add/edit modal, recurring toggle, and date helpers
 - [ ] 03-03-PLAN.md — Refactor job-detail.tsx from storage.ts to Zustand with mark-complete and recurring auto-generation
 
 ### Phase 4: Gamification Engine
@@ -115,7 +115,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-24 |
 | 2. Onboarding | 0/1 | Complete    | 2026-03-25 |
-| 3. Core Business Data | 0/3 | Not started | - |
+| 3. Core Business Data | 2/3 | In progress | - |
 | 4. Gamification Engine | 0/TBD | Not started | - |
 | 5. Payments and Dashboard | 0/TBD | Not started | - |
 | 6. Tools and Discovery | 0/TBD | Not started | - |

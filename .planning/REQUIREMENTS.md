@@ -23,12 +23,12 @@
 
 ### Jobs
 
-- [ ] **JOBS-01**: User can create a job with title, client, date, time, duration, price, address, and notes
-- [ ] **JOBS-02**: User can view jobs filtered by status (upcoming, completed, all)
+- [x] **JOBS-01**: User can create a job with title, client, date, time, duration, price, address, and notes
+- [x] **JOBS-02**: User can view jobs filtered by status (upcoming, completed, all)
 - [ ] **JOBS-03**: User can mark a job as completed
-- [ ] **JOBS-04**: User can set a job as recurring (weekly, biweekly, monthly)
-- [ ] **JOBS-05**: User can edit an existing job
-- [ ] **JOBS-06**: User can delete a job with confirmation
+- [x] **JOBS-04**: User can set a job as recurring (weekly, biweekly, monthly)
+- [x] **JOBS-05**: User can edit an existing job
+- [x] **JOBS-06**: User can delete a job with confirmation
 - [ ] **JOBS-07**: User can view full details of a single job
 
 ### Payments
@@ -145,12 +145,12 @@
 | CLNT-03 | Phase 3 | Complete |
 | CLNT-04 | Phase 3 | Complete |
 | CLNT-05 | Phase 3 | Complete |
-| JOBS-01 | Phase 3 | Pending |
-| JOBS-02 | Phase 3 | Pending |
+| JOBS-01 | Phase 3 | Complete |
+| JOBS-02 | Phase 3 | Complete |
 | JOBS-03 | Phase 3 | Pending |
-| JOBS-04 | Phase 3 | Pending |
-| JOBS-05 | Phase 3 | Pending |
-| JOBS-06 | Phase 3 | Pending |
+| JOBS-04 | Phase 3 | Complete |
+| JOBS-05 | Phase 3 | Complete |
+| JOBS-06 | Phase 3 | Complete |
 | JOBS-07 | Phase 3 | Pending |
 | GAME-01 | Phase 4 | Pending |
 | GAME-02 | Phase 4 | Pending |

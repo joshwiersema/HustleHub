@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in-progress
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-03-25T02:39:38Z"
-last_activity: 2026-03-25 — Completed Plan 03-01 (Client Management Screen)
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-03-25T02:45:38Z"
+last_activity: 2026-03-25 — Completed Plan 03-02 (Jobs List Screen)
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 7
-  completed_plans: 5
-  percent: 71
+  completed_plans: 6
+  percent: 86
 ---
 
 # Project State
@@ -26,18 +26,18 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 3 of 6 (Core Business Data)
-Plan: 1 of 3 in current phase (03-01 complete)
+Plan: 2 of 3 in current phase (03-02 complete)
 Status: In Progress
-Last activity: 2026-03-25 — Completed Plan 03-01 (Client Management Screen)
+Last activity: 2026-03-25 — Completed Plan 03-02 (Jobs List Screen)
 
-Progress: [███████---] 71%
+Progress: [████████--] 86%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 2.2 min
-- Total execution time: 0.18 hours
+- Total plans completed: 6
+- Average duration: 2.3 min
+- Total execution time: 0.23 hours
 
 **By Phase:**
 
@@ -45,10 +45,10 @@ Progress: [███████---] 71%
 |-------|-------|-------|----------|
 | 01-foundation | 3/3 | 7 min | 2.3 min |
 | 02-onboarding | 1/1 | 2 min | 2.0 min |
-| 03-core-business-data | 1/3 | 2 min | 2.0 min |
+| 03-core-business-data | 2/3 | 5 min | 2.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min), 01-02 (2 min), 01-03 (2 min), 02-01 (2 min), 03-01 (2 min)
+- Last 5 plans: 01-02 (2 min), 01-03 (2 min), 02-01 (2 min), 03-01 (2 min), 03-02 (3 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -73,6 +73,10 @@ Recent decisions affecting current work:
 - [Phase 03-01]: FlatList with empty data + ListHeaderComponent used for modal form scrolling -- avoids nested ScrollView issues
 - [Phase 03-01]: Single expandedId state for accordion-style card expansion -- only one card open at a time
 - [Phase 03-01]: Client ID generated with Date.now().toString(36) + Math.random().toString(36).substr(2) -- simple unique IDs without dependencies
+- [Phase 03-02]: Date helpers use plain JS Date arithmetic -- date-fns unnecessary for 3 patterns (weekly/biweekly/monthly)
+- [Phase 03-02]: Monthly recurrence uses day clamping via Math.min (Jan 31 -> Feb 28, not Mar 3)
+- [Phase 03-02]: Mark-complete orchestration in screen handler (not store) to avoid cross-store dependencies
+- [Phase 03-02]: Client picker is inline filtered list inside modal scroll -- no third-party picker library
 
 ### Pending Todos
 
@@ -81,12 +85,12 @@ None yet.
 ### Blockers/Concerns
 
 - [Phase 1]: MMKV v4 has minor open Expo compatibility issues — install via `npx expo install react-native-mmkv react-native-nitro-modules` and test early; fallback is AsyncStorage for Zustand persist only
-- [Phase 3]: Recurring job date generation (weekly/biweekly/monthly) needs explicit recurrenceGroupId strategy decision before implementation; verify date-fns v4 breaking changes
+- [Phase 3]: (RESOLVED in 03-02) Recurring job date generation uses plain JS Date arithmetic with day clamping; no date-fns needed, no recurrenceGroupId needed
 - [Phase 4]: GAMIFICATION_CONFIG XP curve numbers (level 1-10 = 3-6 months arc) must be modeled in a balancing spreadsheet BEFORE any XP constants are written — this is the single most important pre-code design task
 - [Phase 6]: react-native-view-shot + expo-media-library flyer export needs a proof-of-concept spike before full implementation
 
 ## Session Continuity
 
-Last session: 2026-03-25T02:39:38Z
-Stopped at: Completed 03-01-PLAN.md
-Resume file: .planning/phases/03-core-business-data/03-01-SUMMARY.md
+Last session: 2026-03-25T02:45:38Z
+Stopped at: Completed 03-02-PLAN.md
+Resume file: .planning/phases/03-core-business-data/03-02-SUMMARY.md
