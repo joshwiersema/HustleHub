@@ -114,7 +114,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -124,3 +124,16 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 4. Gamification Engine | 3/3 | Complete   | 2026-03-25 |
 | 5. Payments and Dashboard | 0/TBD | Not started | - |
 | 6. Tools and Discovery | 0/TBD | Not started | - |
+| 7. Integration Verification | 0/TBD | Not started | - |
+
+### Phase 7: Integration Verification
+**Goal**: The entire app compiles cleanly, all screens render without crashes, cross-phase data flows work end-to-end (onboarding → clients → jobs → payments → gamification → tools → dashboard), and the complete user experience matches v1.0 requirements
+**Depends on**: Phase 6
+**Requirements**: All v1 requirements (cross-cutting verification)
+**Success Criteria** (what must be TRUE):
+  1. TypeScript compiles with zero errors (`npx tsc --noEmit` passes)
+  2. Expo bundler runs without errors (`npx expo export --platform ios` passes)
+  3. Complete user flow works: onboarding → add client → create job → complete job → log payment → XP/badges awarded → earnings visible → tools accessible
+  4. All 5 tabs render correctly with live data from Zustand stores
+  5. No orphaned imports, missing exports, or broken cross-screen navigation
+**Plans**: TBD
