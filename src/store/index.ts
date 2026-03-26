@@ -1,3 +1,4 @@
+export { useAuthStore } from './authStore';
 export { useProfileStore } from './profileStore';
 export { useClientsStore } from './clientsStore';
 export { useJobsStore } from './jobsStore';

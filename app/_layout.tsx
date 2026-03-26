@@ -3,11 +3,13 @@ import { View, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Colors } from '../src/constants/theme';
+import { useAuthStore } from '../src/store/authStore';
 import { useProfileStore } from '../src/store/profileStore';
 import { CelebrationProvider } from '../src/components/CelebrationProvider';
 import { ErrorBoundary } from '../src/components/ErrorBoundary';
 
 export default function RootLayout() {
+  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
   const isOnboarded = useProfileStore((s) => s.isOnboarded);
   const [hydrated, setHydrated] = useState(false);
   const router = useRouter();
@@ -26,40 +28,62 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    // Subscribe to Zustand persist hydration completion
-    const unsub = useProfileStore.persist.onFinishHydration(() => {
-      setHydrated(true);
+    let authDone = false;
+    let profileDone = false;
+    const checkDone = () => {
+      if (authDone && profileDone) setHydrated(true);
+    };
+
+    const unsubAuth = useAuthStore.persist.onFinishHydration(() => {
+      authDone = true;
+      checkDone();
     });
-    // If already hydrated (e.g., sync persist or fast async)
-    if (useProfileStore.persist.hasHydrated()) {
-      setHydrated(true);
-    }
-    return unsub;
+    const unsubProfile = useProfileStore.persist.onFinishHydration(() => {
+      profileDone = true;
+      checkDone();
+    });
+
+    if (useAuthStore.persist.hasHydrated()) { authDone = true; }
+    if (useProfileStore.persist.hasHydrated()) { profileDone = true; }
+    checkDone();
+
+    return () => { unsubAuth(); unsubProfile(); };
   }, []);
 
-  // Handle auth-style routing guard
   useEffect(() => {
     if (!hydrated) return;
 
+    const inAuth = segments[0] === '(auth)';
     const inOnboarding = segments[0] === 'onboarding';
 
-    if (!isOnboarded && !inOnboarding) {
-      router.replace('/onboarding');
-    } else if (isOnboarded && inOnboarding) {
-      router.replace('/(tabs)');
+    if (!isLoggedIn) {
+      // Not logged in → show auth screens
+      if (!inAuth) {
+        router.replace('/(auth)/login');
+      }
+    } else if (!isOnboarded) {
+      // Logged in but not onboarded → show onboarding
+      if (!inOnboarding) {
+        router.replace('/onboarding');
+      }
+    } else {
+      // Logged in and onboarded → show main app
+      if (inAuth || inOnboarding) {
+        router.replace('/(tabs)');
+      }
     }
-  }, [hydrated, isOnboarded, segments]);
+  }, [hydrated, isLoggedIn, isOnboarded, segments]);
 
   return (
     <ErrorBoundary>
       {!hydrated ? (
         <View style={styles.loading}>
           <ActivityIndicator size="large" color={Colors.primary} />
-          <StatusBar style="light" />
+          <StatusBar style="dark" />
         </View>
       ) : (
         <CelebrationProvider>
-          <StatusBar style="light" />
+          <StatusBar style="dark" />
           <Stack
             screenOptions={{
               headerShown: false,
@@ -67,6 +91,7 @@ export default function RootLayout() {
               animation: 'fade',
             }}
           >
+            <Stack.Screen name="(auth)" />
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="onboarding" />
           </Stack>

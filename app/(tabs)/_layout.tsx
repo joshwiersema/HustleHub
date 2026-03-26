@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Platform, StyleSheet } from 'react-native';
-import { Colors } from '../../src/constants/theme';
+import { Colors, Shadows } from '../../src/constants/theme';
 
 type TabIcon = keyof typeof Ionicons.glyphMap;
 
@@ -31,7 +31,7 @@ export default function TabsLayout() {
         tabBarShowLabel: true,
         tabBarLabelStyle: {
           fontSize: 11,
-          fontWeight: '500',
+          fontWeight: '600',
         },
         tabBarStyle: {
           backgroundColor: Colors.bg,
@@ -40,6 +40,7 @@ export default function TabsLayout() {
           height: Platform.OS === 'ios' ? 88 : 64,
           paddingBottom: Platform.OS === 'ios' ? 28 : 8,
           paddingTop: 8,
+          ...Shadows.card,
         },
         tabBarItemStyle: {
           paddingVertical: 4,

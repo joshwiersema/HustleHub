@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Spacing, FontSize, FontWeight, BorderRadius } from '../../src/constants/theme';
 import { ScreenHeader, Card, StatCard, XPBar, HustleBucksDisplay } from '../../src/components';
+import { useAuthStore } from '../../src/store/authStore';
 import { useProfileStore } from '../../src/store/profileStore';
 import { useGameStore } from '../../src/store/gameStore';
 import { useClientsStore } from '../../src/store/clientsStore';
@@ -47,14 +48,26 @@ export default function ProfileScreen() {
     return Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
   }, [profile?.joinedDate]);
 
+  const handleLogout = useCallback(() => {
+    Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Sign Out',
+        onPress: () => {
+          useAuthStore.getState().logout();
+        },
+      },
+    ]);
+  }, []);
+
   const handleReset = useCallback(() => {
     Alert.alert(
-      'Reset All Data',
-      'This will permanently delete all your data including clients, jobs, payments, and progress. This cannot be undone.',
+      'Delete Account',
+      'This will permanently delete your account and all data. This cannot be undone.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
-          text: 'Reset Everything',
+          text: 'Delete Everything',
           style: 'destructive',
           onPress: () => {
             useProfileStore.getState().reset();
@@ -62,12 +75,12 @@ export default function ProfileScreen() {
             useJobsStore.getState().reset();
             usePaymentsStore.getState().reset();
             useGameStore.getState().reset();
-            router.replace('/onboarding');
+            useAuthStore.getState().resetAccount();
           },
         },
       ],
     );
-  }, [router]);
+  }, []);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -172,12 +185,24 @@ export default function ProfileScreen() {
           />
         </View>
 
-        {/* Data Reset */}
+        {/* Settings */}
+        <Text style={styles.sectionTitle}>Settings</Text>
+
+        <Pressable
+          onPress={handleLogout}
+          style={({ pressed }) => [styles.settingsButton, pressed && styles.settingsButtonPressed]}
+        >
+          <Ionicons name="log-out-outline" size={20} color={Colors.text} />
+          <Text style={styles.settingsButtonText}>Sign Out</Text>
+          <Ionicons name="chevron-forward" size={18} color={Colors.textMuted} />
+        </Pressable>
+
         <Pressable
           onPress={handleReset}
           style={({ pressed }) => [styles.resetButton, pressed && styles.resetButtonPressed]}
         >
-          <Text style={styles.resetButtonText}>Reset All Data</Text>
+          <Ionicons name="trash-outline" size={20} color={Colors.error} />
+          <Text style={styles.resetButtonText}>Delete Account</Text>
         </Pressable>
 
         <View style={styles.bottomSpacer} />
@@ -230,22 +255,43 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
     marginTop: Spacing.lg,
   },
+  settingsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.bgCard,
+    borderRadius: BorderRadius.md,
+    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
+    gap: Spacing.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    marginBottom: Spacing.sm,
+  },
+  settingsButtonPressed: {
+    backgroundColor: Colors.bgCardHover,
+  },
+  settingsButtonText: {
+    flex: 1,
+    fontSize: FontSize.md,
+    fontWeight: FontWeight.medium,
+    color: Colors.text,
+  },
   resetButton: {
-    marginTop: Spacing.xxl,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: Spacing.lg,
-    paddingVertical: Spacing.md,
+    paddingVertical: Spacing.lg,
     paddingHorizontal: Spacing.xl,
     borderRadius: BorderRadius.md,
-    borderWidth: 1,
-    borderColor: Colors.error,
-    alignItems: 'center',
+    gap: Spacing.sm,
   },
   resetButtonPressed: {
-    backgroundColor: 'rgba(255, 82, 82, 0.1)',
+    backgroundColor: 'rgba(220, 38, 38, 0.05)',
   },
   resetButtonText: {
     fontSize: FontSize.md,
-    fontWeight: FontWeight.semibold,
+    fontWeight: FontWeight.medium,
     color: Colors.error,
   },
   bottomSpacer: {
