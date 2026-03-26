@@ -57,12 +57,20 @@ interface FlyerDesign {
 
 const FLYER_DESIGNS: FlyerDesign[] = [
   {
-    id: 'bold',
-    name: 'Bold',
-    bgColor: '#0C0C0F',
-    textColor: '#FFFFFF',
+    id: 'classic',
+    name: 'Classic',
+    bgColor: '#FFFFFF',
+    textColor: '#111827',
     accentColor: '#DC2626',
-    subtextColor: '#8A8A96',
+    subtextColor: '#6B7280',
+  },
+  {
+    id: 'soft',
+    name: 'Soft',
+    bgColor: '#F9FAFB',
+    textColor: '#111827',
+    accentColor: '#DC2626',
+    subtextColor: '#9CA3AF',
   },
   {
     id: 'impact',
@@ -74,21 +82,12 @@ const FLYER_DESIGNS: FlyerDesign[] = [
     gradient: ['#DC2626', '#991B1B'],
   },
   {
-    id: 'classic',
-    name: 'Classic',
-    bgColor: '#FFFFFF',
-    textColor: '#0C0C0F',
-    accentColor: '#DC2626',
-    subtextColor: '#6B6B78',
-  },
-  {
-    id: 'midnight',
-    name: 'Midnight',
-    bgColor: '#141418',
+    id: 'dark',
+    name: 'Dark',
+    bgColor: '#111827',
     textColor: '#FFFFFF',
     accentColor: '#DC2626',
-    subtextColor: '#6B6B78',
-    gradient: ['#1A1A22', '#0C0C0F'],
+    subtextColor: '#9CA3AF',
   },
 ];
 

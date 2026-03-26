@@ -58,11 +58,19 @@ interface CardDesign {
 
 const CARD_DESIGNS: CardDesign[] = [
   {
-    id: 'executive',
-    name: 'Executive',
-    bg: '#0C0C0F',
-    textColor: '#FFFFFF',
-    subtextColor: 'rgba(255,255,255,0.5)',
+    id: 'clean',
+    name: 'Clean',
+    bg: '#FFFFFF',
+    textColor: '#111827',
+    subtextColor: '#6B7280',
+    accentColor: '#DC2626',
+  },
+  {
+    id: 'minimal',
+    name: 'Minimal',
+    bg: '#F9FAFB',
+    textColor: '#111827',
+    subtextColor: '#9CA3AF',
     accentColor: '#DC2626',
   },
   {
@@ -75,21 +83,12 @@ const CARD_DESIGNS: CardDesign[] = [
     gradient: ['#DC2626', '#991B1B'],
   },
   {
-    id: 'clean',
-    name: 'Clean',
-    bg: '#FFFFFF',
-    textColor: '#0C0C0F',
-    subtextColor: '#6B6B78',
-    accentColor: '#DC2626',
-  },
-  {
-    id: 'slate',
-    name: 'Slate',
-    bg: '#1A1A22',
+    id: 'dark',
+    name: 'Dark',
+    bg: '#111827',
     textColor: '#FFFFFF',
-    subtextColor: '#8A8A96',
+    subtextColor: 'rgba(255,255,255,0.5)',
     accentColor: '#DC2626',
-    gradient: ['#1A1A22', '#141418'],
   },
 ];
 

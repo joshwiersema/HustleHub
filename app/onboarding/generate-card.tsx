@@ -40,10 +40,10 @@ const CARD_W = width - Spacing.xxl * 2;
 const CARD_H = CARD_W * (2 / 3.5);
 
 const DESIGNS = [
-  { id: 'exec', name: 'Executive', bg: '#0C0C0F', text: '#FFF', accent: '#DC2626', sub: 'rgba(255,255,255,0.5)' },
+  { id: 'clean', name: 'Clean', bg: '#FFF', text: '#111827', accent: '#DC2626', sub: '#6B7280' },
+  { id: 'minimal', name: 'Minimal', bg: '#F9FAFB', text: '#111827', accent: '#DC2626', sub: '#9CA3AF' },
   { id: 'crimson', name: 'Crimson', bg: '#DC2626', text: '#FFF', accent: '#FFF', sub: 'rgba(255,255,255,0.7)', grad: ['#DC2626', '#991B1B'] as const },
-  { id: 'clean', name: 'Clean', bg: '#FFF', text: '#0C0C0F', accent: '#DC2626', sub: '#6B6B78' },
-  { id: 'slate', name: 'Slate', bg: '#1A1A22', text: '#FFF', accent: '#DC2626', sub: '#8A8A96', grad: ['#1A1A22', '#141418'] as const },
+  { id: 'dark', name: 'Dark', bg: '#111827', text: '#FFF', accent: '#DC2626', sub: 'rgba(255,255,255,0.5)' },
 ];
 
 export default function GenerateCardScreen() {
