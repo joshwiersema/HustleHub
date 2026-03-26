@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '../lib/supabase';
 import type { Session, User } from '@supabase/supabase-js';
 
@@ -12,6 +13,7 @@ interface AuthState {
   signup: (name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
+  clearAllLocalData: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
@@ -54,6 +56,9 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       return { success: false, error: 'Password must be at least 6 characters.' };
     }
 
+    // Clear any stale local data from previous accounts
+    await get().clearAllLocalData();
+
     const { data, error } = await supabase.auth.signUp({
       email: email.toLowerCase().trim(),
       password,
@@ -78,6 +83,9 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   },
 
   login: async (email, password) => {
+    // Clear stale local data before login
+    await get().clearAllLocalData();
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email.toLowerCase().trim(),
       password,
@@ -98,6 +106,21 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
   logout: async () => {
     await supabase.auth.signOut();
+    // Clear ALL local Zustand/AsyncStorage data
+    await get().clearAllLocalData();
     set({ session: null, user: null, isLoggedIn: false });
+  },
+
+  clearAllLocalData: async () => {
+    // Remove all HustleHub Zustand persisted stores from AsyncStorage
+    const keys = [
+      '@hustlehub/profile',
+      '@hustlehub/clients',
+      '@hustlehub/jobs',
+      '@hustlehub/payments',
+      '@hustlehub/game',
+      '@hustlehub/auth',
+    ];
+    await AsyncStorage.multiRemove(keys).catch(() => {});
   },
 }));

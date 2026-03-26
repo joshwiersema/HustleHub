@@ -53,8 +53,8 @@ export default function ProfileScreen() {
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Sign Out',
-        onPress: async () => {
-          await useAuthStore.getState().logout();
+        onPress: () => {
+          useAuthStore.getState().logout().catch(console.error);
         },
       },
     ]);
@@ -63,19 +63,14 @@ export default function ProfileScreen() {
   const handleReset = useCallback(() => {
     Alert.alert(
       'Delete Account',
-      'This will permanently delete your account and all data. This cannot be undone.',
+      'This will permanently delete all local data and sign you out. This cannot be undone.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
           text: 'Delete Everything',
           style: 'destructive',
-          onPress: async () => {
-            useProfileStore.getState().reset();
-            useClientsStore.getState().reset();
-            useJobsStore.getState().reset();
-            usePaymentsStore.getState().reset();
-            useGameStore.getState().reset();
-            await useAuthStore.getState().logout();
+          onPress: () => {
+            useAuthStore.getState().logout().catch(console.error);
           },
         },
       ],
