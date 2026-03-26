@@ -29,12 +29,12 @@ export default function XPToast({ amount, visible, onHide }: XPToastProps) {
         Animated.timing(opacity, {
           toValue: 1,
           duration: 200,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.timing(translateY, {
           toValue: 0,
           duration: 200,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
       ]).start(() => {
         // After 1500ms delay, fade out
@@ -42,7 +42,7 @@ export default function XPToast({ amount, visible, onHide }: XPToastProps) {
           Animated.timing(opacity, {
             toValue: 0,
             duration: 300,
-            useNativeDriver: true,
+            useNativeDriver: false,
           }).start(() => {
             onHide();
           });
@@ -60,9 +60,9 @@ export default function XPToast({ amount, visible, onHide }: XPToastProps) {
         {
           opacity,
           transform: [{ translateY }],
+          pointerEvents: 'none' as const,
         },
       ]}
-      pointerEvents="none"
     >
       <Text style={styles.text}>+{amount} XP</Text>
     </Animated.View>

@@ -32,24 +32,24 @@ export default function WelcomeScreen() {
         Animated.timing(fadeAnim, {
           toValue: 1,
           duration: 600,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.timing(slideAnim, {
           toValue: 0,
           duration: 500,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
       ]),
       Animated.parallel([
         Animated.timing(buttonSlide, {
           toValue: 0,
           duration: 400,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
         Animated.timing(buttonFade, {
           toValue: 1,
           duration: 400,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
       ]),
     ]).start();

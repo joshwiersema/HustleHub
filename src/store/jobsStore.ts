@@ -29,19 +29,25 @@ export const useJobsStore = create<JobsState>()(
       addJob: (job) => {
         set((state) => ({ jobs: [...state.jobs, job] }));
         const userId = useAuthStore.getState().user?.id;
-        if (userId) db.insertJob(userId, job).catch(console.error);
+        if (userId) db.insertJob(userId, job).catch((e) => {
+          console.warn('Failed to sync job to cloud:', e?.message || e);
+        });
       },
 
       updateJob: (id, updates) => {
         set((state) => ({
           jobs: state.jobs.map((j) => j.id === id ? { ...j, ...updates } : j),
         }));
-        db.updateJob(id, updates).catch(console.error);
+        db.updateJob(id, updates).catch((e) => {
+          console.warn('Failed to update job in cloud:', e?.message || e);
+        });
       },
 
       deleteJob: (id) => {
         set((state) => ({ jobs: state.jobs.filter((j) => j.id !== id) }));
-        db.deleteJob(id).catch(console.error);
+        db.deleteJob(id).catch((e) => {
+          console.warn('Failed to delete job from cloud:', e?.message || e);
+        });
       },
 
       getJob: (id) => get().jobs.find((j) => j.id === id),
@@ -52,7 +58,9 @@ export const useJobsStore = create<JobsState>()(
             j.id === id ? { ...j, status: 'completed' as const } : j
           ),
         }));
-        db.updateJob(id, { status: 'completed' }).catch(console.error);
+        db.updateJob(id, { status: 'completed' }).catch((e) => {
+          console.warn('Failed to complete job in cloud:', e?.message || e);
+        });
       },
 
       syncFromCloud: async () => {
@@ -62,7 +70,7 @@ export const useJobsStore = create<JobsState>()(
           const jobs = await db.fetchJobs(userId);
           set({ jobs });
         } catch (e) {
-          console.error('Jobs sync failed:', e);
+          console.warn('Jobs sync failed:', e);
         }
       },
 

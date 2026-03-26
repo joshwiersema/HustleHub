@@ -17,7 +17,7 @@ export default function StreakBadge({ streak }: StreakBadgeProps) {
   return (
     <View style={styles.container}>
       <Ionicons name="flame" size={16} color={Colors.primary} />
-      <Text style={styles.streakText}>{streak} day streak</Text>
+      <Text style={styles.streakText}>{streak} {streak === 1 ? 'day' : 'days'} streak</Text>
     </View>
   );
 }

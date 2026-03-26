@@ -36,7 +36,7 @@ export const useProfileStore = create<ProfileState>()(
             business_name: profile.businessName,
             hustle_type: profile.hustleType,
             is_onboarded: false,
-          }).catch(console.error);
+          }).catch((e) => console.warn('Profile cloud sync:', e?.message || e));
         }
       },
 
@@ -52,7 +52,7 @@ export const useProfileStore = create<ProfileState>()(
             business_name: updates.businessName ?? profile.businessName,
             hustle_type: updates.hustleType ?? profile.hustleType,
             is_onboarded: get().isOnboarded,
-          }).catch(console.error);
+          }).catch((e) => console.warn('Profile cloud sync:', e?.message || e));
         }
       },
 
@@ -66,7 +66,7 @@ export const useProfileStore = create<ProfileState>()(
             business_name: profile.businessName,
             hustle_type: profile.hustleType,
             is_onboarded: true,
-          }).catch(console.error);
+          }).catch((e) => console.warn('Profile cloud sync:', e?.message || e));
         }
       },
 
@@ -95,7 +95,7 @@ export const useProfileStore = create<ProfileState>()(
             });
           }
         } catch (e) {
-          console.error('Profile sync failed:', e);
+          console.warn('Profile sync failed:', e);
         }
       },
 

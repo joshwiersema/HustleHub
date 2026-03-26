@@ -116,7 +116,7 @@ export default function ProfileScreen() {
           />
           <StatCard
             label="Streak"
-            value={`${streak} days`}
+            value={`${streak} ${streak === 1 ? 'day' : 'days'}`}
             icon="flame-outline"
             color={Colors.primary}
           />

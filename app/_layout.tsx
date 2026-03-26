@@ -30,19 +30,23 @@ export default function RootLayout() {
     if (!authLoading) setReady(true);
   }, [authLoading]);
 
-  // Sync from cloud when user logs in
+  // Sync from cloud when user logs in — validate session first
   useEffect(() => {
     if (!user?.id || user.id === lastUserId.current) return;
     lastUserId.current = user.id;
 
-    // Pull cloud data into local stores
-    Promise.all([
-      useProfileStore.getState().syncFromCloud(),
-      useClientsStore.getState().syncFromCloud(),
-      useJobsStore.getState().syncFromCloud(),
-      usePaymentsStore.getState().syncFromCloud(),
-      useGameStore.getState().syncFromCloud(),
-    ]).catch(console.error);
+    // Validate session is still valid before pulling data
+    useAuthStore.getState().validateSession().then((valid) => {
+      if (!valid) return; // Session was stale — user will be redirected to login
+      // Pull cloud data into local stores
+      return Promise.all([
+        useProfileStore.getState().syncFromCloud(),
+        useClientsStore.getState().syncFromCloud(),
+        useJobsStore.getState().syncFromCloud(),
+        usePaymentsStore.getState().syncFromCloud(),
+        useGameStore.getState().syncFromCloud(),
+      ]);
+    }).catch((e) => console.warn('Cloud sync failed:', e?.message || e));
   }, [user?.id]);
 
   useEffect(() => {

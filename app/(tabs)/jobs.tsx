@@ -10,6 +10,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  GestureResponderEvent,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -37,6 +38,7 @@ import {
   getNextOccurrenceDate,
   formatDuration,
 } from '../../src/utils/dateHelpers';
+import { generateId } from '../../src/utils/generateId';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -151,7 +153,10 @@ const JobCard = React.memo(function JobCard({
       {job.status === 'upcoming' && (
         <View style={styles.bottomRow}>
           <Pressable
-            onPress={() => onComplete(job.id)}
+            onPress={(e: GestureResponderEvent) => {
+              e.stopPropagation();
+              onComplete(job.id);
+            }}
             style={styles.completeButton}
           >
             <Ionicons
@@ -376,7 +381,7 @@ export default function JobsScreen() {
       updateJob(editingJob.id, jobData);
     } else {
       const newJob: Job = {
-        id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+        id: generateId(),
         ...jobData,
         status: 'upcoming',
       };
@@ -423,7 +428,8 @@ export default function JobsScreen() {
 
   const completeJobWithOptionalPhoto = useCallback(
     (jobId: string, photoUri?: string) => {
-      const job = jobs.find((j) => j.id === jobId);
+      // Read job directly from store to avoid stale closure issues
+      const job = useJobsStore.getState().jobs.find((j) => j.id === jobId);
       if (!job) return;
 
       // 1. Mark current job as completed, optionally with photo
@@ -461,22 +467,29 @@ export default function JobsScreen() {
           job.date,
           job.recurringFrequency,
         );
-        const newId =
-          Date.now().toString(36) + Math.random().toString(36).substr(2);
         const nextJob: Job = {
           ...job,
-          id: newId,
+          id: generateId(),
           date: nextDate,
           status: 'upcoming',
         };
         useJobsStore.getState().addJob(nextJob);
       }
     },
-    [jobs, showXPToast],
+    [showXPToast],
   );
 
   const handleComplete = useCallback(
     (jobId: string) => {
+      if (Platform.OS === 'web') {
+        // On web, skip the photo prompt (image picker UX is poor)
+        // and use window.confirm for reliability
+        const confirmed = window.confirm('Mark this job as complete?');
+        if (confirmed) {
+          completeJobWithOptionalPhoto(jobId);
+        }
+        return;
+      }
       Alert.alert(
         'Complete Job',
         'Would you like to add a photo of your finished work?',

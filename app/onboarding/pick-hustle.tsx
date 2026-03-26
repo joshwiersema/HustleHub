@@ -42,12 +42,12 @@ export default function PickHustleScreen() {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 400,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
       Animated.timing(slideAnim, {
         toValue: 0,
         duration: 400,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
     ]).start();
 
@@ -58,7 +58,7 @@ export default function PickHustleScreen() {
           toValue: 1,
           tension: 50,
           friction: 8,
-          useNativeDriver: true,
+          useNativeDriver: false,
         }),
       ),
     ).start();
@@ -69,7 +69,7 @@ export default function PickHustleScreen() {
       toValue: selected ? 1 : 0,
       tension: 50,
       friction: 8,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   }, [selected]);
 

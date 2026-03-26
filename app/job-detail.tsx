@@ -32,6 +32,7 @@ import { checkBadges } from '../src/utils/gamification';
 import { usePaymentsStore } from '../src/store/paymentsStore';
 import { useCelebration } from '../src/components/CelebrationProvider';
 import { getNextOccurrenceDate, formatDuration } from '../src/utils/dateHelpers';
+import { generateId } from '../src/utils/generateId';
 
 const DURATION_OPTIONS = [
   { label: '30min', value: 30 },
@@ -122,10 +123,9 @@ export default function JobDetailScreen() {
             // 6. Auto-generate next occurrence for recurring jobs
             if (job.recurring && job.recurringFrequency) {
               const nextDate = getNextOccurrenceDate(job.date, job.recurringFrequency);
-              const newId = Date.now().toString(36) + Math.random().toString(36).substr(2);
               const nextJob: Job = {
                 ...job,
-                id: newId,
+                id: generateId(),
                 date: nextDate,
                 status: 'upcoming' as const,
               };

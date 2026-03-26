@@ -27,12 +27,16 @@ export const usePaymentsStore = create<PaymentsState>()(
       addPayment: (payment) => {
         set((state) => ({ payments: [...state.payments, payment] }));
         const userId = useAuthStore.getState().user?.id;
-        if (userId) db.insertPayment(userId, payment).catch(console.error);
+        if (userId) db.insertPayment(userId, payment).catch((e) => {
+          console.warn('Failed to sync payment to cloud:', e?.message || e);
+        });
       },
 
       deletePayment: (id) => {
         set((state) => ({ payments: state.payments.filter((p) => p.id !== id) }));
-        db.deletePayment(id).catch(console.error);
+        db.deletePayment(id).catch((e) => {
+          console.warn('Failed to delete payment from cloud:', e?.message || e);
+        });
       },
 
       getPaymentsByClient: (clientName) =>
@@ -45,7 +49,7 @@ export const usePaymentsStore = create<PaymentsState>()(
           const payments = await db.fetchPayments(userId);
           set({ payments });
         } catch (e) {
-          console.error('Payments sync failed:', e);
+          console.warn('Payments sync failed:', e);
         }
       },
 

@@ -90,7 +90,9 @@ export const useGameStore = create<GameState>()(
           streak: s.streak,
           last_activity_date: s.lastActivityDate,
           earned_badges: s.earnedBadges,
-        }).catch(console.error);
+        }).catch((e) => {
+          console.warn('Failed to sync game state to cloud:', e?.message || e);
+        });
       },
 
       syncFromCloud: async () => {
@@ -109,7 +111,7 @@ export const useGameStore = create<GameState>()(
             });
           }
         } catch (e) {
-          console.error('Game sync failed:', e);
+          console.warn('Game sync failed:', e);
         }
       },
 

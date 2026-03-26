@@ -218,7 +218,8 @@ export async function fetchGameState(userId: string) {
     .select('*')
     .eq('id', userId)
     .single();
-  if (error) throw error;
+  // PGRST116 = "not found" — game_state row doesn't exist yet, which is expected
+  if (error && error.code !== 'PGRST116') throw error;
   return data;
 }
 

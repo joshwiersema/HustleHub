@@ -31,6 +31,7 @@ import { checkBadges } from '../../src/utils/gamification';
 import { parseDateString } from '../../src/utils/dateHelpers';
 import { useCelebration } from '../../src/components/CelebrationProvider';
 import { ScreenHeader, StatCard, EmptyState, Card } from '../../src/components';
+import { generateId } from '../../src/utils/generateId';
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -232,7 +233,7 @@ export default function EarningsScreen() {
     }
 
     const newPayment: Payment = {
-      id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+      id: generateId(),
       clientName: formClientName.trim(),
       amount: amt,
       method: formMethod,

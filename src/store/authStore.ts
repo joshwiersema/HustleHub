@@ -10,6 +10,7 @@ interface AuthState {
   isLoading: boolean;
 
   initialize: () => Promise<void>;
+  validateSession: () => Promise<boolean>;
   signup: (name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
@@ -25,12 +26,21 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   initialize: async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      set({
-        session,
-        user: session?.user ?? null,
-        isLoggedIn: !!session,
-        isLoading: false,
-      });
+
+      if (session) {
+        // Verify the session is still valid by calling getUser
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error || !user) {
+          // Session is stale — clear everything and force re-login
+          await get().clearAllLocalData();
+          await supabase.auth.signOut().catch(() => {});
+          set({ session: null, user: null, isLoggedIn: false, isLoading: false });
+          return;
+        }
+        set({ session, user, isLoggedIn: true, isLoading: false });
+      } else {
+        set({ session: null, user: null, isLoggedIn: false, isLoading: false });
+      }
 
       // Listen for auth state changes
       supabase.auth.onAuthStateChange((_event, session) => {
@@ -41,8 +51,20 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         });
       });
     } catch {
-      set({ isLoading: false });
+      await get().clearAllLocalData();
+      set({ session: null, user: null, isLoggedIn: false, isLoading: false });
     }
+  },
+
+  validateSession: async () => {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user) {
+      await get().clearAllLocalData();
+      await supabase.auth.signOut().catch(() => {});
+      set({ session: null, user: null, isLoggedIn: false });
+      return false;
+    }
+    return true;
   },
 
   signup: async (name, email, password) => {

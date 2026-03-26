@@ -24,12 +24,7 @@ import {
 import { HustleType, HUSTLE_TYPES, UserProfile } from '../../src/types';
 import { useProfileStore } from '../../src/store/profileStore';
 
-function generateId(): string {
-  return (
-    Date.now().toString(36) +
-    Math.random().toString(36).substring(2, 10)
-  );
-}
+import { generateId } from '../../src/utils/generateId';
 
 export default function SetupBusinessScreen() {
   const router = useRouter();
@@ -52,12 +47,12 @@ export default function SetupBusinessScreen() {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 400,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
       Animated.timing(slideAnim, {
         toValue: 0,
         duration: 400,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
     ]).start();
   }, []);
@@ -71,7 +66,7 @@ export default function SetupBusinessScreen() {
     Animated.timing(launchAnim, {
       toValue: 1,
       duration: 600,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
 
     const profile: UserProfile = {

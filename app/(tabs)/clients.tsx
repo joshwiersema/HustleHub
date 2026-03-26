@@ -30,6 +30,7 @@ import { checkBadges } from '../../src/utils/gamification';
 import { usePaymentsStore } from '../../src/store/paymentsStore';
 import { useCelebration } from '../../src/components/CelebrationProvider';
 import { EmptyState, ScreenHeader } from '../../src/components';
+import { generateId } from '../../src/utils/generateId';
 
 // ---------------------------------------------------------------------------
 // ClientCard — memoized for FlatList performance
@@ -191,6 +192,9 @@ export default function ClientsScreen() {
   const [formAddress, setFormAddress] = useState('');
   const [formNotes, setFormNotes] = useState('');
 
+  // Validation errors
+  const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
+
   // Search filtering
   const filteredClients = useMemo(() => {
     if (!searchQuery.trim()) return clients;
@@ -206,6 +210,7 @@ export default function ClientsScreen() {
 
   // Populate form when editing
   useEffect(() => {
+    setErrors({});
     if (modalVisible && editingClient) {
       setFormName(editingClient.name);
       setFormPhone(editingClient.phone);
@@ -261,15 +266,24 @@ export default function ClientsScreen() {
   );
 
   const handleSave = useCallback(() => {
+    const newErrors: { name?: string; email?: string } = {};
     if (!formName.trim()) {
-      Alert.alert('Missing Info', 'Please enter a client name.');
+      newErrors.name = 'Name is required';
+    }
+    const emailVal = formEmail.trim();
+    if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
+    setErrors({});
 
     const trimmed = {
       name: formName.trim(),
       phone: formPhone.trim(),
-      email: formEmail.trim(),
+      email: emailVal,
       address: formAddress.trim(),
       notes: formNotes.trim(),
     };
@@ -280,7 +294,7 @@ export default function ClientsScreen() {
     } else {
       // New client -- full gamification sequence
       const newClient: Client = {
-        id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+        id: generateId(),
         ...trimmed,
         createdAt: new Date().toISOString(),
       };
@@ -463,8 +477,9 @@ export default function ClientsScreen() {
                     label="Name *"
                     placeholder="Client name"
                     value={formName}
-                    onChangeText={setFormName}
+                    onChangeText={(t) => { setFormName(t); if (errors.name) setErrors((e) => ({ ...e, name: undefined })); }}
                     autoCapitalize="words"
+                    error={errors.name}
                   />
                   <FormField
                     label="Phone"
@@ -477,9 +492,10 @@ export default function ClientsScreen() {
                     label="Email"
                     placeholder="Email address"
                     value={formEmail}
-                    onChangeText={setFormEmail}
+                    onChangeText={(t) => { setFormEmail(t); if (errors.email) setErrors((e) => ({ ...e, email: undefined })); }}
                     keyboardType="email-address"
                     autoCapitalize="none"
+                    error={errors.email}
                   />
                   <FormField
                     label="Address"
@@ -518,6 +534,7 @@ function FormField({
   autoCapitalize,
   multiline,
   numberOfLines,
+  error,
 }: {
   label: string;
   placeholder: string;
@@ -527,6 +544,7 @@ function FormField({
   autoCapitalize?: 'none' | 'words' | 'sentences';
   multiline?: boolean;
   numberOfLines?: number;
+  error?: string;
 }) {
   return (
     <View style={styles.fieldContainer}>
@@ -539,6 +557,7 @@ function FormField({
             textAlignVertical: 'top',
             paddingTop: Spacing.md,
           },
+          error ? { borderColor: Colors.error } : undefined,
         ]}
         placeholder={placeholder}
         placeholderTextColor={Colors.textMuted}
@@ -549,6 +568,7 @@ function FormField({
         multiline={multiline}
         numberOfLines={numberOfLines}
       />
+      {error ? <Text style={styles.fieldError}>{error}</Text> : null}
     </View>
   );
 }
@@ -768,5 +788,11 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     height: 48,
     fontSize: FontSize.md,
+  },
+  fieldError: {
+    color: Colors.error,
+    fontSize: FontSize.xs,
+    fontWeight: FontWeight.medium,
+    marginTop: Spacing.xs,
   },
 });

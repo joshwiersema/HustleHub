@@ -90,19 +90,27 @@ export const FontWeight = {
   black: '900' as const,
 };
 
+import { Platform } from 'react-native';
+
 export const Shadows = {
-  card: {
-    shadowColor: '#1A1A2E',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 12,
-    elevation: 2,
-  },
-  elevated: {
-    shadowColor: '#1A1A2E',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.10,
-    shadowRadius: 24,
-    elevation: 6,
-  },
+  card: Platform.select({
+    web: { boxShadow: '0px 2px 12px rgba(26, 26, 46, 0.06)' },
+    default: {
+      shadowColor: '#1A1A2E',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.06,
+      shadowRadius: 12,
+      elevation: 2,
+    },
+  }) as any,
+  elevated: Platform.select({
+    web: { boxShadow: '0px 4px 24px rgba(26, 26, 46, 0.10)' },
+    default: {
+      shadowColor: '#1A1A2E',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.10,
+      shadowRadius: 24,
+      elevation: 6,
+    },
+  }) as any,
 };
