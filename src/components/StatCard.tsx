@@ -36,9 +36,7 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     backgroundColor: Colors.bgCard,
-    borderRadius: BorderRadius.md,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    borderRadius: BorderRadius.lg,
     padding: Spacing.lg,
     ...Shadows.card,
   },

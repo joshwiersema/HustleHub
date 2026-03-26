@@ -36,9 +36,7 @@ export default function Card({ children, style, onPress }: CardProps) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.bgCard,
-    borderRadius: BorderRadius.md,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    borderRadius: BorderRadius.lg,
     padding: Spacing.lg,
     ...Shadows.card,
   },
