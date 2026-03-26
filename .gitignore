@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+# Supabase config (contains secrets)
+src/lib/supabase-config.ts
+
 # Expo
 .expo/
 dist/

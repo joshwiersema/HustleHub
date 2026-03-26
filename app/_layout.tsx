@@ -9,11 +9,27 @@ import { CelebrationProvider } from '../src/components/CelebrationProvider';
 import { ErrorBoundary } from '../src/components/ErrorBoundary';
 
 export default function RootLayout() {
-  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
+  const { isLoggedIn, isLoading: authLoading, initialize } = useAuthStore();
   const isOnboarded = useProfileStore((s) => s.isOnboarded);
-  const [hydrated, setHydrated] = useState(false);
+  const [profileHydrated, setProfileHydrated] = useState(false);
   const router = useRouter();
   const segments = useSegments();
+
+  // Initialize Supabase auth session
+  useEffect(() => {
+    initialize();
+  }, []);
+
+  // Wait for profile store hydration
+  useEffect(() => {
+    const unsub = useProfileStore.persist.onFinishHydration(() => {
+      setProfileHydrated(true);
+    });
+    if (useProfileStore.persist.hasHydrated()) {
+      setProfileHydrated(true);
+    }
+    return unsub;
+  }, []);
 
   useEffect(() => {
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -21,35 +37,12 @@ export default function RootLayout() {
         console.error('[HustleHub] Global error:', message, source, lineno, colno, error);
         return false;
       };
-      window.onunhandledrejection = (event: PromiseRejectionEvent) => {
-        console.error('[HustleHub] Unhandled rejection:', event.reason);
-      };
     }
   }, []);
 
-  useEffect(() => {
-    let authDone = false;
-    let profileDone = false;
-    const checkDone = () => {
-      if (authDone && profileDone) setHydrated(true);
-    };
+  const hydrated = !authLoading && profileHydrated;
 
-    const unsubAuth = useAuthStore.persist.onFinishHydration(() => {
-      authDone = true;
-      checkDone();
-    });
-    const unsubProfile = useProfileStore.persist.onFinishHydration(() => {
-      profileDone = true;
-      checkDone();
-    });
-
-    if (useAuthStore.persist.hasHydrated()) { authDone = true; }
-    if (useProfileStore.persist.hasHydrated()) { profileDone = true; }
-    checkDone();
-
-    return () => { unsubAuth(); unsubProfile(); };
-  }, []);
-
+  // Route guard
   useEffect(() => {
     if (!hydrated) return;
 
@@ -57,20 +50,11 @@ export default function RootLayout() {
     const inOnboarding = segments[0] === 'onboarding';
 
     if (!isLoggedIn) {
-      // Not logged in → show auth screens
-      if (!inAuth) {
-        router.replace('/(auth)/login');
-      }
+      if (!inAuth) router.replace('/(auth)/login');
     } else if (!isOnboarded) {
-      // Logged in but not onboarded → show onboarding
-      if (!inOnboarding) {
-        router.replace('/onboarding');
-      }
+      if (!inOnboarding) router.replace('/onboarding');
     } else {
-      // Logged in and onboarded → show main app
-      if (inAuth || inOnboarding) {
-        router.replace('/(tabs)');
-      }
+      if (inAuth || inOnboarding) router.replace('/(tabs)');
     }
   }, [hydrated, isLoggedIn, isOnboarded, segments]);
 

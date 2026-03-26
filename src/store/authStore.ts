@@ -1,100 +1,103 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// Simple hash for local password storage (not cryptographic — local-only app)
-function simpleHash(str: string): string {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash |= 0;
-  }
-  // Add salt-like suffix for basic obfuscation
-  return `hh_${Math.abs(hash).toString(36)}_${str.length}`;
-}
-
-interface AuthUser {
-  name: string;
-  email: string;
-  passwordHash: string;
-  createdAt: string;
-}
+import { supabase } from '../lib/supabase';
+import type { Session, User } from '@supabase/supabase-js';
 
 interface AuthState {
-  user: AuthUser | null;
+  session: Session | null;
+  user: User | null;
   isLoggedIn: boolean;
-  hasAccount: boolean;
+  isLoading: boolean;
 
-  signup: (name: string, email: string, password: string) => { success: boolean; error?: string };
-  login: (email: string, password: string) => { success: boolean; error?: string };
-  logout: () => void;
-  resetAccount: () => void;
+  initialize: () => Promise<void>;
+  signup: (name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
 }
 
-const initialState = {
-  user: null as AuthUser | null,
+export const useAuthStore = create<AuthState>()((set, get) => ({
+  session: null,
+  user: null,
   isLoggedIn: false,
-  hasAccount: false,
-};
+  isLoading: true,
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set, get) => ({
-      ...initialState,
+  initialize: async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      set({
+        session,
+        user: session?.user ?? null,
+        isLoggedIn: !!session,
+        isLoading: false,
+      });
 
-      signup: (name, email, password) => {
-        const existing = get().user;
-        if (existing && existing.email === email.toLowerCase().trim()) {
-          return { success: false, error: 'An account with this email already exists. Try logging in.' };
-        }
-
-        if (!name.trim() || name.trim().length < 2) {
-          return { success: false, error: 'Name must be at least 2 characters.' };
-        }
-        if (!email.trim() || !email.includes('@')) {
-          return { success: false, error: 'Please enter a valid email address.' };
-        }
-        if (password.length < 6) {
-          return { success: false, error: 'Password must be at least 6 characters.' };
-        }
-
-        const user: AuthUser = {
-          name: name.trim(),
-          email: email.toLowerCase().trim(),
-          passwordHash: simpleHash(password),
-          createdAt: new Date().toISOString(),
-        };
-
-        set({ user, isLoggedIn: true, hasAccount: true });
-        return { success: true };
-      },
-
-      login: (email, password) => {
-        const user = get().user;
-        if (!user) {
-          return { success: false, error: 'No account found. Please sign up first.' };
-        }
-
-        if (user.email !== email.toLowerCase().trim()) {
-          return { success: false, error: 'Invalid email or password.' };
-        }
-
-        if (user.passwordHash !== simpleHash(password)) {
-          return { success: false, error: 'Invalid email or password.' };
-        }
-
-        set({ isLoggedIn: true });
-        return { success: true };
-      },
-
-      logout: () => set({ isLoggedIn: false }),
-
-      resetAccount: () => set({ ...initialState }),
-    }),
-    {
-      name: '@hustlehub/auth',
-      storage: createJSONStorage(() => AsyncStorage),
+      // Listen for auth state changes
+      supabase.auth.onAuthStateChange((_event, session) => {
+        set({
+          session,
+          user: session?.user ?? null,
+          isLoggedIn: !!session,
+        });
+      });
+    } catch {
+      set({ isLoading: false });
     }
-  )
-);
+  },
+
+  signup: async (name, email, password) => {
+    if (!name.trim() || name.trim().length < 2) {
+      return { success: false, error: 'Name must be at least 2 characters.' };
+    }
+    if (!email.trim() || !email.includes('@')) {
+      return { success: false, error: 'Please enter a valid email address.' };
+    }
+    if (password.length < 6) {
+      return { success: false, error: 'Password must be at least 6 characters.' };
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email.toLowerCase().trim(),
+      password,
+      options: {
+        data: { name: name.trim() },
+      },
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    if (data.session) {
+      set({
+        session: data.session,
+        user: data.user,
+        isLoggedIn: true,
+      });
+    }
+
+    return { success: true };
+  },
+
+  login: async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.toLowerCase().trim(),
+      password,
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    set({
+      session: data.session,
+      user: data.user,
+      isLoggedIn: true,
+    });
+
+    return { success: true };
+  },
+
+  logout: async () => {
+    await supabase.auth.signOut();
+    set({ session: null, user: null, isLoggedIn: false });
+  },
+}));

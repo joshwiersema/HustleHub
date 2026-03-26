@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LEVELS } from '../types';
+import * as db from '../services/database';
+import { useAuthStore } from './authStore';
 
 interface GameState {
   xp: number;
@@ -11,10 +13,11 @@ interface GameState {
   lastActivityDate: string | null;
   earnedBadges: string[];
 
-  // Actions
   addXP: (amount: number) => void;
   updateStreak: () => void;
   earnBadge: (badgeId: string) => void;
+  syncToCloud: () => void;
+  syncFromCloud: () => Promise<void>;
   reset: () => void;
 }
 
@@ -27,10 +30,6 @@ const initialState = {
   earnedBadges: [] as string[],
 };
 
-/**
- * Calculate level from total XP using the LEVELS table.
- * Returns the highest level whose xpRequired threshold has been met.
- */
 function calculateLevel(xp: number): number {
   let level = 1;
   for (const info of LEVELS) {
@@ -45,50 +44,74 @@ function calculateLevel(xp: number): number {
 
 export const useGameStore = create<GameState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       ...initialState,
 
-      addXP: (amount) =>
+      addXP: (amount) => {
         set((state) => {
           const newXP = state.xp + amount;
           const newLevel = calculateLevel(newXP);
-          // Earn HustleBucks at 50% of XP rate (per existing storage.ts pattern)
           const newHustleBucks = state.hustleBucks + Math.floor(amount * 0.5);
-          return {
-            xp: newXP,
-            level: newLevel,
-            hustleBucks: newHustleBucks,
-          };
-        }),
+          return { xp: newXP, level: newLevel, hustleBucks: newHustleBucks };
+        });
+        // Debounced cloud push
+        get().syncToCloud();
+      },
 
-      updateStreak: () =>
+      updateStreak: () => {
         set((state) => {
           const today = new Date().toISOString().split('T')[0];
-          if (state.lastActivityDate === today) {
-            // Already counted today
-            return {};
-          }
-
-          const yesterday = new Date(Date.now() - 86400000)
-            .toISOString()
-            .split('T')[0];
-
+          if (state.lastActivityDate === today) return {};
+          const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
           if (state.lastActivityDate === yesterday) {
-            // Consecutive day -- increment streak
             return { streak: state.streak + 1, lastActivityDate: today };
           }
-
-          // Streak broken -- reset to 1
           return { streak: 1, lastActivityDate: today };
-        }),
+        });
+        get().syncToCloud();
+      },
 
-      earnBadge: (badgeId) =>
+      earnBadge: (badgeId) => {
         set((state) => {
-          if (state.earnedBadges.includes(badgeId)) {
-            return {}; // Already earned
-          }
+          if (state.earnedBadges.includes(badgeId)) return {};
           return { earnedBadges: [...state.earnedBadges, badgeId] };
-        }),
+        });
+        get().syncToCloud();
+      },
+
+      syncToCloud: () => {
+        const userId = useAuthStore.getState().user?.id;
+        if (!userId) return;
+        const s = get();
+        db.upsertGameState(userId, {
+          xp: s.xp,
+          level: s.level,
+          hustle_bucks: s.hustleBucks,
+          streak: s.streak,
+          last_activity_date: s.lastActivityDate,
+          earned_badges: s.earnedBadges,
+        }).catch(console.error);
+      },
+
+      syncFromCloud: async () => {
+        const userId = useAuthStore.getState().user?.id;
+        if (!userId) return;
+        try {
+          const data = await db.fetchGameState(userId);
+          if (data) {
+            set({
+              xp: data.xp,
+              level: data.level,
+              hustleBucks: data.hustle_bucks,
+              streak: data.streak,
+              lastActivityDate: data.last_activity_date,
+              earnedBadges: data.earned_badges || [],
+            });
+          }
+        } catch (e) {
+          console.error('Game sync failed:', e);
+        }
+      },
 
       reset: () => set({ ...initialState }),
     }),

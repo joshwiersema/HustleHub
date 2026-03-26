@@ -24,6 +24,7 @@ export default function SignupScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const canSubmit =
     name.trim().length >= 2 &&
@@ -31,13 +32,15 @@ export default function SignupScreen() {
     password.length >= 6 &&
     password === confirmPassword;
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     setError('');
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
-    const result = signup(name, email, password);
+    setLoading(true);
+    const result = await signup(name, email, password);
+    setLoading(false);
     if (!result.success) {
       setError(result.error || 'Signup failed');
     }
@@ -155,8 +158,8 @@ export default function SignupScreen() {
                 pressed && canSubmit && styles.submitBtnPressed,
               ]}
             >
-              <Text style={[styles.submitBtnText, !canSubmit && styles.submitBtnTextDisabled]}>
-                Create Account
+              <Text style={[styles.submitBtnText, (!canSubmit || loading) && styles.submitBtnTextDisabled]}>
+                {loading ? 'Creating account...' : 'Create Account'}
               </Text>
             </Pressable>
           </View>

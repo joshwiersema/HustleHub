@@ -53,8 +53,8 @@ export default function ProfileScreen() {
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Sign Out',
-        onPress: () => {
-          useAuthStore.getState().logout();
+        onPress: async () => {
+          await useAuthStore.getState().logout();
         },
       },
     ]);
@@ -69,13 +69,13 @@ export default function ProfileScreen() {
         {
           text: 'Delete Everything',
           style: 'destructive',
-          onPress: () => {
+          onPress: async () => {
             useProfileStore.getState().reset();
             useClientsStore.getState().reset();
             useJobsStore.getState().reset();
             usePaymentsStore.getState().reset();
             useGameStore.getState().reset();
-            useAuthStore.getState().resetAccount();
+            await useAuthStore.getState().logout();
           },
         },
       ],

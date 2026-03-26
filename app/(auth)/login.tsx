@@ -18,15 +18,18 @@ import { useAuthStore } from '../../src/store/authStore';
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { login, hasAccount } = useAuthStore();
+  const login = useAuthStore((s) => s.login);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setError('');
-    const result = login(email, password);
+    setLoading(true);
+    const result = await login(email, password);
+    setLoading(false);
     if (!result.success) {
       setError(result.error || 'Login failed');
     }
@@ -105,15 +108,15 @@ export default function LoginScreen() {
             {/* Sign In button */}
             <Pressable
               onPress={handleLogin}
-              disabled={!canSubmit}
+              disabled={!canSubmit || loading}
               style={({ pressed }) => [
                 styles.submitBtn,
-                !canSubmit && styles.submitBtnDisabled,
+                (!canSubmit || loading) && styles.submitBtnDisabled,
                 pressed && canSubmit && styles.submitBtnPressed,
               ]}
             >
-              <Text style={[styles.submitBtnText, !canSubmit && styles.submitBtnTextDisabled]}>
-                Sign In
+              <Text style={[styles.submitBtnText, (!canSubmit || loading) && styles.submitBtnTextDisabled]}>
+                {loading ? 'Signing in...' : 'Sign In'}
               </Text>
             </Pressable>
           </View>
